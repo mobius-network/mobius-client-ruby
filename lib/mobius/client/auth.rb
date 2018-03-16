@@ -1,12 +1,23 @@
 class Mobius::Client::Auth
+  # Raised if transaction one of transaction signatures is wrong.
   class Unauthorized < StandardError; end
-  class InvalidTimeBounds < StandardError; end
+
+  # Raised if transaction is invalid or time bounds are missing.
+  class Invalid < StandardError; end
+
+  # Raised if transaction has expired.
   class Expired < StandardError; end
 
   extend Dry::Initializer
 
+  # Developers private key
   param :seed
 
+  # Generates challenge transaction signed by developers private key. Minimum valid time bound is set to current time.
+  # Maximum valid time bound is set to `expire_in` seconds from now.
+  #
+  # @param expire_in [Integer] Session expiration time (seconds from now). 0 means "never".
+  # @return [String] base64-encoded transaction envelope
   def challenge(expire_in = Mobius::Client.default_challenge_expiration)
     payment = Stellar::Transaction.payment(
       account: keypair,
@@ -21,23 +32,34 @@ class Mobius::Client::Auth
     payment.to_envelope(keypair).to_xdr(:base64)
   end
 
+  # Returns time bounds for given transaction.
+  #
+  # @param xdr [String] base64-encoded transaction envelope.
+  # @param address [String] Users public key.
+  # @return [Stellar::TimeBounds] Time bounds for given transaction (`.min_time` and `.max_time`).
   def time_bounds(xdr, address)
     their_keypair = Stellar::KeyPair.from_address(address)
     envelope = Stellar::TransactionEnvelope.from_xdr(xdr, "base64")
     bounds = envelope.tx.time_bounds
 
     raise Unauthorized unless envelope.signed_correctly?(keypair, their_keypair)
-    raise InvalidTimeBounds if bounds.nil?
+    raise Invalid if bounds.nil?
 
     bounds
   end
 
+  # Validates transaction signed by developer and user.
+  #
+  # @param xdr [String] base64-encoded transaction envelope.
+  # @param address [String] Users public key.
+  # @return [Boolean] true if transaction is valid, raises exception otherwise.
   def validate!(xdr, address)
     bounds = time_bounds(xdr, address)
     raise Expired unless time_now_covers?(bounds)
     true
   end
 
+  # @return [Stellar::Keypair] Stellar::Keypair object for given seed.
   def keypair
     @keypair ||= Stellar::KeyPair.from_seed(seed)
   end

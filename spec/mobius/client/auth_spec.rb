@@ -17,17 +17,17 @@ RSpec.describe Mobius::Client::Auth do
   end
 
   describe "#valid?" do
-    let(:valid) { described_class.new(seed).valid?(xdr, their_keypair.address) }
+    let(:validate) { described_class.new(seed).validate!(xdr, their_keypair.address) }
     let(:xdr) { envelope.dup.tap { |e| e.signatures << e.tx.sign_decorated(their_keypair) }.to_xdr(:base64) }
     let(:future) { Time.new(Time.now.to_i + Mobius::Client.default_challenge_expiration * 5) }
 
     it "returns min time" do
-      Timecop.freeze(Time.now) { expect(valid).to eq(true) }
+      Timecop.freeze(Time.now) { expect(validate).to eq(true) }
     end
 
     it "returns max time, 0 by default" do
       xdr
-      Timecop.freeze(future) { expect { valid }.to raise_error(Mobius::Client::Auth::Expired) }
+      Timecop.freeze(future) { expect { validate }.to raise_error(Mobius::Client::Auth::Expired) }
     end
   end
 end

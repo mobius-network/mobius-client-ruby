@@ -16,20 +16,25 @@ class Mobius::Client::Auth
       memo: memo
     )
 
-    payment.time_bounds = time_bounds(expire_in)
+    payment.time_bounds = build_time_bounds(expire_in)
 
     payment.to_envelope(keypair).to_xdr(:base64)
   end
 
-  def valid?(xdr, address)
+  def time_bounds(xdr, address)
     their_keypair = Stellar::KeyPair.from_address(address)
     envelope = Stellar::TransactionEnvelope.from_xdr(xdr, "base64")
-    time_bounds = envelope.tx.time_bounds
+    bounds = envelope.tx.time_bounds
 
     raise Unauthorized unless envelope.signed_correctly?(keypair, their_keypair)
-    raise InvalidTimeBounds if time_bounds.nil?
-    raise Expired unless time_now_covers?(time_bounds)
+    raise InvalidTimeBounds if bounds.nil?
 
+    bounds
+  end
+
+  def validate!(xdr, address)
+    bounds = time_bounds(xdr, address)
+    raise Expired unless time_now_covers?(bounds)
     true
   end
 
@@ -39,7 +44,7 @@ class Mobius::Client::Auth
 
   private
 
-  def time_bounds(expire_in)
+  def build_time_bounds(expire_in)
     Stellar::TimeBounds.new(
       min_time: Time.now.to_i,
       max_time: Time.now.to_i + expire_in.to_i || 0

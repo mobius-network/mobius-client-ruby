@@ -1,0 +1,92 @@
+---
+require: rubocop-rspec
+
+AllCops:
+  Include:
+    - ./Gemfile
+    - ./config.ru
+  Exclude:
+    - db/**/*
+    - config/**/*
+    - script/**/*
+    - bin/*
+    - vendor/**/*
+    - lib/tasks/**/*
+    - tmp/**/*
+  TargetRubyVersion: 2.3
+
+Documentation:
+  Enabled: false
+
+Lint/AmbiguousBlockAssociation:
+  Enabled: false # this is a whole damned mess
+
+Metrics/AbcSize:
+  Exclude:
+    - "db/migrate/*.*"
+
+Metrics/ClassLength:
+  Exclude:
+    - "db/migrate/*.*"
+
+Metrics/LineLength:
+  Max: 120
+
+Naming/FileName:
+  Exclude:
+    - "*.*"
+
+RSpec/FilePath:
+  Enabled: false
+
+RSpec/InstanceVariable:
+  Enabled: false
+
+RSpec/VerifiedDoubles:
+  Enabled: false
+
+Style/Alias:
+  Enabled: false
+
+Style/AndOr:
+  Enabled: false
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/BlockComments:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+
+Style/DoubleNegation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/Lambda:
+  Enabled: false
+
+Style/NumericLiterals:
+  Enabled: false
+
+Style/PercentLiteralDelimiters:
+  Enabled: false
+
+Style/RescueModifier:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/SingleLineBlockParams:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - "spec/**/*.*"

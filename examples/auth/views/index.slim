@@ -1,0 +1,39 @@
+html
+  head
+    css:
+      .field { margin-top: 0.5em; }
+      label { width: 500px; display: block; }
+      input, textarea { width: 500px; }
+body
+  h1 Authorize application
+
+  h2 Stage 1: Request Challenge
+  .field
+    textarea id="challenge_xdr" disabled="disabled" rows=10
+  .field
+    input type="button" value="Request challenge" id="challenge"
+
+  h2 Stage 2: Sign Challenge
+  form
+    .field
+      label for="public_key"
+        | Public key:
+      input type="text" id="public_key"
+
+    .field
+      label for="secret"
+        | Private key:
+      input type="text" id="secret"
+
+    .field
+      input type="button" value="Sign and send challenge" id="sign"
+
+  textarea id="signed_challenge_xdr" disabled="disabled" rows=10
+
+  h3#result None
+
+
+  script src="https://cdnjs.cloudflare.com/ajax/libs/stellar-sdk/0.8.0/stellar-sdk.js"
+  script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+  script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"
+  script src="/app.js"

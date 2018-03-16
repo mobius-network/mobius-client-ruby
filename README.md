@@ -22,7 +22,9 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+cd examples/auth && bundle && ruby auth.rb
+```
 
 ## Development
 

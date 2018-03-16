@@ -1,0 +1,100 @@
+PATH
+  remote: ../..
+  specs:
+    mobius-client (0.1.0)
+      dry-initializer
+      stellar-sdk
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activemodel (5.1.5)
+      activesupport (= 5.1.5)
+    activesupport (5.1.5)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (~> 0.7)
+      minitest (~> 5.1)
+      tzinfo (~> 1.1)
+    base32 (0.3.2)
+    citrus (3.0.2)
+    concurrent-ruby (1.0.5)
+    contracts (0.16.0)
+    digest-crc (0.4.1)
+    dry-initializer (2.4.0)
+    excon (0.44.4)
+    faraday (0.14.0)
+      multipart-post (>= 1.2, < 3)
+    faraday-digestauth (0.3.0)
+      faraday (~> 0.7)
+      net-http-digest_auth (~> 1.4)
+    faraday_hal_middleware (0.1.0)
+      faraday_middleware (~> 0.9)
+    faraday_middleware (0.12.2)
+      faraday (>= 0.7.4, < 1.0)
+    ffi (1.9.23)
+    futuroscope (0.1.11)
+    hyperclient (0.7.2)
+      faraday
+      faraday-digestauth
+      faraday_hal_middleware
+      faraday_middleware
+      futuroscope
+      net-http-digest_auth
+      uri_template
+    i18n (0.9.5)
+      concurrent-ruby (~> 1.0)
+    minitest (5.11.3)
+    multipart-post (2.0.0)
+    mustermann (1.0.2)
+    net-http-digest_auth (1.4.1)
+    rack (2.0.4)
+    rack-protection (2.0.1)
+      rack
+    rbnacl (5.0.0)
+      ffi
+    rbnacl-libsodium (1.0.16)
+      rbnacl (>= 3.0.1)
+    sinatra (2.0.1)
+      mustermann (~> 1.0)
+      rack (~> 2.0)
+      rack-protection (= 2.0.1)
+      tilt (~> 2.0)
+    slim (3.0.9)
+      temple (>= 0.7.6, < 0.9)
+      tilt (>= 1.3.3, < 2.1)
+    stellar-base (0.13.0)
+      activesupport (>= 4.2.7)
+      base32
+      digest-crc
+      rbnacl
+      rbnacl-libsodium (~> 1.0.3)
+      xdr (~> 2.0.0)
+    stellar-sdk (0.3.0)
+      activesupport (>= 4.2.7)
+      contracts (~> 0.7)
+      excon (~> 0.44.4)
+      hyperclient (~> 0.7.0)
+      stellar-base (~> 0.13.0)
+      toml-rb (~> 1.1.1)
+    temple (0.8.0)
+    thread_safe (0.3.6)
+    tilt (2.0.8)
+    toml-rb (1.1.1)
+      citrus (~> 3.0, > 3.0)
+    tzinfo (1.2.5)
+      thread_safe (~> 0.1)
+    uri_template (0.7.0)
+    xdr (2.0.0)
+      activemodel (>= 4.2.7)
+      activesupport (>= 4.2.7)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  mobius-client!
+  sinatra
+  slim
+
+BUNDLED WITH
+   1.16.0

@@ -56,7 +56,7 @@ class Mobius::Client::Auth
   end
 
   def memo
-    Stellar::Memo.new(:memo_text, "Mobius Wallet authorization")
+    Stellar::Memo.new(:memo_text, "Mobius Wallet authentication")
   end
 
   def time_now_covers?(time_bounds)

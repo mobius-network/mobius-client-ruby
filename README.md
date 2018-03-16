@@ -27,7 +27,7 @@ Assume we have two parts: user and application. Every part has it's own Stellar 
 Application wants to ensure that:
 
 * User left token intact (to protect from replay attack).
-* Token is received and acknowledged by true user.
+* Token is received and acknowledged by correct user.
 
 The process is simple:
 
@@ -37,7 +37,7 @@ The process is simple:
 * User signs received transaction with own private key and sends it back to application along with public key.
 * Application ensures that both signatures are valid, time bounds cover current time and grants user access.
 
-Challenge is the transaction because only transactions might be signed by Ledger device.
+Challenge itself is the transaction because only transactions might be signed by Ledger device.
 
 ```
 cd examples/auth && bundle && ruby auth.rb

@@ -10,7 +10,9 @@ class Mobius::Client::Auth
 
   extend Dry::Initializer
 
-  # Developers private key
+  # @!method initialize(seed)
+  # @param seed [String] Developers private key.
+  # @!scope instance
   param :seed
 
   # Generates challenge transaction signed by developers private key. Minimum valid time bound is set to current time.
@@ -37,6 +39,8 @@ class Mobius::Client::Auth
   # @param xdr [String] base64-encoded transaction envelope.
   # @param address [String] Users public key.
   # @return [Stellar::TimeBounds] Time bounds for given transaction (`.min_time` and `.max_time`).
+  # @raise [Unauthorized] if one of the signatures is invalid.
+  # @raise [Invalid] if transaction is malformed or time bounds are missing.
   def time_bounds(xdr, address)
     their_keypair = Stellar::KeyPair.from_address(address)
     envelope = Stellar::TransactionEnvelope.from_xdr(xdr, "base64")
@@ -53,6 +57,9 @@ class Mobius::Client::Auth
   # @param xdr [String] base64-encoded transaction envelope.
   # @param address [String] Users public key.
   # @return [Boolean] true if transaction is valid, raises exception otherwise.
+  # @raise [Unauthorized] if one of the signatures is invalid.
+  # @raise [Invalid] if transaction is malformed or time bounds are missing.
+  # @raise [Expired] if transaction is expired (current time outside it's time bounds).
   def validate!(xdr, address)
     bounds = time_bounds(xdr, address)
     raise Expired unless time_now_covers?(bounds)

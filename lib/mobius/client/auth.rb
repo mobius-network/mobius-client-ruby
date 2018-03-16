@@ -21,7 +21,7 @@ class Mobius::Client::Auth
     their_keypair = Stellar::KeyPair.from_address(address)
     envelope = Stellar::TransactionEnvelope.from_xdr(xdr, "base64")
     raise Unauthorized unless envelope.signed_correctly?(keypair, their_keypair)
-    Time.new(envelope.tx.memo.value)
+    envelope.tx.memo.value
   end
 
   def keypair

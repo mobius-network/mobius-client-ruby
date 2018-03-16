@@ -33,6 +33,12 @@ module Mobius
         return "GDRWBLJURXUKM4RWDZDTPJNX6XBYFO3PSE4H4GPUL6H6RCUQVKTSD4AT" if network == :public
         "GDRWBLJURXUKM4RWDZDTPJNX6XBYFO3PSE4H4GPUL6H6RCUQVKTSD4AT"
       end
+
+      attr_writer :default_challenge_expiration
+
+      def default_challenge_expiration
+        @default_challenge_expiration ||= 60 * 60 * 24
+      end
     end
   end
 end

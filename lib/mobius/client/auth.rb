@@ -1,11 +1,13 @@
 class Mobius::Client::Auth
   class Unauthorized < StandardError; end
+  class InvalidTimeBounds < StandardError; end
+  class Expired < StandardError; end
 
   extend Dry::Initializer
 
   param :seed
 
-  def challenge(expire = 0)
+  def challenge(expire_in = Mobius::Client.default_challenge_expiration)
     payment = Stellar::Transaction.payment(
       account: keypair,
       destination: keypair,
@@ -14,16 +16,21 @@ class Mobius::Client::Auth
       memo: memo
     )
 
-    payment.time_bounds = time_bounds(expire)
+    payment.time_bounds = time_bounds(expire_in)
 
     payment.to_envelope(keypair).to_xdr(:base64)
   end
 
-  def timestamp(xdr, address)
+  def valid?(xdr, address)
     their_keypair = Stellar::KeyPair.from_address(address)
     envelope = Stellar::TransactionEnvelope.from_xdr(xdr, "base64")
+    time_bounds = envelope.tx.time_bounds
+
     raise Unauthorized unless envelope.signed_correctly?(keypair, their_keypair)
-    envelope.tx.memo.value
+    raise InvalidTimeBounds if time_bounds.nil?
+    raise Expired unless time_now_covers?(time_bounds)
+
+    true
   end
 
   def keypair
@@ -32,10 +39,10 @@ class Mobius::Client::Auth
 
   private
 
-  def time_bounds(expire)
+  def time_bounds(expire_in)
     Stellar::TimeBounds.new(
       min_time: Time.now.to_i,
-      max_time: expire || 0
+      max_time: Time.now.to_i + expire_in.to_i || 0
     )
   end
 
@@ -45,5 +52,9 @@ class Mobius::Client::Auth
 
   def memo
     Stellar::Memo.new(:memo_text, "Mobius Wallet authorization")
+  end
+
+  def time_now_covers?(time_bounds)
+    (time_bounds.min_time..time_bounds.max_time).cover?(Time.now.to_i)
   end
 end

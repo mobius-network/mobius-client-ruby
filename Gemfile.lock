@@ -96,6 +96,7 @@ GEM
       stellar-base (~> 0.13.0)
       toml-rb (~> 1.1.1)
     thread_safe (0.3.6)
+    timecop (0.9.1)
     toml-rb (1.1.1)
       citrus (~> 3.0, > 3.0)
     tzinfo (1.2.5)
@@ -116,6 +117,7 @@ DEPENDENCIES
   rspec (~> 3.0)
   rubocop
   rubocop-rspec
+  timecop
 
 BUNDLED WITH
    1.16.0

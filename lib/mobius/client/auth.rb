@@ -5,14 +5,16 @@ class Mobius::Client::Auth
 
   param :seed
 
-  def challenge
+  def challenge(expire = 0)
     payment = Stellar::Transaction.payment(
       account: keypair,
       destination: keypair,
       sequence: 1,
-      amount: Stellar::Amount.new(1).to_payment,
-      memo: Stellar::Memo.new(:memo_id, Time.now.to_i)
+      amount: micro_xlm,
+      memo: memo
     )
+
+    payment.time_bounds = time_bounds(expire)
 
     payment.to_envelope(keypair).to_xdr(:base64)
   end
@@ -26,5 +28,22 @@ class Mobius::Client::Auth
 
   def keypair
     @keypair ||= Stellar::KeyPair.from_seed(seed)
+  end
+
+  private
+
+  def time_bounds(expire)
+    Stellar::TimeBounds.new(
+      min_time: Time.now.to_i,
+      max_time: expire || 0
+    )
+  end
+
+  def micro_xlm
+    Stellar::Amount.new(1).to_payment
+  end
+
+  def memo
+    Stellar::Memo.new(:memo_text, "Mobius Wallet authorization")
   end
 end

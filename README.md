@@ -1,8 +1,6 @@
 # Mobius::Client
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/mobius/client`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Mobius DApp Store API.
 
 ## Installation
 
@@ -21,6 +19,25 @@ Or install it yourself as:
     $ gem install mobius-client
 
 ## Usage
+
+### Authentication
+
+Assume we have two parts: user and application. Every part has it's own Stellar key pair. Application issues session token.
+
+Application wants to ensure that:
+
+* User left token intact (to protect from replay attack).
+* Token is received and acknowledged by true user.
+
+The process is simple:
+
+* User requests challenge transaction from the application.
+* Challenge transaction is fake transaction, payment of 1 XLM from - to application account. It never goes to ledger.
+* Application generates challenge transaction, signs it with own private key and sends it to user.
+* User signs received transaction with own private key and sends it back to application along with public key.
+* Application ensures that both signatures are valid, time bounds cover current time and grants user access.
+
+Challenge is the transaction because only transactions might be signed by Ledger device.
 
 ```
 cd examples/auth && bundle && ruby auth.rb

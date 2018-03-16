@@ -1,5 +1,5 @@
 class Mobius::Client::Auth
-  class Unauthorized < StandardError;
+  class Unauthorized < StandardError; end
 
   extend Dry::Initializer
 
@@ -17,14 +17,12 @@ class Mobius::Client::Auth
     payment.to_envelope(keypair).to_xdr(:base64)
   end
 
-  def timestamp(xdr, public_key)
-    their_keypair = Stellar::KeyPair.from_public_key(public_key)
-    envelope = Stellar::TransactionEnvelope.from_xdr(Base64.decode64(xdr))
+  def timestamp(xdr, address)
+    their_keypair = Stellar::KeyPair.from_address(address)
+    envelope = Stellar::TransactionEnvelope.from_xdr(xdr, "base64")
     raise Unauthorized unless envelope.signed_correctly?(keypair, their_keypair)
     Time.new(envelope.tx.memo.value)
   end
-
-  private
 
   def keypair
     @keypair ||= Stellar::KeyPair.from_seed(seed)

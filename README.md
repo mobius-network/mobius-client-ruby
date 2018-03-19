@@ -32,7 +32,7 @@ Application wants to ensure that:
 The process is simple:
 
 * User requests challenge from the application.
-* Challenge is fake transaction, payment of 1 XLM from - to application account. It never goes to ledger.
+* Challenge is fake transaction, payment of 1 XLM from and to application account, signed ny application. It never goes to ledger.
 * Application generates challenge transaction, signs it with own private key and sends it to user.
 * User signs received transaction with own private key and sends it back to application along with public key.
 * Application ensures that both signatures are valid, time bounds cover current time and grants user access.

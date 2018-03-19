@@ -20,7 +20,7 @@ module Mobius
         @horizon_client ||= network == :test ? Stellar::Client.default_testnet : Stellar::Client.default
       end
 
-      attr_writer :mobi_asset_code
+      attr_writer :asset_code
 
       def asset_code
         @asset_code ||= "MOBI"
@@ -38,6 +38,10 @@ module Mobius
 
       def default_challenge_expiration
         @default_challenge_expiration ||= 60 * 60 * 24
+      end
+
+      def stellar_asset
+        Stellar::Asset.alphanum4(asset_code, Stellar::KeyPair.from_address(asset_issuer))
       end
     end
   end

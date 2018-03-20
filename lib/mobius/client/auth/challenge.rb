@@ -13,7 +13,7 @@ class Mobius::Client::Auth::Challenge
   # @return [String] base64-encoded transaction envelope
   def call(expire_in = Mobius::Client.challenge_expires_in)
     payment = Stellar::Transaction.payment(
-      account: keypair,
+      account: Stellar::KeyPair.random,
       destination: keypair,
       sequence: random_sequence,
       amount: micro_xlm,

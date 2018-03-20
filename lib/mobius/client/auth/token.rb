@@ -45,6 +45,11 @@ class Mobius::Client::Auth::Token
     true
   end
 
+  # @return [String] transaction hash
+  def hash
+    envelope.tx.hash
+  end
+
   private
 
   # @return [Stellar::KeyPair] Stellar::KeyPair object for given seed

@@ -9,12 +9,16 @@ RSpec.describe Mobius::Client::Auth::Token do
   let(:signed_challenge) { Mobius::Client::Auth::Sign.call(their_seed, challenge) }
   let(:future) { Time.at(Time.now.to_i + Mobius::Client.challenge_expires_in * 5) }
 
-  it "returns min time" do
+  it "#validate! returns true if current time is within bounds" do
     Timecop.freeze(Time.now) { expect(token.validate!).to eq(true) }
   end
 
-  it "returns max time, 0 by default" do
+  it "#validate! raises if current time is outside bounds" do
     challenge # Generate challenge while we're in the past
     Timecop.freeze(future) { expect { token.validate! }.to raise_error(Mobius::Client::Auth::Token::Expired) }
+  end
+
+  it "returns transaction hash" do
+    expect(token.hash).not_to be_empty
   end
 end

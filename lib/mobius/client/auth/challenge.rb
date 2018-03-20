@@ -1,3 +1,4 @@
+# Generates challenge transaction on developer's side.
 class Mobius::Client::Auth::Challenge
   extend Dry::Initializer
 
@@ -13,6 +14,7 @@ class Mobius::Client::Auth::Challenge
   # @return [String] base64-encoded transaction envelope
   def call(expire_in = Mobius::Client.challenge_expires_in)
     payment = Stellar::Transaction.payment(
+      source_account: keypair,
       account: Stellar::KeyPair.random,
       destination: keypair,
       sequence: random_sequence,

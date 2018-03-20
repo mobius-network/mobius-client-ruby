@@ -1,3 +1,4 @@
+# Checks challenge transaction signed by user on developer's side.
 class Mobius::Client::Auth::Token
   # Raised if transaction one of transaction signatures is wrong.
   class Unauthorized < StandardError; end

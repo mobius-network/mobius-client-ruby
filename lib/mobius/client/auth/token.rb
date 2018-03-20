@@ -25,37 +25,46 @@ class Mobius::Client::Auth::Token
   # @raise [Unauthorized] if one of the signatures is invalid.
   # @raise [Invalid] if transaction is malformed or time bounds are missing.
   def time_bounds
-    their_keypair = Stellar::KeyPair.from_address(address)
-    envelope = Stellar::TransactionEnvelope.from_xdr(xdr, "base64")
     bounds = envelope.tx.time_bounds
 
-    raise Unauthorized unless envelope.signed_correctly?(keypair, their_keypair)
+    raise Unauthorized unless signed_correctly?
     raise Invalid if bounds.nil?
 
     bounds
   end
 
-  def valid?
-    bounds = time_bounds
-    time_now_covers?(bounds)
-  end
-
   # Validates transaction signed by developer and user.
   #
-  # @return [Boolean] true if transaction is valid, raises exception otherwise.
-  # @raise [Unauthorized] if one of the signatures is invalid.
-  # @raise [Invalid] if transaction is malformed or time bounds are missing.
-  # @raise [Expired] if transaction is expired (current time outside it's time bounds).
+  # @return [Boolean] true if transaction is valid, raises exception otherwise
+  # @raise [Unauthorized] if one of the signatures is invalid
+  # @raise [Invalid] if transaction is malformed or time bounds are missing
+  # @raise [Expired] if transaction is expired (current time outside it's time bounds)
   def validate!
-    raise Expired unless valid?
+    bounds = time_bounds
+    raise Expired unless time_now_covers?(bounds)
     true
   end
 
   private
 
-  # @return [Stellar::Keypair] Stellar::Keypair object for given seed.
+  # @return [Stellar::KeyPair] Stellar::KeyPair object for given seed
   def keypair
     @keypair ||= Stellar::KeyPair.from_seed(seed)
+  end
+
+  # @return [Stellar::KeyPair] Stellar::KeyPair of user being authorized
+  def their_keypair
+    @their_keypair ||= Stellar::KeyPair.from_address(address)
+  end
+
+  # @return [Stellar::TrnansactionEnvelope] Stellar::TrnansactionEnvelope of challenge transaction
+  def envelope
+    @envelope ||= Stellar::TransactionEnvelope.from_xdr(xdr, "base64")
+  end
+
+  # @return [Bool] true if transaction is signed by both parties
+  def signed_correctly?
+    envelope.signed_correctly?(keypair, their_keypair)
   end
 
   def time_now_covers?(time_bounds)

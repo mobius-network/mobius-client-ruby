@@ -10,7 +10,7 @@ RSpec.describe Mobius::Client::Auth::Token do
   let(:future) { Time.at(Time.now.to_i + Mobius::Client.challenge_expires_in * 5) }
 
   it "returns min time" do
-    Timecop.freeze(Time.now) { expect(token.valid?).to eq(true) }
+    Timecop.freeze(Time.now) { expect(token.validate!).to eq(true) }
   end
 
   it "returns max time, 0 by default" do

@@ -1,19 +1,32 @@
 class Mobius::Client::App
   extend Dry::Initializer
 
+  # Raised if application is not authorized for payments
   class Unauthorized < StandardError; end
+
+  # Raised if trustline is missing on users account
   class TrustlineMissing < StandardError; end
+
+  # Raised if there is insufficient balance for payment
   class InsufficientFunds < StandardError; end
 
+  # @!method initialize(seed)
+  # @param seed [String] Developers private key.
+  # @param address [String] Users public key.
+  # @!scope instance
   param :seed
   param :address
 
+  # Checks if developer is authorized to use an application.
+  # @return [bool] Authorization status.
   def authorized?
     on_network do
       !info(user_account).signers.find { |s| s["public_key"] == keypair.address }.nil? && limit.positive?
     end
   end
 
+  # Returns user balance.
+  # @return [float] Application balance.
   def balance
     on_network do
       validate!
@@ -21,6 +34,8 @@ class Mobius::Client::App
     end
   end
 
+  # Makes payment.
+  # @param amount [float] Payment amount.
   def use(amount)
     on_network do
       current_balance = balance
@@ -30,7 +45,7 @@ class Mobius::Client::App
     end
   end
 
-  # private
+  private
 
   def payment_tx(amount)
     Stellar::Transaction.payment(

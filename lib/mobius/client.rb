@@ -8,24 +8,28 @@ require "mobius/client/app"
 module Mobius
   module Client
     class << self
+      # Stellar network to use (:test || :public)
       attr_writer :network
 
       def network
         @network ||= :test
       end
 
+      # `Stellar::Client` instance
       attr_writer :horizon_client
 
       def horizon_client
         @horizon_client ||= network == :test ? Stellar::Client.default_testnet : Stellar::Client.default
       end
 
+      # Asset code used for payments (MOBI by default)
       attr_writer :asset_code
 
       def asset_code
         @asset_code ||= "MOBI"
       end
 
+      # Asset issuer account
       attr_writer :asset_issuer
 
       def asset_issuer
@@ -34,12 +38,14 @@ module Mobius
         "GDRWBLJURXUKM4RWDZDTPJNX6XBYFO3PSE4H4GPUL6H6RCUQVKTSD4AT"
       end
 
+      # Challenge expires in (secods, 1h by default)
       attr_writer :default_challenge_expiration
 
       def default_challenge_expiration
         @default_challenge_expiration ||= 60 * 60 * 24
       end
 
+      # Stellar::Asset instance of asset used for payments
       def stellar_asset
         Stellar::Asset.alphanum4(asset_code, Stellar::KeyPair.from_address(asset_issuer))
       end

@@ -15,7 +15,6 @@ RSpec.describe Mobius::Client::Auth::Token do
   end
 
   it "returns max time, 0 by default" do
-    xdr
     Timecop.freeze(future) { expect { token.validate! }.to raise_error(Mobius::Client::Auth::Expired) }
   end
 end

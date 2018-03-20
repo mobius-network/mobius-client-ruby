@@ -36,7 +36,7 @@ class Mobius::Client::Auth::Token
   end
 
   def valid?
-    bounds = time_bounds(xdr, address)
+    bounds = time_bounds
     time_now_covers?(bounds)
   end
 

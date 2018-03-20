@@ -8,7 +8,7 @@ class Mobius::Client::Auth::Sign
   #
   # @return [String] base64-encoded transaction envelope
   def call
-    envelope.dup.tap { |e| e.signatures << e.tx.sign_decorated(their_keypair) }.to_xdr(:base64)
+    envelope.dup.tap { |e| e.signatures << e.tx.sign_decorated(keypair) }.to_xdr(:base64)
   end
 
   class << self

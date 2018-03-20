@@ -7,7 +7,6 @@ RSpec.describe Mobius::Client::Auth::Token do
   let(:their_keypair) { Stellar::KeyPair.from_seed(their_seed) }
   let(:challenge) { Mobius::Client::Auth::Challenge.call(seed) }
   let(:signed_challenge) { Mobius::Client::Auth::Sign.call(their_seed, challenge) }
-
   let(:future) { Time.at(Time.now.to_i + Mobius::Client.challenge_expires_in * 5) }
 
   it "returns min time" do
@@ -15,6 +14,7 @@ RSpec.describe Mobius::Client::Auth::Token do
   end
 
   it "returns max time, 0 by default" do
-    Timecop.freeze(future) { expect { token.validate! }.to raise_error(Mobius::Client::Auth::Expired) }
+    challenge # Generate challenge while we're in the past
+    Timecop.freeze(future) { expect { token.validate! }.to raise_error(Mobius::Client::Auth::Token::Expired) }
   end
 end

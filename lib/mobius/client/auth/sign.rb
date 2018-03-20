@@ -1,6 +1,10 @@
 class Mobius::Client::Auth::Sign
   extend Dry::Initializer
 
+  # @!method initialize(seed)
+  # @param seed [String] Developers private key
+  # @param xdr [String] Challenge transaction xdr
+  # @!scope instance
   param :seed
   param :xdr
 

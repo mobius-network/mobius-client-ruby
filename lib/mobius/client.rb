@@ -63,6 +63,13 @@ module Mobius
       def stellar_asset
         Stellar::Asset.alphanum4(asset_code, Stellar::KeyPair.from_address(asset_issuer))
       end
+
+      # In strict mode, session must be not older than seconds from now (10 by default)
+      attr_writer :strict_interval
+
+      def strict_interval
+        @strict_interval ||= 10
+      end
     end
   end
 end

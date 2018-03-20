@@ -8,6 +8,9 @@ class Mobius::Client::Auth::Token
   # Raised if transaction has expired.
   class Expired < StandardError; end
 
+  # Raised if transaction has expired (strict mode).
+  class TooOld < StandardError; end
+
   extend Dry::Initializer
 
   # @!method initialize(seed)
@@ -35,13 +38,15 @@ class Mobius::Client::Auth::Token
 
   # Validates transaction signed by developer and user.
   #
+  # @param strict [Bool] if true, checks that lower time limit is within Mobius::Client.strict_interval seconds from now
   # @return [Boolean] true if transaction is valid, raises exception otherwise
   # @raise [Unauthorized] if one of the signatures is invalid
   # @raise [Invalid] if transaction is malformed or time bounds are missing
   # @raise [Expired] if transaction is expired (current time outside it's time bounds)
-  def validate!
+  def validate!(strict = true)
     bounds = time_bounds
     raise Expired unless time_now_covers?(bounds)
+    raise TooOld if strict && too_old?(bounds)
     true
   end
 
@@ -74,5 +79,9 @@ class Mobius::Client::Auth::Token
 
   def time_now_covers?(time_bounds)
     (time_bounds.min_time..time_bounds.max_time).cover?(Time.now.to_i)
+  end
+
+  def too_old?(time_bounds)
+    Time.now.to_i > time_bounds.min_time + Mobius::Client.strict_interval
   end
 end

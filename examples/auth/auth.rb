@@ -23,5 +23,7 @@ post "/auth" do
     "Access denied!"
   rescue Mobius::Client::Auth::Token::Expired
     "Session expired!"
+  rescue Mobius::Client::Auth::Token::TooOld
+    "Challenge expired!"
   end
 end

@@ -2,11 +2,18 @@ require "dry-initializer"
 require "stellar-sdk"
 
 require "mobius/client/version"
-require "mobius/client/auth"
 require "mobius/client/app"
 
 module Mobius
   module Client
+    autoload :App, "mobius/client/app"
+
+    module Auth
+      autoload :Challenge, "mobius/client/auth/challenge"
+      autoload :Sign,      "mobius/client/auth/sign"
+      autoload :Token,     "mobius/client/auth/token"
+    end
+
     class << self
       # Stellar network to use (:test || :public)
       attr_writer :network

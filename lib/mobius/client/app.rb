@@ -18,7 +18,7 @@ class Mobius::Client::App
   param :address
 
   # Checks if developer is authorized to use an application.
-  # @return [bool] Authorization status.
+  # @return [Bool] Authorization status.
   def authorized?
     on_network do
       !info(user_account).signers.find { |s| s["public_key"] == keypair.address }.nil? && limit.positive?
@@ -26,7 +26,7 @@ class Mobius::Client::App
   end
 
   # Returns user balance.
-  # @return [float] Application balance.
+  # @return [Float] Application balance.
   def balance
     on_network do
       validate!
@@ -35,7 +35,7 @@ class Mobius::Client::App
   end
 
   # Makes payment.
-  # @param amount [float] Payment amount.
+  # @param amount [Float] Payment amount.
   def use(amount)
     on_network do
       current_balance = balance

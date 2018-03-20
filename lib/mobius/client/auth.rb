@@ -62,7 +62,7 @@ class Mobius::Client::Auth
   # @raise [Expired] if transaction is expired (current time outside it's time bounds).
   def validate!(xdr, address)
     bounds = time_bounds(xdr, address)
-    raise Expired unless time_now_covers?(bounds) || too_old?(bounds)
+    raise Expired unless time_now_covers?(bounds)
     true
   end
 
@@ -94,10 +94,6 @@ class Mobius::Client::Auth
 
   def time_now_covers?(time_bounds)
     (time_bounds.min_time..time_bounds.max_time).cover?(Time.now.to_i)
-  end
-
-  def too_old?(time_bounds)
-    Time.now.to_i < time_bounds.min_time + Mobius::Client.session_valid_in
   end
 
   MAX_SEQ_NUMBER = (2**128 - 1).freeze

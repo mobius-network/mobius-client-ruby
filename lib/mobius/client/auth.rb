@@ -20,7 +20,7 @@ class Mobius::Client::Auth
   #
   # @param expire_in [Integer] Session expiration time (seconds from now). 0 means "never".
   # @return [String] base64-encoded transaction envelope
-  def challenge(expire_in = Mobius::Client.default_challenge_expiration)
+  def challenge(expire_in = Mobius::Client.challenge_expires_in)
     payment = Stellar::Transaction.payment(
       account: keypair,
       destination: keypair,
@@ -62,7 +62,7 @@ class Mobius::Client::Auth
   # @raise [Expired] if transaction is expired (current time outside it's time bounds).
   def validate!(xdr, address)
     bounds = time_bounds(xdr, address)
-    raise Expired unless time_now_covers?(bounds)
+    raise Expired unless time_now_covers?(bounds) || too_old?(bounds)
     true
   end
 
@@ -90,5 +90,9 @@ class Mobius::Client::Auth
 
   def time_now_covers?(time_bounds)
     (time_bounds.min_time..time_bounds.max_time).cover?(Time.now.to_i)
+  end
+
+  def too_old?(time_bounds)
+    Time.now.to_i < time_bounds.min_time + Mobius::Client.session_valid_in
   end
 end

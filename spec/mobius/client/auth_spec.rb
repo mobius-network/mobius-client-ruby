@@ -19,7 +19,7 @@ RSpec.describe Mobius::Client::Auth do
   describe "#valid?" do
     let(:validate) { described_class.new(seed).validate!(xdr, their_keypair.address) }
     let(:xdr) { envelope.dup.tap { |e| e.signatures << e.tx.sign_decorated(their_keypair) }.to_xdr(:base64) }
-    let(:future) { Time.new(Time.now.to_i + Mobius::Client.default_challenge_expiration * 5) }
+    let(:future) { Time.at(Time.now.to_i + Mobius::Client.challenge_expires_in * 5) }
 
     it "returns min time" do
       Timecop.freeze(Time.now) { expect(validate).to eq(true) }

@@ -38,11 +38,18 @@ module Mobius
         "GDRWBLJURXUKM4RWDZDTPJNX6XBYFO3PSE4H4GPUL6H6RCUQVKTSD4AT"
       end
 
-      # Challenge expires in (secods, 1h by default)
-      attr_writer :default_challenge_expiration
+      # Challenge expires in (seconds, 1h by default)
+      attr_writer :challenge_expires_in
 
-      def default_challenge_expiration
-        @default_challenge_expiration ||= 60 * 60 * 24
+      def challenge_expires_in
+        @challenge_expires_in ||= 60 * 60 * 24
+      end
+
+      # Session considered valid if issued not later than seconds (10 by default)
+      attr_writer :session_valid_in
+
+      def session_valid_in
+        @session_valid_in ||= 15
       end
 
       # Stellar::Asset instance of asset used for payments

@@ -13,7 +13,7 @@ class Mobius::Client::Auth::Token
 
   extend Dry::Initializer
 
-  # @!method initialize(seed)
+  # @!method initialize(seed, xdr, address)
   # @param seed [String] Developers private key.
   # @param xdr [String] Auth transaction XDR.
   # @param address [String] User public key.

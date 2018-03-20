@@ -24,7 +24,7 @@ class Mobius::Client::Auth
     payment = Stellar::Transaction.payment(
       account: keypair,
       destination: keypair,
-      sequence: 1,
+      sequence: random_sequence,
       amount: micro_xlm,
       memo: memo
     )
@@ -73,6 +73,10 @@ class Mobius::Client::Auth
 
   private
 
+  def random_sequence
+    MAX_SEQ_NUMBER - SecureRandom.random_number(RANDOM_LIMITS)
+  end
+
   def build_time_bounds(expire_in)
     Stellar::TimeBounds.new(
       min_time: Time.now.to_i,
@@ -95,4 +99,7 @@ class Mobius::Client::Auth
   def too_old?(time_bounds)
     Time.now.to_i < time_bounds.min_time + Mobius::Client.session_valid_in
   end
+
+  MAX_SEQ_NUMBER = (2**128 - 1).freeze
+  RANDOM_LIMITS = 65535
 end

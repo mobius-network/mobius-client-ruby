@@ -2,7 +2,6 @@ require "dry-initializer"
 require "stellar-sdk"
 
 require "mobius/client/version"
-require "mobius/client/app"
 
 module Mobius
   module Client
@@ -42,7 +41,7 @@ module Mobius
       def asset_issuer
         return @asset_issuer if @asset_issuer
         return "GDRWBLJURXUKM4RWDZDTPJNX6XBYFO3PSE4H4GPUL6H6RCUQVKTSD4AT" if network == :public
-        "GDRWBLJURXUKM4RWDZDTPJNX6XBYFO3PSE4H4GPUL6H6RCUQVKTSD4AT"
+        "GA6HCMBLTZS5VYYBCATRBRZ3BZJMAFUDKYYF6AH6MVCMGWMRDNSWJPIH"
       end
 
       # Challenge expires in (seconds, 1h by default)

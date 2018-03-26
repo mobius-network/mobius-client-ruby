@@ -1,5 +1,7 @@
 # Checks challenge transaction signed by user on developer's side.
 class Mobius::Client::Auth::Token
+  extend Dry::Initializer
+
   # Raised if transaction one of transaction signatures is wrong.
   class Unauthorized < StandardError; end
 
@@ -11,8 +13,6 @@ class Mobius::Client::Auth::Token
 
   # Raised if transaction has expired (strict mode).
   class TooOld < StandardError; end
-
-  extend Dry::Initializer
 
   # @!method initialize(seed, xdr, address)
   # @param seed [String] Developers private key.

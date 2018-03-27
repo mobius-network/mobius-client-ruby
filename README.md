@@ -39,6 +39,8 @@ The process is simple:
 
 Challenge itself is the transaction because only transactions might be signed by Ledger device.
 
+See demo at:
+
 ```
 cd examples/auth && bundle && ruby auth.rb
 ```

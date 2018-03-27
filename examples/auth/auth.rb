@@ -10,6 +10,7 @@ get "/" do
   slim :index, locals: { app_public_key: keypair.address }
 end
 
+# Generates challenge transaction signed with application private key.
 get "/auth" do
   Mobius::Client::Auth::Challenge.call(keypair.seed)
 end

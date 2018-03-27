@@ -80,10 +80,12 @@ class Mobius::Client::Auth::Token
     envelope.signed_correctly?(keypair, their_keypair)
   end
 
+  # @return [Bool] true if current time is within transaction time bounds
   def time_now_covers?(time_bounds)
     (time_bounds.min_time..time_bounds.max_time).cover?(Time.now.to_i)
   end
 
+  # @return [Bool] true if transaction is created more than n secods from now
   def too_old?(time_bounds)
     Time.now.to_i > time_bounds.min_time + Mobius::Client.strict_interval
   end

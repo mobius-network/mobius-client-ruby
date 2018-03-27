@@ -1,9 +1,9 @@
+StellarSdk.Network.useTestNetwork()
+
 $(function() {
   var xdr = null
   var signedXdr = null
   var keypair = StellarSdk.Keypair.random();
-
-  StellarSdk.Network.useTestNetwork()
 
   $('#public_key').val(keypair.publicKey());
   $('#secret').val(keypair.secret());

@@ -7,6 +7,11 @@ html
 body
   h1 Authorize application
 
+  .field
+    label for="app_public_key"
+      | App Public Key
+    input type="text" id="app_public_key" value="#{app_public_key}"
+
   h2 Stage 1: Request Challenge
   .field
     textarea id="challenge_xdr" disabled="disabled" rows=10

@@ -25,7 +25,7 @@ class Mobius::Client::Blockchain::CreateTrustline
   def tx
     Stellar::Transaction.change_trust(
       account: keypair,
-      line: [:alphanum4, asset.code, Mobius::Client.to_key_pair(asset.issuer)],
+      line: [:alphanum4, asset.code, Mobius::Client.to_keypair(asset.issuer)],
       limit: LIMIT,
       sequence: account.next_sequence_value
     )

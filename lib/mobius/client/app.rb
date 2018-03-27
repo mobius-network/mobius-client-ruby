@@ -1,3 +1,4 @@
+# TODO: Use newcomes
 class Mobius::Client::App
   extend Dry::Initializer
 

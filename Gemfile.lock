@@ -3,6 +3,8 @@ PATH
   specs:
     mobius-client (0.1.0)
       dry-initializer
+      faraday
+      faraday_middleware
       stellar-sdk
       thor
 

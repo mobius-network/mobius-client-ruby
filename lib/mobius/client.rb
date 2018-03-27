@@ -1,5 +1,7 @@
 require "dry-initializer"
 require "stellar-sdk"
+require "faraday"
+require "faraday_middleware"
 
 require "mobius/client/version"
 
@@ -10,7 +12,8 @@ module Mobius
   end
 
   module Client
-    autoload :Error, "mobius/client/error"
+    autoload :Error,     "mobius/client/error"
+    autoload :FriendBot, "mobius/client/friend_bot"
 
     module Auth
       autoload :Challenge, "mobius/client/auth/challenge"
@@ -25,13 +28,20 @@ module Mobius
     end
 
     class << self
-      # Stellar network to use (:test || :public). See notes on thread-safety in ruby-stellar-base.
-      # Safe to set on startup.
+      attr_writer :mobius_host
+
+      # Mobius API host
+      def mobius_host
+        @mobius_host ||= "https://mobius.network"
+      end
+
       def network=(value)
         @network = value
         Stellar.default_network = stellar_network
       end
 
+      # Stellar network to use (:test || :public). See notes on thread-safety in ruby-stellar-base.
+      # Safe to set on startup.
       def network
         @network ||= :test
       end
@@ -93,7 +103,7 @@ module Mobius
       end
 
       # Converts given argument to Stellar::KeyPair
-      def to_key_pair(subject)
+      def to_keypair(subject)
         Mobius::Client::Blockchain::KeyPairFactory.produce(subject)
       end
 

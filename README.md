@@ -30,12 +30,34 @@ Or install it yourself as:
 Run:
 
 ```
-mobius-cli create app
+mobius-cli create dapp_account
 ```
 
 This will create application account, MOBI trust line and fund this account with 1000 MOBI on Stellar test network.
 
 Otherwise, you could use https://mobius.network/friendbot
+
+### Setting up test user accounts
+
+You will need:
+
+1. Regular Stellar account not related to Mobius.
+
+```
+mobius-cli create account
+```
+
+2. DApp Store account not authorized to use your application.
+
+```
+mobius-cli create dapp_account
+```
+
+3. Authorized DApp Store account.
+
+```
+mobius-cli create dapp_account -a <Your application public key>
+```
 
 ## Authentication
 

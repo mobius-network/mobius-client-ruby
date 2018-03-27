@@ -23,11 +23,9 @@ class Mobius::Client::Blockchain::CreateTrustline
   private
 
   def tx
-    # TODO: DRY
-    issuer = Stellar::KeyPair.from_public_key(asset.issuer.value)
     Stellar::Transaction.change_trust(
       account: keypair,
-      line: [:alphanum4, asset.code, issuer],
+      line: [:alphanum4, asset.code, Mobius::Client.to_key_pair(asset.issuer)],
       limit: LIMIT,
       sequence: account.next_sequence_value
     )

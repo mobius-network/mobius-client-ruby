@@ -7,8 +7,6 @@ class Mobius::Client::FriendBot::Fund < ServiceObject
   MAX_AMOUNT = 5000
   LIMIT = 922337203685 # ruby-stellar-base needs to be fixed, it does not accept unlimited now
 
-  class Error < StandardError; end
-
   class WrongAddress < StandardError
     def message
       "Invalid target address/seed".freeze

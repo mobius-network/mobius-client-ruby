@@ -21,6 +21,7 @@ module Mobius
     module Blockchain
       autoload :Account,         "mobius/client/blockchain/account"
       autoload :CreateTrustline, "mobius/client/blockchain/create_trustline"
+      autoload :KeyPairFactory,  "mobius/client/blockchain/key_pair_factory"
     end
 
     class << self
@@ -89,6 +90,11 @@ module Mobius
         Stellar.on_network(stellar_network) do
           yield if block_given?
         end
+      end
+
+      # Converts given argument to Stellar::KeyPair
+      def to_key_pair(subject)
+        Mobius::Client::Blockchain::KeyPairFactory.produce(subject)
       end
 
       private

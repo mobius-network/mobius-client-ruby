@@ -14,7 +14,7 @@ module Mobius::Client::Blockchain::KeyPairFactory
       when Mobius::KeyPair
         subject
       else
-        raise StandardError, "Unknown KeyPair type: #{subject.class.name}"
+        raise Mobius::Client::Error::UnknownKeyPairType, "Unknown KeyPair type: #{subject.class.name}"
       end
     end
     # rubocop:enable Metrics/MethodLength

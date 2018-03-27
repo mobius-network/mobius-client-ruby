@@ -35,4 +35,8 @@ class Mobius::Client::Error < StandardError
       @message || "Given transaction signature invalid"
     end
   end
+
+  # Raised if unknown or empty value has passed to KeyPairFactory
+  class UnknownKeyPairType < self
+  end
 end

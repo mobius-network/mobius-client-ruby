@@ -31,13 +31,21 @@ class Mobius::Client::Blockchain::Account
 
   private
 
-  # TODO: Handle native balance here, Stellar::Asset.native has incompatible interface.
   def find_balance(asset)
-    info.balances.find do |s|
-      s["asset_code"] == asset.code && s["asset_issuer"] == Mobius::Client.to_keypair(asset.issuer).address
-    end
+    info.balances.find { |balance| balance_matches?(asset, balance) }
   rescue Faraday::ResourceNotFound
     raise Mobius::Client::Error::AccountMissing
+  end
+
+  def balance_matches?(asset, balance)
+    if [:native, Stellar::Asset.native].include?(asset)
+      balance["asset_type"] == "native"
+    else
+      code = balance["asset_code"]
+      issuer = balance["asset_issuer"]
+      asset_issuer_address = Mobius::Client.to_keypair(asset.issuer).address
+      code == asset.code && issuer == asset_issuer_address
+    end
   end
 
   # TODO: Think of adding weight check here

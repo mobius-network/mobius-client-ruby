@@ -25,8 +25,13 @@ class Mobius::Client::Blockchain::Account
     @info ||= Mobius::Client.horizon_client.account_info(account)
   end
 
+  def next_sequence_value
+    info.sequence.to_i + 1
+  end
+
   private
 
+  # TODO: Handle native balance here, Stellar::Asset.native has incompatible interface.
   def find_balance(asset)
     issuer = Stellar::KeyPair.from_public_key(asset.issuer.value)
     info.balances.find do |s|
@@ -36,6 +41,7 @@ class Mobius::Client::Blockchain::Account
     raise Mobius::Client::Error::AccountMissing
   end
 
+  # TODO: Think of adding weight check here
   def find_signer(address)
     info.signers.find { |s| s["public_key"] == address }
   rescue Faraday::ResourceNotFound

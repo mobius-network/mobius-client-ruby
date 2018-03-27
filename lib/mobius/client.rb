@@ -26,12 +26,17 @@ module Mobius
     end
 
     module Blockchain
-      autoload :Account,   "mobius/client/blockchain/account"
+      autoload :Account,         "mobius/client/blockchain/account"
+      autoload :CreateTrustline, "mobius/client/blockchain/create_trustline"
     end
 
     class << self
-      # Stellar network to use (:test || :public)
-      attr_writer :network
+      # Stellar network to use (:test || :public). See notes on thread-safety in ruby-stellar-base.
+      # Safe to set on startup.
+      def network=(value)
+        @network = value
+        Stellar.default_network = stellar_network
+      end
 
       def network
         @network ||= :test
@@ -76,7 +81,7 @@ module Mobius
 
       # Stellar::Asset instance of asset used for payments
       def stellar_asset
-        Stellar::Asset.alphanum4(asset_code, Stellar::KeyPair.from_address(asset_issuer))
+        @stellar_asset ||= Stellar::Asset.alphanum4(asset_code, Stellar::KeyPair.from_address(asset_issuer))
       end
 
       # In strict mode, session must be not older than seconds from now (10 by default)
@@ -88,9 +93,15 @@ module Mobius
 
       # Runs block on selected Stellar network
       def on_network
-        Stellar.on_network(Mobius::Client.network == :test ? Stellar::Networks::TESTNET : Stellar::Networks::PUBLIC) do
+        Stellar.on_network(stellar_network) do
           yield if block_given?
         end
+      end
+
+      private
+
+      def stellar_network
+        Mobius::Client.network == :test ? Stellar::Networks::TESTNET : Stellar::Networks::PUBLIC
       end
     end
   end

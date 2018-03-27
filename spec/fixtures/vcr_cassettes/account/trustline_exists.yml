@@ -1,0 +1,113 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://horizon-testnet.stellar.org/accounts/GAZDIAPACN6EMNHFNEDUVFTTGL45DVZJVXEGJDNKTVGMHI5YN5LXLNR4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.14.0
+      Accept:
+      - application/hal+json,application/problem+json,application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Disposition:
+      - inline
+      Content-Type:
+      - application/hal+json; charset=utf-8
+      Date:
+      - Tue, 27 Mar 2018 14:04:04 GMT
+      Vary:
+      - Origin
+      X-Ratelimit-Limit:
+      - '17200'
+      X-Ratelimit-Remaining:
+      - '17193'
+      X-Ratelimit-Reset:
+      - '2035'
+      Content-Length:
+      - '2499'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "_links": {
+            "self": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GAZDIAPACN6EMNHFNEDUVFTTGL45DVZJVXEGJDNKTVGMHI5YN5LXLNR4"
+            },
+            "transactions": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GAZDIAPACN6EMNHFNEDUVFTTGL45DVZJVXEGJDNKTVGMHI5YN5LXLNR4/transactions{?cursor,limit,order}",
+              "templated": true
+            },
+            "operations": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GAZDIAPACN6EMNHFNEDUVFTTGL45DVZJVXEGJDNKTVGMHI5YN5LXLNR4/operations{?cursor,limit,order}",
+              "templated": true
+            },
+            "payments": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GAZDIAPACN6EMNHFNEDUVFTTGL45DVZJVXEGJDNKTVGMHI5YN5LXLNR4/payments{?cursor,limit,order}",
+              "templated": true
+            },
+            "effects": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GAZDIAPACN6EMNHFNEDUVFTTGL45DVZJVXEGJDNKTVGMHI5YN5LXLNR4/effects{?cursor,limit,order}",
+              "templated": true
+            },
+            "offers": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GAZDIAPACN6EMNHFNEDUVFTTGL45DVZJVXEGJDNKTVGMHI5YN5LXLNR4/offers{?cursor,limit,order}",
+              "templated": true
+            },
+            "trades": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GAZDIAPACN6EMNHFNEDUVFTTGL45DVZJVXEGJDNKTVGMHI5YN5LXLNR4/trades{?cursor,limit,order}",
+              "templated": true
+            },
+            "data": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GAZDIAPACN6EMNHFNEDUVFTTGL45DVZJVXEGJDNKTVGMHI5YN5LXLNR4/data/{key}",
+              "templated": true
+            }
+          },
+          "id": "GAZDIAPACN6EMNHFNEDUVFTTGL45DVZJVXEGJDNKTVGMHI5YN5LXLNR4",
+          "paging_token": "",
+          "account_id": "GAZDIAPACN6EMNHFNEDUVFTTGL45DVZJVXEGJDNKTVGMHI5YN5LXLNR4",
+          "sequence": "34923474300436481",
+          "subentry_count": 1,
+          "thresholds": {
+            "low_threshold": 0,
+            "med_threshold": 0,
+            "high_threshold": 0
+          },
+          "flags": {
+            "auth_required": false,
+            "auth_revocable": false
+          },
+          "balances": [
+            {
+              "balance": "1000.0000000",
+              "limit": "922337203685.0000000",
+              "asset_type": "credit_alphanum4",
+              "asset_code": "MOBI",
+              "asset_issuer": "GDRWBLJURXUKM4RWDZDTPJNX6XBYFO3PSE4H4GPUL6H6RCUQVKTSD4AT"
+            },
+            {
+              "balance": "9999.9999900",
+              "asset_type": "native"
+            }
+          ],
+          "signers": [
+            {
+              "public_key": "GAZDIAPACN6EMNHFNEDUVFTTGL45DVZJVXEGJDNKTVGMHI5YN5LXLNR4",
+              "weight": 1,
+              "key": "GAZDIAPACN6EMNHFNEDUVFTTGL45DVZJVXEGJDNKTVGMHI5YN5LXLNR4",
+              "type": "ed25519_public_key"
+            }
+          ],
+          "data": {}
+        }
+    http_version: 
+  recorded_at: Tue, 27 Mar 2018 14:04:04 GMT
+recorded_with: VCR 3.0.3

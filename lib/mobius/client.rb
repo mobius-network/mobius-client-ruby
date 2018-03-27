@@ -11,6 +11,7 @@ module Mobius
 
   module Client
     module Error
+      autoload :AccountMissing,       "mobius/client/error/account_missing"
       autoload :TrustlineMissing,     "mobius/client/error/trustline_missing"
       autoload :Unauthorized,         "mobius/client/error/unauthorized"
       autoload :MalformedTransaction, "mobius/client/error/malformed_transaction"
@@ -25,7 +26,7 @@ module Mobius
     end
 
     module Blockchain
-      autoload :Account,   "mobius/blockchain/account"
+      autoload :Account,   "mobius/client/blockchain/account"
     end
 
     class << self
@@ -55,8 +56,8 @@ module Mobius
 
       def asset_issuer
         return @asset_issuer if @asset_issuer
-        return "GDRWBLJURXUKM4RWDZDTPJNX6XBYFO3PSE4H4GPUL6H6RCUQVKTSD4AT" if network == :public
-        "GA6HCMBLTZS5VYYBCATRBRZ3BZJMAFUDKYYF6AH6MVCMGWMRDNSWJPIH"
+        return "GA6HCMBLTZS5VYYBCATRBRZ3BZJMAFUDKYYF6AH6MVCMGWMRDNSWJPIH" if network == :public
+        "GDRWBLJURXUKM4RWDZDTPJNX6XBYFO3PSE4H4GPUL6H6RCUQVKTSD4AT"
       end
 
       # Challenge expires in (seconds, 1h by default)
@@ -83,6 +84,13 @@ module Mobius
 
       def strict_interval
         @strict_interval ||= 10
+      end
+
+      # Runs block on selected Stellar network
+      def on_network
+        Stellar.on_network(Mobius::Client.network == :test ? Stellar::Networks::TESTNET : Stellar::Networks::PUBLIC) do
+          yield if block_given?
+        end
       end
     end
   end

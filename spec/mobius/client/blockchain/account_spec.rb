@@ -36,7 +36,7 @@ RSpec.describe Mobius::Client::Blockchain::Account do
 
   context "when account has trustline & authorization" do
     let(:keypair) { Stellar::KeyPair.from_seed("SAAR4WYBEMS3HWZROEGJDDSMINYOK6PLSDX5AYEPO5AIVXWRFY2M6SBK") }
-    let(:their_keypair) { Stellar::KeyPair.from_address("GAZDIAPACN6EMNHFNEDUVFTTGL45DVZJVXEGJDNKTVGMHI5YN5LXLNR4") }
+    let(:their_keypair) { keypair }
 
     it "#trustline_exists? should eq true" do
       VCR.use_cassette("account/trustline_exists") do
@@ -51,6 +51,7 @@ RSpec.describe Mobius::Client::Blockchain::Account do
     end
 
     it "#authorized? should eq true" do
+      # Trick is that we use account itself to check against added cosigner.
       VCR.use_cassette("account/cosigner_exists") do
         expect(account.authorized?(their_keypair)).to eq(true)
       end

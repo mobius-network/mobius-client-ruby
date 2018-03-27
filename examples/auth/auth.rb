@@ -15,6 +15,7 @@ get "/auth" do
   Mobius::Client::Auth::Challenge.call(keypair.seed)
 end
 
+# Checks transaction signature.
 post "/auth" do
   begin
     token = Mobius::Client::Auth::Token.new(keypair.seed, params[:xdr], params[:public_key])

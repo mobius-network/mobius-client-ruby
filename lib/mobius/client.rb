@@ -10,14 +10,7 @@ module Mobius
   end
 
   module Client
-    module Error
-      autoload :AccountMissing,       "mobius/client/error/account_missing"
-      autoload :TrustlineMissing,     "mobius/client/error/trustline_missing"
-      autoload :Unauthorized,         "mobius/client/error/unauthorized"
-      autoload :MalformedTransaction, "mobius/client/error/malformed_transaction"
-      autoload :TokenExpired,         "mobius/client/error/token_expired"
-      autoload :TokenTooOld,          "mobius/client/error/token_too_old"
-    end
+    autoload :Error, "mobius/client/error"
 
     module Auth
       autoload :Challenge, "mobius/client/auth/challenge"

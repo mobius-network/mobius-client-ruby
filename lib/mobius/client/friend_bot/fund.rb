@@ -9,19 +9,19 @@ class Mobius::Client::FriendBot::Fund < ServiceObject
 
   class Error < StandardError; end
 
-  class WrongAddress < Error
+  class WrongAddress < StandardError
     def message
       "Invalid target address/seed".freeze
     end
   end
 
-  class WrongAmount < Error
+  class WrongAmount < StandardError
     def message
       "Amount must be between #{MIN_AMOUNT} and #{MAX_AMOUNT}".freeze
     end
   end
 
-  class TrustlineMissing < Error
+  class TrustlineMissing < StandardError
     def message
       config = Mobius::Config.friendbot
       tl = "#{config.asset_code}/#{config.asset_issuer}"

@@ -21,11 +21,11 @@ post "/auth" do
     token = Mobius::Client::Auth::Token.new(keypair.seed, params[:xdr], params[:public_key])
     token.validate!
     token.hash(:hex)
-  rescue Mobius::Client::Auth::Token::Unauthorized
+  rescue Mobius::Client::Error::Unauthorized
     "Access denied!"
-  rescue Mobius::Client::Auth::Token::Expired
+  rescue Mobius::Client::Error::TokenExpired
     "Session expired!"
-  rescue Mobius::Client::Auth::Token::TooOld
+  rescue Mobius::Client::Error::TokenTooOld
     "Challenge expired!"
   end
 end

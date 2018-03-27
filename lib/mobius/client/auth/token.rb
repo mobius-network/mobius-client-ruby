@@ -2,18 +2,6 @@
 class Mobius::Client::Auth::Token
   extend Dry::Initializer
 
-  # Raised if transaction one of transaction signatures is wrong.
-  class Unauthorized < StandardError; end
-
-  # Raised if transaction is invalid or time bounds are missing.
-  class Invalid < StandardError; end
-
-  # Raised if transaction has expired.
-  class Expired < StandardError; end
-
-  # Raised if transaction has expired (strict mode).
-  class TooOld < StandardError; end
-
   # @!method initialize(seed, xdr, address)
   # @param seed [String] Developers private key.
   # @param xdr [String] Auth transaction XDR.
@@ -31,8 +19,8 @@ class Mobius::Client::Auth::Token
   def time_bounds
     bounds = envelope.tx.time_bounds
 
-    raise Unauthorized unless signed_correctly?
-    raise Invalid if bounds.nil?
+    raise Mobius::Client::Error::Unauthorized unless signed_correctly?
+    raise Mobius::Client::Error::MalformedTransaction if bounds.nil?
 
     bounds
   end
@@ -46,8 +34,8 @@ class Mobius::Client::Auth::Token
   # @raise [Expired] if transaction is expired (current time outside it's time bounds)
   def validate!(strict = true)
     bounds = time_bounds
-    raise Expired unless time_now_covers?(bounds)
-    raise TooOld if strict && too_old?(bounds)
+    raise Mobius::Client::Error::TokenExpired unless time_now_covers?(bounds)
+    raise Mobius::Client::Error::TokenTooOld if strict && too_old?(bounds)
     true
   end
 

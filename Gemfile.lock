@@ -4,6 +4,7 @@ PATH
     mobius-client (0.1.0)
       dry-initializer
       stellar-sdk
+      thor
 
 GEM
   remote: https://rubygems.org/
@@ -100,6 +101,7 @@ GEM
       hyperclient (~> 0.7.0)
       stellar-base (~> 0.13.0)
       toml-rb (~> 1.1.1)
+    thor (0.20.0)
     thread_safe (0.3.6)
     timecop (0.9.1)
     toml-rb (1.1.1)

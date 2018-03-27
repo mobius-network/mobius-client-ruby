@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Viktor Sokolov"]
   spec.email         = ["gzigzigzeo@gmail.com"]
 
-  spec.summary       = %(Mobius API client)
-  spec.description   = %(Mobius API client)
+  spec.summary       = %(Mobius SDK)
+  spec.description   = %(Mobius SDK)
   spec.homepage      = "https://github.com/mobius-network/mobius-client"
   spec.license       = "MIT"
 
@@ -30,14 +30,15 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.16"
+  spec.add_development_dependency "httplog"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "rubocop"
   spec.add_development_dependency "rubocop-rspec"
   spec.add_development_dependency "timecop"
   spec.add_development_dependency "yard"
-  spec.add_development_dependency "httplog"
 
   spec.add_dependency "dry-initializer"
   spec.add_dependency "stellar-sdk"
+  spec.add_dependency "thor"
 end

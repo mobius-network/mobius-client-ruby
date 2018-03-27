@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "mobius/client"
+require "thor"
+
+Mobius::Cli::App.start(ARGV)

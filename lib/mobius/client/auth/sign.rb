@@ -2,12 +2,10 @@
 class Mobius::Client::Auth::Sign
   extend Dry::Initializer
 
-  class Unauthorized < StandardError; end
-  class MalformedTransaction < StandardError; end
-
   # @!method initialize(seed, xdr)
   # @param seed [String] Users private key
   # @param xdr [String] Challenge transaction xdr
+  # @param address [String] Developers public key
   # @!scope instance
   param :seed
   param :xdr
@@ -45,6 +43,6 @@ class Mobius::Client::Auth::Sign
   end
 
   def validate!
-    raise Unauthorized unless envelope.signed_correctly?(developer_keypair)
+    raise Mobius::Client::Error::Unauthorized unless envelope.signed_correctly?(developer_keypair)
   end
 end

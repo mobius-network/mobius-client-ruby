@@ -15,7 +15,7 @@ RSpec.describe Mobius::Client::Auth::Token do
 
   it "#validate! raises if current time is outside bounds" do
     challenge # Generate challenge while we're in the past
-    Timecop.freeze(future) { expect { token.validate! }.to raise_error(Mobius::Client::Auth::Token::Expired) }
+    Timecop.freeze(future) { expect { token.validate! }.to raise_error(Mobius::Client::Error::TokenExpired) }
   end
 
   it "returns transaction hash" do

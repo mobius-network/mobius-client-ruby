@@ -4,8 +4,19 @@ require "stellar-sdk"
 require "mobius/client/version"
 
 module Mobius
+  module Cli
+    autoload :App, "mobius/cli/app"
+    autoload :Create, "mobius/cli/create"
+  end
+
   module Client
-    autoload :App, "mobius/client/app"
+    module Error
+      autoload :TrustlineMissing, "mobius/client/error/trustline_missing"
+      autoload :Unauthorized, "mobius/client/error/unauthorized"
+      autoload :MalformedTransaction, "mobius/client/error/malformed_transaction"
+      autoload :TokenExpired, "mobius/client/error/token_expired"
+      autoload :TokenTooOld, "mobius/client/error/token_too_old"
+    end
 
     module Auth
       autoload :Challenge, "mobius/client/auth/challenge"

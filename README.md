@@ -18,9 +18,26 @@ Or install it yourself as:
 
     $ gem install mobius-client
 
-## Usage
+## Developing an application
 
-### Authentication
+- DApp Store applications are making payments using Stellar network.
+- Every Application holds private key of account receiving money from users.
+- Every user holds private key of account containing MOBI specific application can use.
+- Permission to use user's money is granted to application via adding it's public key as cosigner to user's account.
+
+### Setting up an application account
+
+Run:
+
+```
+mobius-cli create app
+```
+
+This will create application account, MOBI trust line and fund this account with 1000 MOBI on Stellar test network.
+
+Otherwise, you could use https://mobius.network/friendbot
+
+## Authentication
 
 Assume we have two parts: user and application. Every part has it's own Stellar key pair. Application issues session token.
 

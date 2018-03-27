@@ -1,15 +1,6 @@
 class Mobius::Client::App
   extend Dry::Initializer
 
-  # Raised if application is not authorized for payments
-  class Unauthorized < StandardError; end
-
-  # Raised if trustline is missing on users account
-  class TrustlineMissing < StandardError; end
-
-  # Raised if there is insufficient balance for payment
-  class InsufficientFunds < StandardError; end
-
   # @!method initialize(seed)
   # @param seed [String] Developers private key.
   # @param address [String] Users public key.
@@ -39,7 +30,7 @@ class Mobius::Client::App
   def use(amount)
     on_network do
       current_balance = balance
-      raise InsufficientFunds if current_balance < amount.to_f
+      raise Mobius::Client::Error::InsufficientFunds if current_balance < amount.to_f
       envelope_base64 = payment_tx(amount).to_envelope(keypair).to_xdr(:base64)
       Mobius::Client.horizon_client.horizon.transactions._post(tx: envelope_base64)
     end
@@ -57,8 +48,8 @@ class Mobius::Client::App
   end
 
   def validate!
-    raise Unauthorized unless authorized?
-    raise TrustlineMissing if balance_object.nil?
+    raise Mobius::Client::Error::Unauthorized unless authorized?
+    raise Mobius::Client::Error::TrustlineMissing if balance_object.nil?
   end
 
   def limit

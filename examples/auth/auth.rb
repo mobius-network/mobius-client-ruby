@@ -18,7 +18,7 @@ post "/auth" do
   begin
     token = Mobius::Client::Auth::Token.new(keypair.seed, params[:xdr], params[:public_key])
     token.validate!
-    token.hash.unpack("H*").first
+    token.hash(:hex)
   rescue Mobius::Client::Auth::Token::Unauthorized
     "Access denied!"
   rescue Mobius::Client::Auth::Token::Expired

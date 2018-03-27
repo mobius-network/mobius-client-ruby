@@ -52,8 +52,10 @@ class Mobius::Client::Auth::Token
   end
 
   # @return [String] transaction hash
-  def hash
-    envelope.tx.hash
+  def hash(format = :binary)
+    h = envelope.tx.hash
+    return h if format == :binary
+    h.unpack("H*").first
   end
 
   private

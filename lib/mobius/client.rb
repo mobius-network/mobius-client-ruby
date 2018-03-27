@@ -11,17 +11,21 @@ module Mobius
 
   module Client
     module Error
-      autoload :TrustlineMissing, "mobius/client/error/trustline_missing"
-      autoload :Unauthorized, "mobius/client/error/unauthorized"
+      autoload :TrustlineMissing,     "mobius/client/error/trustline_missing"
+      autoload :Unauthorized,         "mobius/client/error/unauthorized"
       autoload :MalformedTransaction, "mobius/client/error/malformed_transaction"
-      autoload :TokenExpired, "mobius/client/error/token_expired"
-      autoload :TokenTooOld, "mobius/client/error/token_too_old"
+      autoload :TokenExpired,         "mobius/client/error/token_expired"
+      autoload :TokenTooOld,          "mobius/client/error/token_too_old"
     end
 
     module Auth
       autoload :Challenge, "mobius/client/auth/challenge"
       autoload :Sign,      "mobius/client/auth/sign"
       autoload :Token,     "mobius/client/auth/token"
+    end
+
+    module Blockchain
+      autoload :Account,   "mobius/blockchain/account"
     end
 
     class << self

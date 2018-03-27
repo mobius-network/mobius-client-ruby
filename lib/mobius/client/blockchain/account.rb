@@ -7,10 +7,14 @@ class Mobius::Client::Blockchain::Account
     account_info.signers.find { |s| s["public_key"] == to_keypair.address }.nil?
   end
 
+  def trustline_exists?(asset = Mobius.Client.stellar_asset)
+    balance = find_balance(asset)
+    balance.any? && !balance.dig("limit").to_f.zero?
+  end
+
   def balance(asset = Mobius.Client.stellar_asset)
-    balance = account_info.balances.find { |s| s["asset_code"] == asset.code && s["asset_issuer"] == asset.issuer }
-    raise Mobius::Error::TrustlineMissing if balance.nil?
-    balance.dig("balance").to_f
+    raise Mobius::Error::TrustlineMissing unless trustline_exists?(asset)
+    find_balance(asset).dig("balance").to_f
   end
 
   def account
@@ -19,5 +23,13 @@ class Mobius::Client::Blockchain::Account
 
   def account_info
     @account_info ||= Mobius::Client.horizon_client.account_info(stellar_account)
+  end
+
+  private
+
+  def find_balance(asset)
+    account_info.balances.find do |s|
+      s["asset_code"] == asset.code && s["asset_issuer"] == asset.issuer
+    end
   end
 end

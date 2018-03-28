@@ -41,15 +41,21 @@ You will need:
 
 1. Regular Stellar account not related to Mobius.
 
-    $ mobius-cli create account
+```
+  $ mobius-cli create account
+```
 
 2. DApp Store account not authorized to use your application.
 
-    $ mobius-cli create dapp_account
+```
+  $ mobius-cli create dapp_account
+```
 
 3. Authorized DApp Store account.
 
-    $ mobius-cli create dapp_account -a <Your application public key>
+```
+  $ mobius-cli create dapp_account -a <Your application public key>
+```
 
 ## Authentication
 
@@ -130,7 +136,9 @@ end
 
 Normally, Mobius Wallet will request challenge, validate it and obtain access token. For development purposes you have two options: use `mobius-cli` or make your own script.
 
-    $ mobius-cli auth token http://localhost:4567/auth SA2VTRSZPZ5FIC.....I4QD7LBWUUIK GCWYXW7RXJ5.....SV4AK32ECXFJ
+```
+  $ mobius-cli auth token http://localhost:4567/auth SA2VTRSZPZ5FIC.....I4QD7LBWUUIK GCWYXW7RXJ5.....SV4AK32ECXFJ
+```
 
 Check `lib/mobius/cli/auth.rb` for details.
 

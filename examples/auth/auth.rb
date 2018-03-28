@@ -4,6 +4,8 @@ require "mobius/client"
 
 keypair = Stellar::KeyPair.random
 
+puts "App public: #{keypair.address}"
+
 set :public_folder, "public"
 
 get "/" do

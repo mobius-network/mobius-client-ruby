@@ -29,9 +29,7 @@ Or install it yourself as:
 
 Run:
 
-```
-mobius-cli create dapp_account
-```
+    $ mobius-cli create dapp_account
 
 This will create application account, MOBI trust line and fund this account with 1000 MOBI on Stellar test network.
 
@@ -43,21 +41,15 @@ You will need:
 
 1. Regular Stellar account not related to Mobius.
 
-```
-mobius-cli create account
-```
+    $ mobius-cli create account
 
 2. DApp Store account not authorized to use your application.
 
-```
-mobius-cli create dapp_account
-```
+    $ mobius-cli create dapp_account
 
 3. Authorized DApp Store account.
 
-```
-mobius-cli create dapp_account -a <Your application public key>
-```
+    $ mobius-cli create dapp_account -a <Your application public key>
 
 ## Authentication
 
@@ -82,9 +74,9 @@ Challenge itself is the transaction because only transactions might be signed by
 
 See demo at:
 
-```
-cd examples/auth && bundle && ruby auth.rb
-```
+    $ git clone git@github.com/mobius-network/mobius-client-ruby.git
+    $ cd mobius-client-ruby && bundle
+    $ cd examples/auth && bundle && ruby auth.rb
 
 ### Implementing
 
@@ -118,7 +110,7 @@ class AuthController < ActionController::Base
     # frame and public key to local database and make validations over it.
     render text: Mobius::Client::Auth::GWT.new(
       Rails.application.secret.gwt_secret
-    ).to(token)
+    ).generate(token)
 
     rescue Mobius::Client::Error::Unauthorized
       # Signatures are invalid
@@ -136,30 +128,13 @@ end
 
 2. User's side.
 
-Normally, Mobius Wallet will request challenge, validate it and obtain access token. For development purposes you have two options.
+Normally, Mobius Wallet will request challenge, validate it and obtain access token. For development purposes you have two options: use `mobius-cli` or make your own script.
 
-* Use `mobius-cli`:
+    $ mobius-cli auth token http://localhost:4567/auth SA2VTRSZPZ5FIC.....I4QD7LBWUUIK GCWYXW7RXJ5.....SV4AK32ECXFJ
 
-```
-mobius-cli auth token http://example.com/auth SA2VTRSZPZ5FIC.....I4QD7LBWUUIK GCWYXW7RXJ5.....SV4AK32ECXFJ
-```
-
-where first argument is auth endpoint, second is your user private key and last is your application public key.
-
-* Write own script / rake task:
-
-```
-require "mobius-client"
-require "net/http"
-
-user_seed = "SA2VTRSZPZ5FIC.....I4QD7LBWUUIK"
-app_address = "GCWYXW7RXJ5.....SV4AK32ECXFJ"
-
-
-```
+Check `lib/mobius/cli/auth.rb` for details.
 
 ## Payments
-
 
 
 ## Development

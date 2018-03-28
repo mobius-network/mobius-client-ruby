@@ -39,7 +39,7 @@ class Mobius::Cli::Auth < Thor
     response = conn.post(uri.path, xdr: signed_xdr, public_key: keypair.address)
     validate_response!(response)
 
-    say "Token:"
+    say "Token (hash):"
     say response.body
   rescue Mobius::Client::Error::Unauthorized
     say "Application signature wrong! Check application public key.", :red

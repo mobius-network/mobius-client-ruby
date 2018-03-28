@@ -23,6 +23,7 @@ module Mobius
 
     module Blockchain
       autoload :Account,         "mobius/client/blockchain/account"
+      autoload :AddCosigner,     "mobius/client/blockchain/add_cosigner"
       autoload :CreateTrustline, "mobius/client/blockchain/create_trustline"
       autoload :FriendBot,       "mobius/client/blockchain/friend_bot"
       autoload :KeyPairFactory,  "mobius/client/blockchain/key_pair_factory"

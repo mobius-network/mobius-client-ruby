@@ -1,5 +1,10 @@
 class Mobius::Client::Blockchain::AddCosigner
+  extend Dry::Initializer
+
   param :keypair
+  param :by_keypair
+
+  APP_WEIGHT = 1
 
   def call
     client.horizon.transactions._post(tx: tx.to_envelope(keypair).to_xdr(:base64))
@@ -17,27 +22,14 @@ class Mobius::Client::Blockchain::AddCosigner
   private
 
   def tx
-    # const setSignerOp = StellarSdk.Operation.setOptions({
-    #   source: appKeyPair.publicKey(),
-    #   signer: {
-    #     ed25519PublicKey: developerPublicKey,
-    #     weight: 1
-    #   }
-    # })
-    #
-    # const setWeightsOp = StellarSdk.Operation.setOptions({
-    #   source: appKeyPair.publicKey(),
-    #   masterWeight: 10,
-    #   highThreshold: 10,
-    #   medThreshold: 1,
-    #   lowThreshold: 1
-    # })
-
-    Stellar::Transaction.change_trust(
+    Stellar::Transaction.set_options(
       account: keypair,
-      line: [:alphanum4, asset.code, Mobius::Client.to_keypair(asset.issuer)],
-      limit: LIMIT,
-      sequence: account.next_sequence_value
+      sequence: account.next_sequence_value,
+      signer: Stellar::Signer.new(key: by_keypair.signer_key, weight: APP_WEIGHT),
+      master_weight: 10,
+      highThreshold: 10,
+      medThreshold: 1,
+      lowThreshold: 1
     )
   end
 

@@ -61,6 +61,8 @@ mobius-cli create dapp_account -a <Your application public key>
 
 ## Authentication
 
+### Principle
+
 Assume we have two parts: user and application. Every part has it's own Stellar key pair. Application issues session token.
 
 Application wants to ensure that:
@@ -83,6 +85,82 @@ See demo at:
 ```
 cd examples/auth && bundle && ruby auth.rb
 ```
+
+### Implementing
+
+1. Application side.
+
+```
+class AuthController < ActionController::Base
+  # GET /auth
+  def challenge
+    # Generates and returns challenge transaction XDR signed by application to user
+    render text: Mobius::Client::Auth::Challenge.call(
+      Rails.application.secrets.app.secret_key, # SA2VTRSZPZ5FIC.....I4QD7LBWUUIK
+      12.hours                                  # Session duration
+    )
+  end
+
+  # POST /auth
+  def token
+    # Validates challenge transaction. It must be:
+    #   - Signed by application and requesting user.
+    #   - Not older than 10 seconds from now (see Mobius::Client.strict_interval`)
+    token = Mobius::Client::Auth::Token.new(
+      Rails.application.secrets.app.secret_key, # SA2VTRSZPZ5FIC.....I4QD7LBWUUIK
+      params[:xdr]                              # Challenge transaction
+      params[:public_key]                       # User's public key
+    )
+
+    # Converts issued token into GWT and sends it to user.
+    #
+    # Note: this is not the requirement. Instead of GWT, application might save token.hash along with time
+    # frame and public key to local database and make validations over it.
+    render text: Mobius::Client::Auth::GWT.new(
+      Rails.application.secret.gwt_secret
+    ).to(token)
+
+    rescue Mobius::Client::Error::Unauthorized
+      # Signatures are invalid
+      render text: "Access denied!"
+    rescue Mobius::Client::Error::TokenExpired
+      # Current time is outside session time bounds
+      render text: "Session expired!"
+    rescue Mobius::Client::Error::TokenTooOld
+      # Challenge transaction was issued more than 10 seconds ago
+      render text: "Challenge tx expired!"
+    end
+  end
+end
+```
+
+2. User's side.
+
+Normally, Mobius Wallet will request challenge, validate it and obtain access token. For development purposes you have two options.
+
+* Use `mobius-cli`:
+
+```
+mobius-cli auth token http://example.com/auth SA2VTRSZPZ5FIC.....I4QD7LBWUUIK GCWYXW7RXJ5.....SV4AK32ECXFJ
+```
+
+where first argument is auth endpoint, second is your user private key and last is your application public key.
+
+* Write own script / rake task:
+
+```
+require "mobius-client"
+require "net/http"
+
+user_seed = "SA2VTRSZPZ5FIC.....I4QD7LBWUUIK"
+app_address = "GCWYXW7RXJ5.....SV4AK32ECXFJ"
+
+
+```
+
+## Payments
+
+
 
 ## Development
 

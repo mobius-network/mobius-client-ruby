@@ -16,8 +16,8 @@ class Mobius::Cli::Auth < Thor
   #   say Mobius::Client::Auth::Challenge.call(user_seed, 3600 * 24)
   # end
   #
-  # desc "auth <User secret> <App public> <URL>", "Obtain auth token from application"
-  # def auth(user_seed, app_public, url)
+  # desc "token <User secret> <App public> <URL>", "Obtain auth token from application"
+  # def token(user_seed, app_public, url)
   #   say "Challenge transaction XDR:"
   #   say Mobius::Client::Auth::Challenge.call(user_seed, 3600 * 24)
   #

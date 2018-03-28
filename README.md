@@ -112,8 +112,8 @@ class AuthController < ActionController::Base
 
     # Converts issued token into GWT and sends it to user.
     #
-    # Note: this is not the requirement. Instead of GWT, application might save token.hash along with time
-    # frame and public key to local database and make validations over it.
+    # Note: this is not the requirement. Instead of GWT, application might save token.hash along
+    # with time frame and public key to local database and validate over it.
     render text: Mobius::Client::Auth::GWT.new(
       Rails.application.secret.gwt_secret
     ).generate(token)

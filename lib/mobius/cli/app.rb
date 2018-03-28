@@ -7,4 +7,7 @@ class Mobius::Cli::App < Thor
 
   desc "create", "Create various assets"
   subcommand "create", Mobius::Cli::Create
+
+  desc "auth", "Authorize and authenticate user"
+  subcommand "auth", Mobius::Cli::Auth
 end

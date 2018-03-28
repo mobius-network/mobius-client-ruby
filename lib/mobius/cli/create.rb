@@ -1,5 +1,4 @@
 require "thor"
-require "net/http"
 
 class Mobius::Cli::Create < Thor
   desc "dapp_account", "Create DApp Store account funded with MOBI and XLM"
@@ -14,8 +13,8 @@ class Mobius::Cli::Create < Thor
     say " * MOBI balance: #{Mobius::Account.new(keypair).balance}"
     if options["application"]
       say "Adding cosigner..."
-      cosigner_keypair = Mobius::Client.to_keypair(options["application"])
-      Mobius::Client::Blockchain::AddCosigner(keypair, cosigner_keypair)
+      app_keypair = Mobius::Client.to_keypair(options["application"])
+      Mobius::Client::Blockchain::AddCosigner(keypair, app_keypair)
     end
   rescue StandardError => e
     say "[ERROR] #{e.message}", :red

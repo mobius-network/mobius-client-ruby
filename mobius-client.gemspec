@@ -40,9 +40,10 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "webmock"
   spec.add_development_dependency "yard"
 
+  spec.add_runtime_dependency "thor"
+
   spec.add_dependency "dry-initializer"
   spec.add_dependency "faraday"
-  spec.add_dependency "faraday_middleware"  
+  spec.add_dependency "faraday_middleware"
   spec.add_dependency "stellar-sdk"
-  spec.add_dependency "thor"
 end

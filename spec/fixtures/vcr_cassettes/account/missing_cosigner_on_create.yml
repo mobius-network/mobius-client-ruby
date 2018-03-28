@@ -1,0 +1,159 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://horizon-testnet.stellar.org/accounts/GAHLSSCRJ32C2XOFLDC2KUC2X2NLZT55X4AVWBITERBEDBBJ3UA7YDK7
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.14.0
+      Accept:
+      - application/hal+json,application/problem+json,application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Disposition:
+      - inline
+      Content-Type:
+      - application/hal+json; charset=utf-8
+      Date:
+      - Wed, 28 Mar 2018 14:12:55 GMT
+      Vary:
+      - Origin
+      X-Ratelimit-Limit:
+      - '17200'
+      X-Ratelimit-Remaining:
+      - '17194'
+      X-Ratelimit-Reset:
+      - '3102'
+      Content-Length:
+      - '2266'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "_links": {
+            "self": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GAHLSSCRJ32C2XOFLDC2KUC2X2NLZT55X4AVWBITERBEDBBJ3UA7YDK7"
+            },
+            "transactions": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GAHLSSCRJ32C2XOFLDC2KUC2X2NLZT55X4AVWBITERBEDBBJ3UA7YDK7/transactions{?cursor,limit,order}",
+              "templated": true
+            },
+            "operations": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GAHLSSCRJ32C2XOFLDC2KUC2X2NLZT55X4AVWBITERBEDBBJ3UA7YDK7/operations{?cursor,limit,order}",
+              "templated": true
+            },
+            "payments": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GAHLSSCRJ32C2XOFLDC2KUC2X2NLZT55X4AVWBITERBEDBBJ3UA7YDK7/payments{?cursor,limit,order}",
+              "templated": true
+            },
+            "effects": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GAHLSSCRJ32C2XOFLDC2KUC2X2NLZT55X4AVWBITERBEDBBJ3UA7YDK7/effects{?cursor,limit,order}",
+              "templated": true
+            },
+            "offers": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GAHLSSCRJ32C2XOFLDC2KUC2X2NLZT55X4AVWBITERBEDBBJ3UA7YDK7/offers{?cursor,limit,order}",
+              "templated": true
+            },
+            "trades": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GAHLSSCRJ32C2XOFLDC2KUC2X2NLZT55X4AVWBITERBEDBBJ3UA7YDK7/trades{?cursor,limit,order}",
+              "templated": true
+            },
+            "data": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GAHLSSCRJ32C2XOFLDC2KUC2X2NLZT55X4AVWBITERBEDBBJ3UA7YDK7/data/{key}",
+              "templated": true
+            }
+          },
+          "id": "GAHLSSCRJ32C2XOFLDC2KUC2X2NLZT55X4AVWBITERBEDBBJ3UA7YDK7",
+          "paging_token": "",
+          "account_id": "GAHLSSCRJ32C2XOFLDC2KUC2X2NLZT55X4AVWBITERBEDBBJ3UA7YDK7",
+          "sequence": "34998112242106368",
+          "subentry_count": 0,
+          "thresholds": {
+            "low_threshold": 0,
+            "med_threshold": 0,
+            "high_threshold": 0
+          },
+          "flags": {
+            "auth_required": false,
+            "auth_revocable": false
+          },
+          "balances": [
+            {
+              "balance": "10000.0000000",
+              "asset_type": "native"
+            }
+          ],
+          "signers": [
+            {
+              "public_key": "GAHLSSCRJ32C2XOFLDC2KUC2X2NLZT55X4AVWBITERBEDBBJ3UA7YDK7",
+              "weight": 1,
+              "key": "GAHLSSCRJ32C2XOFLDC2KUC2X2NLZT55X4AVWBITERBEDBBJ3UA7YDK7",
+              "type": "ed25519_public_key"
+            }
+          ],
+          "data": {}
+        }
+    http_version: 
+  recorded_at: Wed, 28 Mar 2018 14:12:55 GMT
+- request:
+    method: post
+    uri: https://horizon-testnet.stellar.org/transactions
+    body:
+      encoding: UTF-8
+      string: tx=AAAAAA65SFFO9C1dxVjFpVBavpq8z72%2FAVsFEyRCQYQp3QH8AAAAZAB8VpkAAAABAAAAAAAAAAAAAAABAAAAAAAAAAUAAAAAAAAAAQAAAAAAAAABAAAAAAAAAAEAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAYXA%2BP3uWMQWT5s2nBJ6zk5%2F4c9%2F1Z9ZhSVBsxogGRS4AAAABAAAAAAAAAAEp3QH8AAAAQHt%2FlF4v0qIPWjH10Raend5bH45eJ0Qlx1Z6LvCOsHXkdvju%2BcC0AdjY3psnwB%2B9LCEBjG9rlPu66Z1lTBC86Qc%3D
+    headers:
+      User-Agent:
+      - Faraday v0.14.0
+      Accept:
+      - application/hal+json,application/problem+json,application/json
+      Content-Type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Disposition:
+      - inline
+      Content-Type:
+      - application/hal+json; charset=utf-8
+      Date:
+      - Wed, 28 Mar 2018 14:12:57 GMT
+      Vary:
+      - Origin
+      X-Ratelimit-Limit:
+      - '17200'
+      X-Ratelimit-Remaining:
+      - '17193'
+      X-Ratelimit-Reset:
+      - '3101'
+      Content-Length:
+      - '1032'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "_links": {
+            "transaction": {
+              "href": "https://horizon-testnet.stellar.org/transactions/144f6e8a002c2ae87e7f65086afa0e2c0778b216bab6f4ccbaa113678d5d8b58"
+            }
+          },
+          "hash": "144f6e8a002c2ae87e7f65086afa0e2c0778b216bab6f4ccbaa113678d5d8b58",
+          "ledger": 8148655,
+          "envelope_xdr": "AAAAAA65SFFO9C1dxVjFpVBavpq8z72/AVsFEyRCQYQp3QH8AAAAZAB8VpkAAAABAAAAAAAAAAAAAAABAAAAAAAAAAUAAAAAAAAAAQAAAAAAAAABAAAAAAAAAAEAAAAKAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAYXA+P3uWMQWT5s2nBJ6zk5/4c9/1Z9ZhSVBsxogGRS4AAAABAAAAAAAAAAEp3QH8AAAAQHt/lF4v0qIPWjH10Raend5bH45eJ0Qlx1Z6LvCOsHXkdvju+cC0AdjY3psnwB+9LCEBjG9rlPu66Z1lTBC86Qc=",
+          "result_xdr": "AAAAAAAAAGQAAAAAAAAAAQAAAAAAAAAFAAAAAAAAAAA=",
+          "result_meta_xdr": "AAAAAAAAAAEAAAACAAAAAwB8Vq8AAAAAAAAAAA65SFFO9C1dxVjFpVBavpq8z72/AVsFEyRCQYQp3QH8AAAAF0h255wAfFaZAAAAAQAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAQB8Vq8AAAAAAAAAAA65SFFO9C1dxVjFpVBavpq8z72/AVsFEyRCQYQp3QH8AAAAF0h255wAfFaZAAAAAQAAAAEAAAAAAAAAAAAAAAAKAAAAAAAAAQAAAABhcD4/e5YxBZPmzacEnrOTn/hz3/Vn1mFJUGzGiAZFLgAAAAEAAAAAAAAAAA=="
+        }
+    http_version: 
+  recorded_at: Wed, 28 Mar 2018 14:12:57 GMT
+recorded_with: VCR 3.0.3

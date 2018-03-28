@@ -114,7 +114,7 @@ class AuthController < ActionController::Base
     #
     # Note: this is not the requirement. Instead of GWT, application might save token.hash along
     # with time frame and public key to local database and validate over it.
-    render text: Mobius::Client::Auth::GWT.new(
+    render text: Mobius::Client::Auth::Gwt.new(
       Rails.application.secret.gwt_secret
     ).generate(token)
 
@@ -132,9 +132,9 @@ class AuthController < ActionController::Base
 end
 ```
 
-2. User's side.
+2. User side.
 
-Normally, Mobius Wallet will request challenge, validate it and obtain access token. For development purposes you have two options: use `mobius-cli` or make your own script.
+Normally, Mobius Wallet will request challenge, validate it, obtain access token and pass it to the application. For development purposes you have two options: use `mobius-cli` or make your own script.
 
 ```
   $ mobius-cli auth token http://localhost:4567/auth SA2VTRSZPZ5FIC.....I4QD7LBWUUIK GCWYXW7RXJ5.....SV4AK32ECXFJ
@@ -144,6 +144,67 @@ Check `lib/mobius/cli/auth.rb` for details.
 
 ## Payments
 
+Now, let's withdraw.
+
+Given that:
+
+* User has access token.
+* User has authorised his account to be used by your application.
+
+User opens application page.
+
+```
+class AppController < ActionController::Base
+  ROUND_PRICE = 5
+
+  # GET /
+  def index
+    # User has opened application page directly
+    return render text: "Visit https://store.mobius.network/flappy_bird to register in DApp Store" unless app
+
+    # User has not granted his account access to this application, "Visit store.mobius.wallet and allow"
+    return render text: "Visit https://store.mobius.network/flappy_bird" unless app.authorized?
+  end
+
+  # GET /balance
+  def balance
+    render text: app.balance
+  end
+
+  # POST /pay
+  def pay
+    app.use(ROUND_PRICE) # Withdraw 5 XLM from user's account
+    render text: app.balance
+  rescue Mobius::Client::Error::InsufficientBalance
+    render :gone
+  end
+
+  private
+
+  def token_s
+    session[:token] = params[:token] || session[:token]
+  end
+
+  def token
+    @token ||= Mobius::Client::Auth::Gwt.new(Rails.application.secret.gwt_secret).parse!(token)
+  rescue Mobius::Client::Error
+    nil # We treat all invalid tokens as missing
+  end
+
+  def app
+    @app ||= token && Mobius::Client::App.new(
+      Rails.application.secret.app.secret_key, # SA2VTRSZPZ5FIC.....I4QD7LBWUUIK
+      token.public_key                         # Current user
+    )
+  end
+end
+```
+
+Check example:
+
+    $ git clone git@github.com/mobius-network/mobius-client-ruby.git
+    $ cd mobius-client-ruby && bundle
+    $ cd examples/app && bundle && ruby app.rb
 
 ## Development
 
@@ -153,7 +214,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/mobius-network/mobius-client. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/mobius-network/mobius-client-ruby. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 

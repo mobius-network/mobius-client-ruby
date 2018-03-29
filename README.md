@@ -219,8 +219,7 @@ Check example:
 
 # TODO
 
-1. Update app to use our infra.
-1. App spec.
+1. spec & doc App.
 
 ## Development
 

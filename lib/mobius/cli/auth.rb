@@ -1,7 +1,5 @@
 require "uri"
 require "thor"
-require "faraday"
-require "faraday_middleware"
 
 class Mobius::Cli::Auth < Thor
   desc "authorize <User secret> <App public>", "Authorize application to pay from user account"

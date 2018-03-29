@@ -2,6 +2,7 @@ require "dry-initializer"
 require "stellar-sdk"
 require "faraday"
 require "faraday_middleware"
+require "jwt"
 
 require "mobius/client/version"
 
@@ -18,6 +19,7 @@ module Mobius
 
     module Auth
       autoload :Challenge, "mobius/client/auth/challenge"
+      autoload :Jwt,       "mobius/client/auth/jwt"
       autoload :Sign,      "mobius/client/auth/sign"
       autoload :Token,     "mobius/client/auth/token"
     end

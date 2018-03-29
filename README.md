@@ -110,12 +110,12 @@ class AuthController < ActionController::Base
       params[:public_key]                       # User's public key
     )
 
-    # Converts issued token into GWT and sends it to user.
+    # Converts issued token into JWT and sends it to user.
     #
-    # Note: this is not the requirement. Instead of GWT, application might save token.hash along
+    # Note: this is not the requirement. Instead of JWT, application might save token.hash along
     # with time frame and public key to local database and validate over it.
-    render text: Mobius::Client::Auth::Gwt.new(
-      Rails.application.secret.gwt_secret
+    render text: Mobius::Client::Auth::Jwt.new(
+      Rails.application.secret.jwt_secret
     ).generate(token)
 
     rescue Mobius::Client::Error::Unauthorized
@@ -140,7 +140,7 @@ end
   $ mobius-cli auth token -g http://localhost:4567/auth SA2VTRSZPZ5FIC.....I4QD7LBWUUIK GCWYXW7RXJ5.....SV4AK32ECXFJ
   ```
 
-  Use `-g` if you want to return GWT token, otherwise transaction hash will be returned.
+  Use `-g` if you want to return JWT token, otherwise transaction hash will be returned.
 
   Check `lib/mobius/cli/auth.rb` for details.
 
@@ -188,7 +188,7 @@ class AppController < ActionController::Base
   end
 
   def token
-    @token ||= Mobius::Client::Auth::Gwt.new(Rails.application.secret.gwt_secret).parse!(token)
+    @token ||= Mobius::Client::Auth::Jwt.new(Rails.application.secret.jwt_secret).decode!(token)
   rescue Mobius::Client::Error
     nil # We treat all invalid tokens as missing
   end
@@ -210,7 +210,7 @@ Check example:
 
 # TODO
 
-1. Gwt
+1. Jwt
 1. Local token generation
 
 ## Development

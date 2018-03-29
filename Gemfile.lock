@@ -5,6 +5,7 @@ PATH
       dry-initializer
       faraday
       faraday_middleware
+      jwt
       stellar-sdk
       thor
 
@@ -57,6 +58,7 @@ GEM
       uri_template
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
+    jwt (1.5.6)
     minitest (5.11.3)
     multipart-post (2.0.0)
     net-http-digest_auth (1.4.1)

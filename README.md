@@ -219,8 +219,8 @@ Check example:
 
 # TODO
 
-1. Jwt
-1. Local token generation
+1. Update app to use our infra.
+1. App spec.
 
 ## Development
 

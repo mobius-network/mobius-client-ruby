@@ -63,7 +63,7 @@ GEM
     multipart-post (2.0.0)
     net-http-digest_auth (1.4.1)
     parallel (1.12.1)
-    parser (2.5.0.4)
+    parser (2.5.0.5)
       ast (~> 2.4.0)
     powerpack (0.1.1)
     public_suffix (3.0.2)
@@ -148,4 +148,4 @@ DEPENDENCIES
   yard
 
 BUNDLED WITH
-   1.16.0
+   1.16.1

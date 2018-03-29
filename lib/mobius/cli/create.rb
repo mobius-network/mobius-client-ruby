@@ -10,12 +10,13 @@ class Mobius::Cli::Create < Thor
     Mobius::Client::FriendBot.call(keypair.seed)
     say " * Public Key: #{keypair.address}"
     say " * Private Key: #{keypair.seed}"
-    say " * MOBI balance: #{Mobius::Account.new(keypair).balance}"
+    say " * MOBI balance: #{Mobius::Client::Blockchain::Account.new(keypair).balance}"
     if options["application"]
       say "Adding cosigner..."
       app_keypair = Mobius::Client.to_keypair(options["application"])
-      Mobius::Client::Blockchain::AddCosigner(keypair, app_keypair)
+      Mobius::Client::Blockchain::AddCosigner.call(keypair, app_keypair)
     end
+    say "Done!"
   rescue StandardError => e
     say "[ERROR] #{e.message}", :red
   end
@@ -29,5 +30,8 @@ class Mobius::Cli::Create < Thor
     say " * Public Key: #{keypair.address}"
     say " * Private Key: #{keypair.seed}"
     say " * XLM balance: #{Mobius::Client::Blockchain::Account.new(keypair).balance(:native)}"
+    say "Done!"
+  rescue StandardError => e
+    say "[ERROR] #{e.message}", :red
   end
 end

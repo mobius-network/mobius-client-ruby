@@ -12,14 +12,15 @@ class Mobius::Client::FriendBot
 
   class << self
     def call(*args)
-      new(args).call
+      new(*args).call
     end
   end
 
   private
 
   def http
-    Faraday.new(Mobius::Client.mobius_host) do |c|
+    # Mobius::Client.mobius_host
+    Faraday.new("http://localhost:4000") do |c|
       c.request :url_encoded
       c.response :json, content_type: /\bjson$/
       c.adapter Faraday.default_adapter

@@ -6,6 +6,7 @@ class Mobius::Client::Auth::Jwt
   def generate(token)
     payload = {
       hash: token.hash(:hex),
+      public_key: token.address,
       min_time: token.time_bounds.min_time,
       max_time: token.time_bounds.max_time
     }

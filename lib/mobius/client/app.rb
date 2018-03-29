@@ -12,7 +12,7 @@ class Mobius::Client::App
   # Checks if developer is authorized to use an application.
   # @return [Bool] Authorization status.
   def authorized?
-    app_account.authorized?(user_keypair)
+    user_account.authorized?(app_keypair)
   end
 
   # Returns user balance.
@@ -24,7 +24,7 @@ class Mobius::Client::App
 
   # Makes payment.
   # @param amount [Float] Payment amount.
-  def use(amount)
+  def pay(amount)
     current_balance = balance
     raise Mobius::Client::Error::InsufficientFunds if current_balance < amount.to_f
     envelope_base64 = payment_tx(amount).to_envelope(app_keypair).to_xdr(:base64)
@@ -52,7 +52,7 @@ class Mobius::Client::App
   end
 
   def balance_object
-    user_account.account.balances.find do |s|
+    user_account.info.balances.find do |s|
       s["asset_code"] == Mobius::Client.asset_code && s["asset_issuer"] == Mobius::Client.asset_issuer
     end
   end

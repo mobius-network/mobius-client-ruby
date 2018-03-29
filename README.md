@@ -110,6 +110,9 @@ class AuthController < ActionController::Base
       params[:public_key]                       # User's public key
     )
 
+    # Important! Otherwise, token will be considered valid.
+    token.validate!
+
     # Converts issued token into JWT and sends it to user.
     #
     # Note: this is not the requirement. Instead of JWT, application might save token.hash along
@@ -137,10 +140,16 @@ end
   Normally, Mobius Wallet will request challenge, validate it, obtain access token and pass it to the application. For development purposes you have two options: use `mobius-cli` or make your own script.
 
   ```
-  $ mobius-cli auth token -g http://localhost:4567/auth SA2VTRSZPZ5FIC.....I4QD7LBWUUIK GCWYXW7RXJ5.....SV4AK32ECXFJ
+  # Will fetch token from working application
+  $ mobius-cli auth fetch -j secret \
+    http://localhost:4567/auth SA2VTRSZPZ5FIC.....I4QD7LBWUUIK GCWYXW7RXJ5.....SV4AK32ECXFJ
+
+  # Will fetch calculate everything locally
+  $ mobius-cli auth token -j secret \
+    SA2VTRSZPZ5FIC.....I4QD7LBWUUIK SGZKDAKASDSD.....I4QD7LBWUUIK
   ```
 
-  Use `-g` if you want to return JWT token, otherwise transaction hash will be returned.
+  Use `-j` if you want to return JWT token, otherwise transaction hash will be returned.
 
   Check `lib/mobius/cli/auth.rb` for details.
 

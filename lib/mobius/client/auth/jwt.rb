@@ -3,7 +3,7 @@ class Mobius::Client::Auth::Jwt
 
   param :secret
 
-  def generate(token)
+  def encode(token)
     payload = {
       hash: token.hash(:hex),
       public_key: token.address,

@@ -11,12 +11,12 @@ RSpec.describe Mobius::Client::Auth::Jwt do
   let(:token) { Mobius::Client::Auth::Token.new(developer_seed, signed_challenge, user_keypair.address) }
 
   it "returns jwt token" do
-    expect(jwt.generate(token)).not_to be_nil
+    expect(jwt.encode(token)).not_to be_nil
   end
 
   context "when #decode! is called" do
     it "decodes token" do
-      expect(jwt.decode!(jwt.generate(token))).to be_kind_of(OpenStruct)
+      expect(jwt.decode!(jwt.encode(token))).to be_kind_of(OpenStruct)
     end
   end
 end

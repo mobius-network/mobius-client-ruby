@@ -16,6 +16,7 @@ module Mobius
   module Client
     autoload :Error,     "mobius/client/error"
     autoload :FriendBot, "mobius/client/friend_bot"
+    autoload :App,       "mobius/client/app"
 
     module Auth
       autoload :Challenge, "mobius/client/auth/challenge"

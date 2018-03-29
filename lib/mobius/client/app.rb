@@ -12,7 +12,7 @@ class Mobius::Client::App
   # Checks if developer is authorized to use an application.
   # @return [Bool] Authorization status.
   def authorized?
-    user_account.account.signers.find { |s| s["public_key"] == keypair.address }.nil? && limit.positive?
+    app_account.authorized?(user_keypair)
   end
 
   # Returns user balance.
@@ -27,7 +27,7 @@ class Mobius::Client::App
   def use(amount)
     current_balance = balance
     raise Mobius::Client::Error::InsufficientFunds if current_balance < amount.to_f
-    envelope_base64 = payment_tx(amount).to_envelope(keypair).to_xdr(:base64)
+    envelope_base64 = payment_tx(amount).to_envelope(app_keypair).to_xdr(:base64)
     Mobius::Client.horizon_client.horizon.transactions._post(tx: envelope_base64)
   end
 
@@ -43,7 +43,7 @@ class Mobius::Client::App
   end
 
   def validate!
-    raise Mobius::Client::Error::Unauthorized unless authorized?
+    raise Mobius::Client::Error::AuthorisationMissing unless authorized?
     raise Mobius::Client::Error::TrustlineMissing if balance_object.nil?
   end
 

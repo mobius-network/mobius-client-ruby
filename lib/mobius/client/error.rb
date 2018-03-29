@@ -29,6 +29,13 @@ class Mobius::Client::Error < StandardError
     end
   end
 
+  # Raises if account does not contain MOBI trustline
+  class AuthorisationMissing < self
+    def to_s
+      @message || "Authorisation missing"
+    end
+  end
+
   # Raised in transaction in question has invalid or does not have required signatures
   class Unauthorized < self
     def to_s

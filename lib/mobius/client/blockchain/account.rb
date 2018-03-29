@@ -18,7 +18,12 @@ class Mobius::Client::Blockchain::Account
   end
 
   def account
-    @account ||= Stellar::Account.from_seed(keypair.seed)
+    @account ||=
+      if keypair.sign?
+        Stellar::Account.from_seed(keypair.seed)
+      else
+        Stellar::Account.from_address(keypair.address)
+      end
   end
 
   def info

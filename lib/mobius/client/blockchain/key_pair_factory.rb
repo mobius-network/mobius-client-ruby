@@ -1,6 +1,6 @@
 module Mobius::Client::Blockchain::KeyPairFactory
   class << self
-    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/MethodLength, Metrics/CyclomaticComplexity
     def produce(subject)
       case subject
       when String
@@ -19,7 +19,7 @@ module Mobius::Client::Blockchain::KeyPairFactory
     rescue ArgumentError => e
       raise Mobius::Client::Error::UnknownKeyPairType, "Unknown KeyPair type: #{e.message}"
     end
-    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/MethodLength, Metrics/CyclomaticComplexity
 
     private
 

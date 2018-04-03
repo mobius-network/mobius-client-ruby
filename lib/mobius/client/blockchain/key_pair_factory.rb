@@ -11,7 +11,7 @@ module Mobius::Client::Blockchain::KeyPairFactory
         from_public_key(subject)
       when Stellar::SignerKey
         from_secret_key(subject)
-      when Mobius::KeyPair
+      when Stellar::KeyPair
         subject
       else
         raise Mobius::Client::Error::UnknownKeyPairType, "Unknown KeyPair type: #{subject.class.name}"

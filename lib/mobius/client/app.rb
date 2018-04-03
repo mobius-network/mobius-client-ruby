@@ -16,10 +16,16 @@ class Mobius::Client::App
   end
 
   # Returns user balance.
-  # @return [Float] Application balance.
+  # @return [Float] User balance.
   def balance
     validate!
     balance_object["balance"].to_f
+  end
+
+  # Returns application balance.
+  # @return [Float] Application balance.
+  def app_balance
+    app_balance_object["balance"].to_f
   end
 
   # Makes payment.
@@ -29,6 +35,16 @@ class Mobius::Client::App
     current_balance = balance
     raise Mobius::Client::Error::InsufficientFunds if current_balance < amount.to_f
     envelope_base64 = payment_tx(amount, target_address).to_envelope(app_keypair).to_xdr(:base64)
+    Mobius::Client.horizon_client.horizon.transactions._post(tx: envelope_base64)
+  end
+
+  # Sends money from application account to third party.
+  # @param amount [Float] Payment amount.
+  # @param address [String] Target address.
+  def transfer(amount, address)
+    current_balance = app_balance
+    raise Mobius::Client::Error::InsufficientFunds if current_balance < amount.to_f
+    envelope_base64 = transfer_tx(amount, address).to_envelope(app_keypair).to_xdr(:base64)
     Mobius::Client.horizon_client.horizon.transactions._post(tx: envelope_base64)
   end
 
@@ -60,6 +76,15 @@ class Mobius::Client::App
     )
   end
 
+  def transfer_tx(amount, address)
+    Stellar::Transaction.payment(
+      account: user_keypair,
+      sequence: user_account.next_sequence_value,
+      destination: Mobius::Client.to_keypair(address),
+      amount: Stellar::Amount.new(amount, Mobius::Client.stellar_asset).to_payment
+    )
+  end
+
   def validate!
     raise Mobius::Client::Error::AuthorisationMissing unless authorized?
     raise Mobius::Client::Error::TrustlineMissing if balance_object.nil?
@@ -70,7 +95,15 @@ class Mobius::Client::App
   end
 
   def balance_object
-    user_account.info.balances.find do |s|
+    find_balance(user_account.info.balances)
+  end
+
+  def app_balance_object
+    find_balance(app_account.info.balances)
+  end
+
+  def find_balance(balances)
+    balances.find do |s|
       s["asset_code"] == Mobius::Client.asset_code && s["asset_issuer"] == Mobius::Client.asset_issuer
     end
   end

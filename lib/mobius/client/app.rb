@@ -24,20 +24,38 @@ class Mobius::Client::App
 
   # Makes payment.
   # @param amount [Float] Payment amount.
-  def pay(amount)
+  # @param target_address [String] Optional: third party receiver address.
+  def pay(amount, target_address: nil)
     current_balance = balance
     raise Mobius::Client::Error::InsufficientFunds if current_balance < amount.to_f
-    envelope_base64 = payment_tx(amount).to_envelope(app_keypair).to_xdr(:base64)
+    envelope_base64 = payment_tx(amount, target_address).to_envelope(app_keypair).to_xdr(:base64)
     Mobius::Client.horizon_client.horizon.transactions._post(tx: envelope_base64)
   end
 
   private
 
-  def payment_tx(amount)
-    Stellar::Transaction.payment(
+  def payment_tx(amount, target_address)
+    Stellar::Transaction.for_account(
       account: user_keypair,
-      destination: app_keypair,
       sequence: user_account.next_sequence_value,
+      fee: target_address.empty? ? FEE : FEE * 2
+    ).tap do |t|
+      t.operations << payment_op(amount)
+      t.operations << third_party_payment_op(target_address, amount) if target_address
+    end
+  end
+
+  def payment_op(amount)
+    Stellar::Operation.payment(
+      destination: app_keypair,
+      amount: Stellar::Amount.new(amount, Mobius::Client.stellar_asset).to_payment
+    )
+  end
+
+  def third_party_payment_op(target_address, amount)
+    Stellar::Operation.payment(
+      source_account: app_keypair,
+      destination: Mobius::Client.to_keypair(target_address),
       amount: Stellar::Amount.new(amount, Mobius::Client.stellar_asset).to_payment
     )
   end
@@ -72,4 +90,6 @@ class Mobius::Client::App
   def user_account
     @user_account ||= Mobius::Client::Blockchain::Account.new(user_keypair)
   end
+
+  FEE = 100
 end

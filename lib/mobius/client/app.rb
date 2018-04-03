@@ -38,7 +38,7 @@ class Mobius::Client::App
     Stellar::Transaction.for_account(
       account: user_keypair,
       sequence: user_account.next_sequence_value,
-      fee: target_address.empty? ? FEE : FEE * 2
+      fee: target_address.nil? ? FEE : FEE * 2
     ).tap do |t|
       t.operations << payment_op(amount)
       t.operations << third_party_payment_op(target_address, amount) if target_address

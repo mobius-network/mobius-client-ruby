@@ -30,7 +30,12 @@ class Mobius::Client::Blockchain::Account
     @info ||= Mobius::Client.horizon_client.account_info(account)
   end
 
+  def reload!
+    @info = nil
+  end
+
   def next_sequence_value
+    reload!
     info.sequence.to_i + 1
   end
 

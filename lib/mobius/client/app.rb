@@ -35,7 +35,9 @@ class Mobius::Client::App
     current_balance = balance
     raise Mobius::Client::Error::InsufficientFunds if current_balance < amount.to_f
     envelope_base64 = payment_tx(amount, target_address).to_envelope(app_keypair).to_xdr(:base64)
-    Mobius::Client.horizon_client.horizon.transactions._post(tx: envelope_base64)
+    post_tx(envelope_base64).tap do
+      [app_account, user_account].each(&:reload!)
+    end
   end
 
   # Sends money from application account to third party.
@@ -45,10 +47,16 @@ class Mobius::Client::App
     current_balance = app_balance
     raise Mobius::Client::Error::InsufficientFunds if current_balance < amount.to_f
     envelope_base64 = transfer_tx(amount, address).to_envelope(app_keypair).to_xdr(:base64)
-    Mobius::Client.horizon_client.horizon.transactions._post(tx: envelope_base64)
+    post_tx(envelope_base64).tap do
+      [app_account, user_account].each(&:reload!)
+    end
   end
 
   private
+
+  def post_tx(tx)
+    Mobius::Client.horizon_client.horizon.transactions._post(tx: tx)
+  end
 
   def payment_tx(amount, target_address)
     Stellar::Transaction.for_account(

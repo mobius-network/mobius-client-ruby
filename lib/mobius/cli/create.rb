@@ -1,7 +1,7 @@
 require "thor"
 
-class Mobius::Cli::Create < Thor
-  desc "dapp_account", "Create DApp Store account funded with MOBI and XLM"
+class Mobius::Cli::Create < Mobius::Cli::Base
+  desc "dapp_account", "Create DApp Store account funded with MOBI and XLM (test network only)"
   method_option :application, type: :string, aliases: "-a"
   # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def dapp_account
@@ -22,7 +22,7 @@ class Mobius::Cli::Create < Thor
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
-  desc "account", "Create regular Stellar account funded with XLM only"
+  desc "account", "Create regular Stellar account funded with XLM only (test network only)"
   def account
     say "Calling Stellar FriendBot..."
     keypair = Stellar::KeyPair.random

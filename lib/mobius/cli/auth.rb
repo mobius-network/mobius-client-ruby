@@ -1,9 +1,11 @@
 require "uri"
 require "thor"
 
-class Mobius::Cli::Auth < Thor
+class Mobius::Cli::Auth < Mobius::Cli::Base
   desc "authorize <User secret> <App public>", "Authorize application to pay from user account"
   def authorize(user_seed, app_public_key)
+    use_network
+
     say "Adding cosigner..."
     user_keypair = Mobius::Client.to_keypair(user_seed)
     app_keypair = Mobius::Client.to_keypair(app_public_key)
@@ -15,6 +17,8 @@ class Mobius::Cli::Auth < Thor
   desc "fetch <URL> <User secret> <App public>", "Obtain auth token from application"
   method_option :jwt, type: :string, aliases: "-j"
   def fetch(url, user_seed, app_public)
+    use_network
+
     keypair = Mobius::Client.to_keypair(user_seed)
 
     say "Requesting challenge..."
@@ -55,6 +59,8 @@ class Mobius::Cli::Auth < Thor
   desc "token <User secret> <App secret>", "Generate auth token locally"
   method_option :jwt, type: :string, aliases: "-j"
   def token(user_seed, app_seed)
+    use_network
+
     user_keypair = Mobius::Client.to_keypair(user_seed)
     app_keypair = Mobius::Client.to_keypair(app_seed)
 

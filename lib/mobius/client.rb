@@ -8,6 +8,7 @@ require "mobius/client/version"
 
 module Mobius
   module Cli
+    autoload :Base,   "mobius/cli/base"
     autoload :App,    "mobius/cli/app"
     autoload :Auth,   "mobius/cli/auth"
     autoload :Create, "mobius/cli/create"

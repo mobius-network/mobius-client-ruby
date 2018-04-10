@@ -83,13 +83,6 @@ module Mobius
         @challenge_expires_in ||= 60 * 60 * 24
       end
 
-      # Session considered valid if issued not later than seconds (15 by default)
-      attr_writer :session_valid_in
-
-      def session_valid_in
-        @session_valid_in ||= 15
-      end
-
       # Stellar::Asset instance of asset used for payments
       def stellar_asset
         @stellar_asset ||= Stellar::Asset.alphanum4(asset_code, Stellar::KeyPair.from_address(asset_issuer))

@@ -10,3 +10,13 @@
 
 # rspec failure tracking
 .rspec_status
+
+# Ignore other unneeded files.
+*.swp
+*~
+.project
+.DS_Store
+/.idea
+.env
+.env.*
+/spec/examples.txt

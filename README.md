@@ -184,7 +184,7 @@ class AppController < ActionController::Base
 
   # POST /pay
   def pay
-    app.use(ROUND_PRICE) # Withdraw 5 XLM from user's account
+    app.pay(ROUND_PRICE) # Withdraw 5 XLM from user's account
     render text: app.balance
   rescue Mobius::Client::Error::InsufficientBalance
     render :gone

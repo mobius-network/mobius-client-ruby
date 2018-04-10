@@ -14,7 +14,7 @@ class Mobius::Cli::Create < Mobius::Cli::Base
 
     if options["application"]
       app_keypair = Mobius::Client.to_keypair(options["application"])
-      authorize(keypair, app_keypair)
+      add_cosigner(keypair, app_keypair)
     end
     say "Done!"
   rescue StandardError => e
@@ -39,7 +39,7 @@ class Mobius::Cli::Create < Mobius::Cli::Base
   def dev_wallet
     app_keypair = create_dapp_account(0)
     normal_keypair = create_dapp_account(1000)
-    authorize(normal_keypair, app_keypair)
+    add_cosigner(normal_keypair, app_keypair)
     zero_balance_keypair = create_dapp_account(0)
     unauthorized_keypair = create_account
 
@@ -54,7 +54,7 @@ class Mobius::Cli::Create < Mobius::Cli::Base
     r = ERB.new(t).result(OpenStruct.new(vars).instance_eval { binding })
     File.open("dev-wallet.html", "w+") { |f| f.puts r }
 
-    say "dev-wallet.html created. Copy it to your public web server directory."
+    say "dev-wallet.html created. Copy it to your public web server directory and do not forget to change the URL!"
   rescue StandardError => e
     say "[ERROR] #{e.message}", :red
   end
@@ -70,11 +70,12 @@ class Mobius::Cli::Create < Mobius::Cli::Base
 
     def create_account
       say "Calling Stellar FriendBot..."
-      keypair = Stellar::KeyPair.random
-      Mobius::Client::Blockchain::FriendBot.call(keypair)
+      Stellar::KeyPair.random.tap do |keypair|
+        Mobius::Client::Blockchain::FriendBot.call(keypair)
+      end
     end
 
-    def unauthorize(keypair, app_keypair)
+    def add_cosigner(keypair, app_keypair)
       say "Adding cosigner..."
       Mobius::Client::Blockchain::AddCosigner.call(keypair, app_keypair)
     end

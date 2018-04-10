@@ -25,7 +25,13 @@
 
       <form class="ui form">
         <div class="field">
-          <input id="url" type="text" value="http://localhost:3000"></input>
+          <input type="text" value="http://localhost:3000"></input>
+        </div>
+        <div class="field">
+          <input type="text" value="<%= app_keypair.address %>"></input>
+        </div>
+        <div class="field">
+          <input type="text" value="<%= app_keypair.seed %>"></input>
         </div>
       </form>
 
@@ -33,16 +39,16 @@
         "Normal Account" => normal,
         "Zero Balance Account" => zero_balance,
         "Unauthorized Account" => unauthorized
-      }.each do |label, account| %>
+      }.each do |label, keypair| %>
 
       <h2 class="ui dividing header"><%= label %></h2>
 
       <form class="ui form">
         <div class="field">
-          <input type="text" value="" />
+          <input type="text" value="<%= keypair.address %>" />
         </div>
         <div class="field">
-          <input type="text" value="" />
+          <input type="text" value="<%= keypair.seed %>" />
         </div>
         <div class="field">
           <input type="submit" class="ui button green" value="Open" />

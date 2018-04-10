@@ -21,14 +21,6 @@ Documentation:
 Lint/AmbiguousBlockAssociation:
   Enabled: false # this is a whole damned mess
 
-Metrics/AbcSize:
-  Exclude:
-    - "db/migrate/*.*"
-
-Metrics/ClassLength:
-  Exclude:
-    - "db/migrate/*.*"
-
 Metrics/LineLength:
   Max: 120
 

@@ -6,16 +6,15 @@ class Mobius::Cli::Create < Mobius::Cli::Base
   method_option :application, type: :string, aliases: "-a"
   # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def dapp_account
-    say "Calling Mobius FriendBot..."
-    keypair = Stellar::KeyPair.random
-    Mobius::Client::FriendBot.call(keypair.seed)
+    keypair = create_dapp_account
+
     say " * Public Key: #{keypair.address}"
     say " * Private Key: #{keypair.seed}"
     say " * MOBI balance: #{Mobius::Client::Blockchain::Account.new(keypair).balance}"
+
     if options["application"]
-      say "Adding cosigner..."
       app_keypair = Mobius::Client.to_keypair(options["application"])
-      Mobius::Client::Blockchain::AddCosigner.call(keypair, app_keypair)
+      authorize(keypair, app_keypair)
     end
     say "Done!"
   rescue StandardError => e
@@ -25,9 +24,8 @@ class Mobius::Cli::Create < Mobius::Cli::Base
 
   desc "account", "Create regular Stellar account funded with XLM only (test network only)"
   def account
-    say "Calling Stellar FriendBot..."
-    keypair = Stellar::KeyPair.random
-    Mobius::Client::Blockchain::FriendBot.call(keypair)
+    keypair = create_account
+
     say " * Public Key: #{keypair.address}"
     say " * Private Key: #{keypair.seed}"
     say " * XLM balance: #{Mobius::Client::Blockchain::Account.new(keypair).balance(:native)}"
@@ -36,12 +34,20 @@ class Mobius::Cli::Create < Mobius::Cli::Base
     say "[ERROR] #{e.message}", :red
   end
 
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   desc "dev-wallet", "Create wallet-dev.html"
   def dev_wallet
+    app_keypair = create_dapp_account(0)
+    normal_keypair = create_dapp_account(1000)
+    authorize(normal_keypair, app_keypair)
+    zero_balance_keypair = create_dapp_account(0)
+    unauthorized_keypair = create_account
+
     vars = {
-      normal: "abcd",
-      zero_balance: "abcd",
-      unauthorized: "abcf"
+      app: app_keypair,
+      normal: normal_keypair,
+      zero_balance: zero_balance_keypair,
+      unauthorized: unauthorized_keypair
     }
 
     t = File.read(TEMPLATE)
@@ -49,6 +55,29 @@ class Mobius::Cli::Create < Mobius::Cli::Base
     File.open("dev-wallet.html", "w+") { |f| f.puts r }
 
     say "dev-wallet.html created. Copy it to your public web server directory."
+  rescue StandardError => e
+    say "[ERROR] #{e.message}", :red
+  end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+
+  no_commands do
+    def create_dapp_account(amount = 1000)
+      say "Calling Mobius FriendBot..."
+      Stellar::KeyPair.random.tap do |keypair|
+        Mobius::Client::FriendBot.call(keypair.seed, amount)
+      end
+    end
+
+    def create_account
+      say "Calling Stellar FriendBot..."
+      keypair = Stellar::KeyPair.random
+      Mobius::Client::Blockchain::FriendBot.call(keypair)
+    end
+
+    def unauthorize(keypair, app_keypair)
+      say "Adding cosigner..."
+      Mobius::Client::Blockchain::AddCosigner.call(keypair, app_keypair)
+    end
   end
 
   TEMPLATE = File.join(File.dirname(__FILE__), "../../../template/dev-wallet.html.erb").freeze

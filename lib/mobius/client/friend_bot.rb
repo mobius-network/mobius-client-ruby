@@ -20,7 +20,7 @@ class Mobius::Client::FriendBot
 
   def http
     # Mobius::Client.mobius_host
-    Faraday.new("http://localhost:4000") do |c|
+    Faraday.new(MOBIUS_HOST) do |c|
       c.request :url_encoded
       c.response :json, content_type: /\bjson$/
       c.adapter Faraday.default_adapter
@@ -28,4 +28,5 @@ class Mobius::Client::FriendBot
   end
 
   ENDPOINT = "/api/stellar/friendbot".freeze
+  MOBIUS_HOST = "https://mobius.network".freeze
 end

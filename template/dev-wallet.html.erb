@@ -48,7 +48,7 @@
           <input type="text" value="<%= keypair.address %>" />
         </div>
         <div class="field">
-          <input type="text" value="<%= keypair.seed %>" />
+          <input type="text" value="<%= keypair.seed %>" class="seed" />
         </div>
         <div class="field">
           <input type="submit" class="ui button green" value="Open" />
@@ -62,4 +62,15 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
+  <script>
+    StellarSdk.Network.useTestNetwork()
+
+    $(function() {
+      $(".ui.button").on('click', function(e) {
+        e.preventDefault();
+        var seed = $(e.target).closest('.ui.form').find('.seed:first').val();
+        var keypair = StellarSdk.Keypair.fromSecret(seed);
+      });
+    });
+  </script>
 </html>

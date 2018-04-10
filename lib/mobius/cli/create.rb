@@ -22,7 +22,7 @@ class Mobius::Cli::Create < Mobius::Cli::Base
   end
   # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
-  desc "account", "Create regular Stellar account funded with XLM only (test network only)"
+  desc "account", "Create regular Stellar account funded with XLM only (test network)"
   def account
     keypair = create_account
 
@@ -37,11 +37,16 @@ class Mobius::Cli::Create < Mobius::Cli::Base
   # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   desc "dev-wallet", "Create wallet-dev.html"
   def dev_wallet
-    app_keypair = create_dapp_account(0)
-    normal_keypair = create_dapp_account(1000)
-    add_cosigner(normal_keypair, app_keypair)
-    zero_balance_keypair = create_dapp_account(0)
-    unauthorized_keypair = create_account
+    # app_keypair = create_dapp_account(0)
+    # normal_keypair = create_dapp_account(1000)
+    # add_cosigner(normal_keypair, app_keypair)
+    # zero_balance_keypair = create_dapp_account(0)
+    # unauthorized_keypair = create_account
+
+    app_keypair = Stellar::KeyPair.random
+    normal_keypair = Stellar::KeyPair.random
+    zero_balance_keypair = Stellar::KeyPair.random
+    unauthorized_keypair = Stellar::KeyPair.random
 
     vars = {
       app: app_keypair,

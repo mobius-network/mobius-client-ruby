@@ -56,6 +56,11 @@ You will need:
   ```
     $ mobius-cli create dapp_account -a <Your application public key>
   ```
+Or you ask tool to create everything at once:
+
+```
+  $ mobius-cli create dev-wallet
+```
 
 ## Authentication
 

@@ -19,18 +19,25 @@
   </head>
   <body>
     <div class="ui container">
-      <h1>Mobius Wallet Dev Auth</h1>
+      <h1>Mobius Wallet App Dev Auth</h1>
 
       <h2 class="ui dividing header">Application</h2>
 
       <form class="ui form">
         <div class="field">
-          <input type="text" value="http://localhost:3000"></input>
+          <label>Auth endpoint:</label>
+          <input type="text" value="http://localhost:3000/auth" id="url"></input>
         </div>
         <div class="field">
+          <label>Redirect URI:</label>
+          <input type="text" value="http://localhost:3000" id="redirect_url"></input>
+        </div>
+        <div class="field">
+          <label>Public Key:</label>
           <input type="text" value="<%= app_keypair.address %>"></input>
         </div>
         <div class="field">
+          <label>Private Key:</label>
           <input type="text" value="<%= app_keypair.seed %>"></input>
         </div>
       </form>
@@ -70,6 +77,32 @@
         e.preventDefault();
         var seed = $(e.target).closest('.ui.form').find('.seed:first').val();
         var keypair = StellarSdk.Keypair.fromSecret(seed);
+        var endpoint = $('#url').val();
+
+        var showError = function(err) {
+          if (err) {
+            alert(err);
+          }
+        }
+
+        // NOTE: this should be replaced with mobius js sdk calls
+        axios.get(endpoint).then(function(response) {
+          var xdr = response.data;
+          var tx = new StellarSdk.Transaction(xdr);
+          tx.sign(keypair);
+          var signedChallenge = tx.toEnvelope().toXDR("base64");
+          axios({
+            url: endpoint,
+            method: 'post',
+            params: {
+              xdr: signedChallenge,
+              public_key: keypair.publicKey()
+            }
+          }).then(function(response) {
+            var url = $('#redirect_url').val();
+            document.location = url + '?token=' + response.data;
+          }).catch(showError);
+        }).catch(showError);
       });
     });
   </script>

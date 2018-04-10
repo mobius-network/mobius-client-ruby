@@ -83,7 +83,7 @@ module Mobius
         @challenge_expires_in ||= 60 * 60 * 24
       end
 
-      # Session considered valid if issued not later than seconds (10 by default)
+      # Session considered valid if issued not later than seconds (15 by default)
       attr_writer :session_valid_in
 
       def session_valid_in

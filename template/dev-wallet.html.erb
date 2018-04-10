@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+    <style>
+      .ui.container {
+        margin: 2em 0em;
+      }
+
+      .ui.container > h1 {
+        font-size: 3em;
+      }
+
+      .ui.container > h2.dividing.header {
+        font-size: 2em;
+        font-weight: normal;
+        margin: 2em 0em 1em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="ui container">
+      <h1>Mobius Wallet Dev Auth</h1>
+
+      <h2 class="ui dividing header">Application</h2>
+
+      <form class="ui form">
+        <div class="field">
+          <input id="url" type="text" value="http://localhost:3000"></input>
+        </div>
+      </form>
+
+      <% {
+        "Normal Account" => normal,
+        "Zero Balance Account" => zero_balance,
+        "Unauthorized Account" => unauthorized
+      }.each do |label, account| %>
+
+      <h2 class="ui dividing header"><%= label %></h2>
+
+      <form class="ui form">
+        <div class="field">
+          <input type="text" value="" />
+        </div>
+        <div class="field">
+          <input type="text" value="" />
+        </div>
+        <div class="field">
+          <input type="submit" class="ui button green" value="Open" />
+        </div>
+      </form>
+
+      <% end %>
+    </div>
+  </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/stellar-sdk/0.8.0/stellar-sdk.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
+</html>

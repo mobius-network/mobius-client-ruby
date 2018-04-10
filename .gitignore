@@ -20,3 +20,4 @@
 .env
 .env.*
 /spec/examples.txt
+dev-wallet.html

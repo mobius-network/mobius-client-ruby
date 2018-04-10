@@ -1,4 +1,5 @@
 require "thor"
+require "erb"
 
 class Mobius::Cli::Create < Mobius::Cli::Base
   desc "dapp_account", "Create DApp Store account funded with MOBI and XLM (test network only)"
@@ -34,4 +35,21 @@ class Mobius::Cli::Create < Mobius::Cli::Base
   rescue StandardError => e
     say "[ERROR] #{e.message}", :red
   end
+
+  desc "dev-wallet", "Create wallet-dev.html"
+  def dev_wallet
+    vars = {
+      normal: "abcd",
+      zero_balance: "abcd",
+      unauthorized: "abcf"
+    }
+
+    t = File.read(TEMPLATE)
+    r = ERB.new(t).result(OpenStruct.new(vars).instance_eval { binding })
+    File.open("dev-wallet.html", "w+") { |f| f.puts r }
+
+    say "dev-wallet.html created. Copy it to your public web server directory."
+  end
+
+  TEMPLATE = File.join(File.dirname(__FILE__), "../../../template/dev-wallet.html.erb").freeze
 end

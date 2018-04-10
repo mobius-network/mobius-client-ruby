@@ -76,7 +76,7 @@ module Mobius
         "GDRWBLJURXUKM4RWDZDTPJNX6XBYFO3PSE4H4GPUL6H6RCUQVKTSD4AT"
       end
 
-      # Challenge expires in (seconds, 1h by default)
+      # Challenge expires in (seconds, 1d by default)
       attr_writer :challenge_expires_in
 
       def challenge_expires_in

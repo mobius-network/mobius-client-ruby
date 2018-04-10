@@ -20,7 +20,7 @@ class Mobius::Client::FriendBot
 
   def http
     # Mobius::Client.mobius_host
-    Faraday.new("http://localhost:4000") do |c|
+    Faraday.new("https://localhost:4000", :ssl => {:verify => false}) do |c|
       c.request :url_encoded
       c.response :json, content_type: /\bjson$/
       c.adapter Faraday.default_adapter

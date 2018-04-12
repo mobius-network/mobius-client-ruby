@@ -173,7 +173,7 @@ User opens application page.
 
 ```
 class AppController < ActionController::Base
-  ROUND_PRICE = 5
+  skip_before_action :verify_authenticity_token, :only => [:pay]
 
   # GET /
   def index
@@ -191,7 +191,7 @@ class AppController < ActionController::Base
 
   # POST /pay
   def pay
-    app.pay(ROUND_PRICE) # Withdraw 5 XLM from user's account
+    app.pay(params[:num_tokens])
     render plain: app.balance
   rescue Mobius::Client::Error::InsufficientFunds
     render :gone

@@ -34,7 +34,7 @@ class Mobius::Client::App
   def pay(amount, target_address: nil)
     current_balance = balance
     raise Mobius::Client::Error::InsufficientFunds if current_balance < amount.to_f
-    envelope_base64 = payment_tx(amount, target_address).to_envelope(app_keypair).to_xdr(:base64)
+    envelope_base64 = payment_tx(amount.to_f, target_address).to_envelope(app_keypair).to_xdr(:base64)
     post_tx(envelope_base64).tap do
       [app_account, user_account].each(&:reload!)
     end
@@ -46,7 +46,7 @@ class Mobius::Client::App
   def transfer(amount, address)
     current_balance = app_balance
     raise Mobius::Client::Error::InsufficientFunds if current_balance < amount.to_f
-    envelope_base64 = transfer_tx(amount, address).to_envelope(app_keypair).to_xdr(:base64)
+    envelope_base64 = transfer_tx(amount.to_f, address).to_envelope(app_keypair).to_xdr(:base64)
     post_tx(envelope_base64).tap do
       [app_account, user_account].each(&:reload!)
     end
@@ -64,7 +64,7 @@ class Mobius::Client::App
       sequence: user_account.next_sequence_value,
       fee: target_address.nil? ? FEE : FEE * 2
     ).tap do |t|
-      t.operations << payment_op(amount)
+      t.operations << payment_op(amount.to_f)
       t.operations << third_party_payment_op(target_address, amount) if target_address
     end
   end
@@ -72,7 +72,7 @@ class Mobius::Client::App
   def payment_op(amount)
     Stellar::Operation.payment(
       destination: app_keypair,
-      amount: Stellar::Amount.new(amount, Mobius::Client.stellar_asset).to_payment
+      amount: Stellar::Amount.new(amount.to_f, Mobius::Client.stellar_asset).to_payment
     )
   end
 
@@ -80,7 +80,7 @@ class Mobius::Client::App
     Stellar::Operation.payment(
       source_account: app_keypair,
       destination: Mobius::Client.to_keypair(target_address),
-      amount: Stellar::Amount.new(amount, Mobius::Client.stellar_asset).to_payment
+      amount: Stellar::Amount.new(amount.to_f, Mobius::Client.stellar_asset).to_payment
     )
   end
 
@@ -89,7 +89,7 @@ class Mobius::Client::App
       account: user_keypair,
       sequence: user_account.next_sequence_value,
       destination: Mobius::Client.to_keypair(address),
-      amount: Stellar::Amount.new(amount, Mobius::Client.stellar_asset).to_payment
+      amount: Stellar::Amount.new(amount.to_f, Mobius::Client.stellar_asset).to_payment
     )
   end
 

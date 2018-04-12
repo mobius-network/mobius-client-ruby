@@ -95,24 +95,26 @@ See demo at:
 
 ```
 class AuthController < ActionController::Base
+  skip_before_action :verify_authenticity_token, :only => [:authenticate]
+
   # GET /auth
   def challenge
     # Generates and returns challenge transaction XDR signed by application to user
-    render text: Mobius::Client::Auth::Challenge.call(
-      Rails.application.secrets.app.secret_key, # SA2VTRSZPZ5FIC.....I4QD7LBWUUIK
-      12.hours                                  # Session duration
+    render plain: Mobius::Client::Auth::Challenge.call(
+      Rails.application.secrets.app[:secret_key], # SA2VTRSZPZ5FIC.....I4QD7LBWUUIK
+      12.hours                                    # Session duration
     )
   end
 
   # POST /auth
-  def token
+  def authenticate
     # Validates challenge transaction. It must be:
     #   - Signed by application and requesting user.
     #   - Not older than 10 seconds from now (see Mobius::Client.strict_interval`)
     token = Mobius::Client::Auth::Token.new(
-      Rails.application.secrets.app.secret_key, # SA2VTRSZPZ5FIC.....I4QD7LBWUUIK
-      params[:xdr]                              # Challenge transaction
-      params[:public_key]                       # User's public key
+      Rails.application.secrets.app[:secret_key], # SA2VTRSZPZ5FIC.....I4QD7LBWUUIK
+      params[:xdr],                               # Challenge transaction
+      params[:public_key]                         # User's public key
     )
 
     # Important! Otherwise, token will be considered valid.
@@ -122,19 +124,19 @@ class AuthController < ActionController::Base
     #
     # Note: this is not the requirement. Instead of JWT, application might save token.hash along
     # with time frame and public key to local database and validate over it.
-    render text: Mobius::Client::Auth::Jwt.new(
-      Rails.application.secret.jwt_secret
-    ).generate(token)
+    render plain: Mobius::Client::Auth::Jwt.new(
+      Rails.application.secrets.app[:jwt_secret]
+    ).encode(token)
 
     rescue Mobius::Client::Error::Unauthorized
       # Signatures are invalid
-      render text: "Access denied!"
+      render plain: "Access denied!"
     rescue Mobius::Client::Error::TokenExpired
       # Current time is outside session time bounds
-      render text: "Session expired!"
+      render plain: "Session expired!"
     rescue Mobius::Client::Error::TokenTooOld
       # Challenge transaction was issued more than 10 seconds ago
-      render text: "Challenge tx expired!"
+      render plain: "Challenge tx expired!"
     end
   end
 end
@@ -176,22 +178,22 @@ class AppController < ActionController::Base
   # GET /
   def index
     # User has opened application page directly
-    return render text: "Visit https://store.mobius.network/flappy_bird to register in DApp Store" unless app
+    return render plain: "Visit https://store.mobius.network/flappy_bird to register in DApp Store" unless app
 
     # User has not granted his account access to this application, "Visit store.mobius.wallet and allow"
-    return render text: "Visit https://store.mobius.network/flappy_bird" unless app.authorized?
+    return render plain: "Visit https://store.mobius.network/flappy_bird" unless app.authorized?
   end
 
   # GET /balance
   def balance
-    render text: app.balance
+    render plain: app.balance
   end
 
   # POST /pay
   def pay
     app.pay(ROUND_PRICE) # Withdraw 5 XLM from user's account
-    render text: app.balance
-  rescue Mobius::Client::Error::InsufficientBalance
+    render plain: app.balance
+  rescue Mobius::Client::Error::InsufficientFunds
     render :gone
   end
 
@@ -202,15 +204,15 @@ class AppController < ActionController::Base
   end
 
   def token
-    @token ||= Mobius::Client::Auth::Jwt.new(Rails.application.secret.jwt_secret).decode!(token)
+    @token ||= Mobius::Client::Auth::Jwt.new(Rails.application.secrets.app[:jwt_secret]).decode!(token_s)
   rescue Mobius::Client::Error
     nil # We treat all invalid tokens as missing
   end
 
   def app
     @app ||= token && Mobius::Client::App.new(
-      Rails.application.secret.app.secret_key, # SA2VTRSZPZ5FIC.....I4QD7LBWUUIK
-      token.public_key                         # Current user
+      Rails.application.secrets.app[:secret_key], # SA2VTRSZPZ5FIC.....I4QD7LBWUUIK
+      token.public_key                            # Current user
     )
   end
 end

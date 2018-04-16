@@ -8,7 +8,7 @@ RSpec.describe Mobius::Client::App do
     context "when balance is sufficient" do
       it do
         VCR.use_cassette("app/app_pay") do
-          expect { app.pay(5) }.to_not raise_error
+          expect { app.pay(5) }.not_to raise_error
         end
       end
     end

@@ -169,6 +169,8 @@ class AppController < ApplicationController
 
     # User has not granted access to his MOBI account so we can't use it for payments
     return render plain: "Visit https://store.mobius.network and open our app" unless app.authorized?
+    
+    # token is valid - should render the application or redirect to the main application page etc
   end
 
   # GET /balance

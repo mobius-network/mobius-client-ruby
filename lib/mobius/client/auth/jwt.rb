@@ -1,8 +1,15 @@
+# Generates JWT token based on valid token transaction signed by both parties.
 class Mobius::Client::Auth::Jwt
   extend Dry::Initializer
 
+  # @!method initialize(seed)
+  # @param secret [String] JWT secret
+  # @!scope instance
   param :secret
 
+  # Returns JWT token.
+  # @param token [Mobius::Client::Auth::Token] Valid auth token
+  # @return [String] JWT token
   def encode(token)
     payload = {
       hash: token.hash(:hex),
@@ -14,6 +21,9 @@ class Mobius::Client::Auth::Jwt
     JWT.encode(payload, secret, ALG)
   end
 
+  # Returns decoded JWT token.
+  # @param jwt [String] JWT token
+  # @return [Hash] Decoded token params
   def decode!(jwt)
     OpenStruct.new(
       JWT.decode(jwt, secret, true, algorithm: ALG).first
@@ -22,5 +32,6 @@ class Mobius::Client::Auth::Jwt
     end
   end
 
+  # Used JWT algorithm
   ALG = "HS512".freeze
 end

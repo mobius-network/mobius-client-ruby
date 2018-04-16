@@ -1,6 +1,22 @@
-# Mobius::Client
+# Mobius DApp Store Ruby SDK
 
-Mobius DApp Store API.
+The Mobius DApp Store Ruby SDK makes it easy to integrate Mobius DApp Store MOBI payments into any Ruby application.
+
+A big advantage of the Mobius DApp Store over centralized competitors such as the Apple App Store or Google Play Store is significantly lower fees - currently 0% compared to 30% - for in-app purchases.
+
+## DApp Store Overview
+
+The Mobius DApp Store will be an open-source, non-custodial "wallet" interface for easily sending crypto payments to apps. You can think of the DApp Store like https://stellarterm.com/ or https://www.myetherwallet.com/ but instead of a wallet interface it is an App Store interface.
+
+The DApp Store is non-custodial meaning Mobius never holds the secret key of either the user or developer.
+   
+An overview of the DApp Store architecture is:
+   
+- Every application holds the private key for the account where it receives MOBI.
+- An application specific unique account where a user deposits MOBI for use with the application is generated for each app based on the user's seed phrase.
+- When a user opens an app through the DApp Store:
+  1) Adds the application's public key as a signer so the application can access the MOBI and
+  2) Signs a challenge transaction from the app with its secret key to authenticate that this user owns the account. This prevents a different person from pretending they own the account and spending the MOBI (more below under Authentication).
 
 ## Installation
 
@@ -14,57 +30,46 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
+Or install it yourself with:
 
     $ gem install mobius-client
 
-## Developing an application
-
-- DApp Store applications are making payments using Stellar network.
-- Every Application holds private key of account receiving money from users.
-- Every user holds private key of account containing MOBI specific application can use.
-- Permission to use user's money is granted to application via adding it's public key as cosigner to user's account.
-
-### Setting up an application account
+### Setting up the developer's application account
 
 Run:
 
     $ mobius-cli create dapp_account
 
-This will create application account, MOBI trust line and fund this account with 1000 MOBI on Stellar test network.
+Creates a new Stellar account with 1,000 test-net MOBI.
 
-Otherwise, you could use https://mobius.network/friendbot
+You can also obtain free test network MOBI from https://mobius.network/friendbot
 
 ### Setting up test user accounts
 
-You will need:
+1. Create empty Stellar account without a MOBI trustline.
+    ```
+      $ mobius-cli create account
+    ```
+2. Create stellar account with 1,000 test-net MOBI
+    ```
+      $ mobius-cli create dapp_account
+    ```
+3. Create stellar account with 1,000 test-net MOBI and the specified application public key added as a signer
+    ```
+      $ mobius-cli create dapp_account -a <Your application public key>
+    ```
 
-1. Regular Stellar account not related to Mobius.
+### Account creation wizard
 
-  ```
-    $ mobius-cli create account
-  ```
-
-1. DApp Store account not authorized to use your application.
-
-  ```
-    $ mobius-cli create dapp_account
-  ```
-
-1. Authorized DApp Store account.
-
-  ```
-    $ mobius-cli create dapp_account -a <Your application public key>
-  ```
-Or you ask tool to create everything at once:
+Below command will create and setup the 4 account types above for testing and generate a simple HTML test interface that simulates the DApp Store authentication functionality (obtaining a challenge request from an app, signing it, and then openining the specified app passing in a JWT encoded token the application will use to verify this request is from the user that owns the specified MOBI account).
 
 ```
   $ mobius-cli create dev-wallet
 ```
 
-## Authentication
+## Authentication and Payment
 
-### Principle
+### Explanation
 
 Assume we have two parts: user and application. Every part has it's own Stellar key pair. Application issues session token.
 
@@ -89,9 +94,9 @@ See demo at:
     $ cd mobius-client-ruby && bundle
     $ cd examples/auth && bundle && ruby auth.rb
 
-### Implementing
+### Sample Server Implementation
 
-1. Application side.
+#### Authentication
 
 ```
 class AuthController < ActionController::Base
@@ -142,25 +147,7 @@ class AuthController < ActionController::Base
 end
 ```
 
-1. User side.
-
-  Normally, Mobius Wallet will request challenge, validate it, obtain access token and pass it to the application. For development purposes you have two options: use `mobius-cli` or make your own script.
-
-  ```
-  # Will fetch token from working application
-  $ mobius-cli auth fetch -j secret \
-    http://localhost:4567/auth SA2VTRSZPZ5FIC.....I4QD7LBWUUIK GCWYXW7RXJ5.....SV4AK32ECXFJ
-
-  # Will fetch calculate everything locally
-  $ mobius-cli auth token -j secret \
-    SA2VTRSZPZ5FIC.....I4QD7LBWUUIK SGZKDAKASDSD.....I4QD7LBWUUIK
-  ```
-
-  Use `-j` if you want to return JWT token, otherwise transaction hash will be returned.
-
-  Check `lib/mobius/cli/auth.rb` for details.
-
-## Payments
+#### Payment
 
 Now, let's withdraw.
 
@@ -225,6 +212,24 @@ Check example:
     $ git clone git@github.com/mobius-network/mobius-client-ruby.git
     $ cd mobius-client-ruby && bundle
     $ cd examples/app && bundle && ruby app.rb
+
+### CLI Test Implementation
+
+  Normally, Mobius Wallet will request challenge, validate it, obtain access token and pass it to the application. For development purposes you have two options: use `mobius-cli` or make your own script.
+
+  ```
+  # Will fetch token from working application
+  $ mobius-cli auth fetch -j secret \
+    http://localhost:4567/auth SA2VTRSZPZ5FIC.....I4QD7LBWUUIK GCWYXW7RXJ5.....SV4AK32ECXFJ
+
+  # Will fetch calculate everything locally
+  $ mobius-cli auth token -j secret \
+    SA2VTRSZPZ5FIC.....I4QD7LBWUUIK SGZKDAKASDSD.....I4QD7LBWUUIK
+  ```
+
+  Use `-j` if you want to return JWT token, otherwise transaction hash will be returned.
+
+  Check `lib/mobius/cli/auth.rb` for details.
 
 # TODO
 

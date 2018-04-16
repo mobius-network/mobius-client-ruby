@@ -127,17 +127,15 @@ class AuthController < ActionController::Base
     render plain: Mobius::Client::Auth::Jwt.new(
       Rails.application.secrets.app[:jwt_secret]
     ).encode(token)
-
-    rescue Mobius::Client::Error::Unauthorized
-      # Signatures are invalid
-      render plain: "Access denied!"
-    rescue Mobius::Client::Error::TokenExpired
-      # Current time is outside session time bounds
-      render plain: "Session expired!"
-    rescue Mobius::Client::Error::TokenTooOld
-      # Challenge transaction was issued more than 10 seconds ago
-      render plain: "Challenge tx expired!"
-    end
+  rescue Mobius::Client::Error::Unauthorized
+    # Signatures are invalid
+    render plain: "Access denied!"
+  rescue Mobius::Client::Error::TokenExpired
+    # Current time is outside session time bounds
+    render plain: "Session expired!"
+  rescue Mobius::Client::Error::TokenTooOld
+    # Challenge transaction was issued more than 10 seconds ago
+    render plain: "Challenge tx expired!"
   end
 end
 ```

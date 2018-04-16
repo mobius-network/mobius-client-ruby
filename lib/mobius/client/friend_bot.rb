@@ -1,3 +1,4 @@
+# Calls Mobius FriendBot for given account.
 class Mobius::Client::FriendBot
   extend Dry::Initializer
 

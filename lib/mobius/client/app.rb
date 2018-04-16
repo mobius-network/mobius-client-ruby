@@ -1,4 +1,4 @@
-# TODO: Use newcomes
+# Interface to user balance in application.
 class Mobius::Client::App
   extend Dry::Initializer
 
@@ -54,8 +54,8 @@ class Mobius::Client::App
 
   private
 
-  def post_tx(tx)
-    Mobius::Client.horizon_client.horizon.transactions._post(tx: tx)
+  def post_tx(txe)
+    Mobius::Client.horizon_client.horizon.transactions._post(tx: txe)
   end
 
   def payment_tx(amount, target_address)

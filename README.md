@@ -164,10 +164,11 @@ class AppController < ApplicationController
   # GET /
   # User opens the application passing in the token variable.
   def index
-    return render plain: "Visit https://store.mobius.network/flappy_bird to register in DApp Store" unless app
+    # User has opened application page without a token
+    return render plain: "Visit https://store.mobius.network to register in the DApp Store" unless app
 
-    # User has not granted his account access to this application, "Visit store.mobius.wallet and allow"
-    return render plain: "Visit https://store.mobius.network/flappy_bird" unless app.authorized?
+    # User has not granted access to his MOBI account so we can't use it for payments
+    return render plain: "Visit https://store.mobius.network and open our app" unless app.authorized?
   end
 
   # GET /balance

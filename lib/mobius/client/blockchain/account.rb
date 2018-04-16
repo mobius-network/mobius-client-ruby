@@ -3,7 +3,7 @@ class Mobius::Client::Blockchain::Account
   extend Dry::Initializer
 
   # @!method initialize(keypair)
-  # @param keypair [Stellar::Keypair] JWT secret
+  # @param keypair [Stellar::Keypair] account keypair
   # @!scope instance
   param :keypair
 

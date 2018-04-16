@@ -1,18 +1,26 @@
+# Adds account as cosigner to other account.
 class Mobius::Client::Blockchain::AddCosigner
   extend Dry::Initializer
 
+  # @!method initialize(keypair)
+  # @param keypair [Stellar::Keypair] Account keypair
+  # @param cosigner_keypair [Stellar::Keypair] Cosigner account keypair
+  # @param weight [Integer] Cosigner weight, default: 1
+  # @!scope instance
   param :keypair
   param :cosigner_keypair
+  param :weight, default: -> { 1 }
 
-  APP_WEIGHT = 1
-
+  # Executes an operation
   def call
-    client.horizon.transactions._post(tx: tx.to_envelope(keypair).to_xdr(:base64))
+    client.horizon.transactions._post(
+      tx: tx.to_envelope(keypair).to_xdr(:base64)
+    )
   rescue Faraday::ResourceNotFound
     raise Mobius::Client::Error::AccountMissing
   end
 
-  # TODO: DRY
+  # Executes an operation
   class << self
     def call(*args)
       new(*args).call
@@ -21,6 +29,7 @@ class Mobius::Client::Blockchain::AddCosigner
 
   private
 
+  # TODO: weight must be params
   def tx
     Stellar::Transaction.set_options(
       account: keypair,
@@ -35,7 +44,7 @@ class Mobius::Client::Blockchain::AddCosigner
 
   def signer
     Stellar::Signer.new(
-      key: Stellar::SignerKey.new(:signer_key_type_ed25519, cosigner_keypair.raw_public_key), weight: APP_WEIGHT
+      key: Stellar::SignerKey.new(:signer_key_type_ed25519, cosigner_keypair.raw_public_key), weight: weight
     )
   end
 

@@ -9,9 +9,9 @@ A big advantage of the Mobius DApp Store over centralized competitors such as th
 The Mobius DApp Store will be an open-source, non-custodial "wallet" interface for easily sending crypto payments to apps. You can think of the DApp Store like https://stellarterm.com/ or https://www.myetherwallet.com/ but instead of a wallet interface it is an App Store interface.
 
 The DApp Store is non-custodial meaning Mobius never holds the secret key of either the user or developer.
-   
+
 An overview of the DApp Store architecture is:
-   
+
 - Every application holds the private key for the account where it receives MOBI.
 - An application specific unique account where a user deposits MOBI for use with the application is generated for each app based on the user's seed phrase.
 - When a user opens an app through the DApp Store:
@@ -81,7 +81,7 @@ This authentication is accomplished through the following process:
 * The challenge is a payment transaction of 1 XLM from and to the application account. It is never sent to the network - it is just used for authentication.
 * The application generates the challenge transaction on request, signs it with itss own private key, and sends it to user.
 * User receives the challenge transaction, verifies it is signed by the application's secret key by checking it the application's published public key that it receives through the DApp Store, and then signs the transaction which its own private key and sends it back to application along with its public key.
-* Application checks that challenge transaction is now signed by itself and the public key that was passed in. Time bounds are also checked to make sure this isn't a replay attack. If everything passes the server replies with a token the application can pass in to "login" with the specified public key and use it for payment (it would have previously given the app access to the public key by adding the app's public key as a signer). 
+* Application checks that challenge transaction is now signed by itself and the public key that was passed in. Time bounds are also checked to make sure this isn't a replay attack. If everything passes the server replies with a token the application can pass in to "login" with the specified public key and use it for payment (it would have previously given the app access to the public key by adding the app's public key as a signer).
 
 Note: the challenge transaction also has time bounds to restrict the time window when it can be used.
 
@@ -169,7 +169,7 @@ class AppController < ApplicationController
 
     # User has not granted access to his MOBI account so we can't use it for payments
     return render plain: "Visit https://store.mobius.network and open our app" unless app.authorized?
-    
+
     # token is valid - should render the application or redirect to the main application page etc
   end
 
@@ -214,10 +214,10 @@ end
 ## CLI Test Implementation
 
   Normally, as mentioned the Mobius DApp Store will request a challenge, validate and sign it, pass it back to the application to obtain an access token, and then open the application and pass in the token.
-  
+
   For development purposes you can use the simple HTML test interface generated via `mobius-cli create dev-wallet` as mentioned above in the "Account Creation Wizard" section or you can use the these CLI commands.
 
-  ```
+```
   # Fetch token from working application
   # mobius-cli auth fetch <URL> <User secret> <App public>
   $ mobius-cli auth fetch -j secret \
@@ -227,7 +227,7 @@ end
   # mobius-cli auth token <User secret> <App secret>
   $ mobius-cli auth token -j secret \
     SA2VTRSZPZ5FIC.....I4QD7LBWUUIK SGZKDAKASDSD.....I4QD7LBWUUIK
-  ```
+```
 
   Use `-j` if you want to return JWT token, otherwise transaction hash will be returned.
 

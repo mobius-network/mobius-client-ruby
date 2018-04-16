@@ -1,22 +1,38 @@
+# Service class used to interact with account on Stellar network.
 class Mobius::Client::Blockchain::Account
   extend Dry::Initializer
 
+  # @!method initialize(keypair)
+  # @param keypair [Stellar::Keypair] JWT secret
+  # @!scope instance
   param :keypair
 
+  # Returns true if trustline exists for given asset and limit is positive.
+  # @param asset [Stellar::Asset] Stellar asset to check or :native
+  # @return [Boolean] true if trustline exists
   def trustline_exists?(asset = Mobius::Client.stellar_asset)
     balance = find_balance(asset)
     (balance && !balance.dig("limit").to_f.zero?) || false
   end
 
+  # Returns balance for given asset
+  # @param asset [Stellar::Asset] Stellar asset to check or :native
+  # @return [Float] Balance value.
   def balance(asset = Mobius::Client.stellar_asset)
     balance = find_balance(asset)
     balance && balance.dig("balance").to_f
   end
 
+  # Returns true if given keypair is added as cosigner to current account.
+  # @param to_keypair [Stellar::Keypair] Keypair in question
+  # @return [Boolean] true if cosigner added
+  # TODO: Add weight check/return
   def authorized?(to_keypair)
     !find_signer(to_keypair.address).nil?
   end
 
+  # Returns Stellar::Account instance for given keypair.
+  # @return [Stellar::Account] instance
   def account
     @account ||=
       if keypair.sign?
@@ -26,14 +42,19 @@ class Mobius::Client::Blockchain::Account
       end
   end
 
+  # Requests and caches Stellar::Account information from network.
+  # @return [Stellar::Account] account information.
   def info
     @info ||= Mobius::Client.horizon_client.account_info(account)
   end
 
+  # Invalidates account information cache.
   def reload!
     @info = nil
   end
 
+  # Invalidates cache and returns next sequence value for given account.
+  # @return [Integer] sequence value.
   def next_sequence_value
     reload!
     info.sequence.to_i + 1

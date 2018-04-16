@@ -1,8 +1,8 @@
-# Generates JWT token based on valid token transaction signed by both parties.
+# Generates JWT token based on valid token transaction signed by both parties and decodes JWT token into hash.
 class Mobius::Client::Auth::Jwt
   extend Dry::Initializer
 
-  # @!method initialize(seed)
+  # @!method initialize(secret)
   # @param secret [String] JWT secret
   # @!scope instance
   param :secret

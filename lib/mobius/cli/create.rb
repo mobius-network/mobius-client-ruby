@@ -2,7 +2,7 @@ require "thor"
 require "erb"
 
 class Mobius::Cli::Create < Mobius::Cli::Base
-  desc "dapp_account", "Create DApp Store account funded with MOBI and XLM (test network only)"
+  desc "dapp-account", "Create DApp Store account funded with MOBI and XLM (test network only)"
   method_option :application, type: :string, aliases: "-a"
   # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def dapp_account

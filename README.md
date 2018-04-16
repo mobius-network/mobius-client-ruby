@@ -38,7 +38,7 @@ Or install it yourself with:
 
 Run:
 
-    $ mobius-cli create dapp_account
+    $ mobius-cli create dapp-account
 
 Creates a new Stellar account with 1,000 test-net MOBI.
 
@@ -52,11 +52,11 @@ You can also obtain free test network MOBI from https://mobius.network/friendbot
     ```
 2. Create stellar account with 1,000 test-net MOBI
     ```
-      $ mobius-cli create dapp_account
+      $ mobius-cli create dapp-account
     ```
 3. Create stellar account with 1,000 test-net MOBI and the specified application public key added as a signer
     ```
-      $ mobius-cli create dapp_account -a <Your application public key>
+      $ mobius-cli create dapp-account -a <Your application public key>
     ```
 
 ### Account Creation Wizard

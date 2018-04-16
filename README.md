@@ -59,7 +59,7 @@ You can also obtain free test network MOBI from https://mobius.network/friendbot
       $ mobius-cli create dapp_account -a <Your application public key>
     ```
 
-### Account creation wizard
+### Account Creation Wizard
 
 Below command will create and setup the 4 account types above for testing and generate a simple HTML test interface that simulates the DApp Store authentication functionality (obtaining a challenge request from an app, signing it, and then openining the specified app passing in a JWT encoded token the application will use to verify this request is from the user that owns the specified MOBI account).
 
@@ -67,26 +67,23 @@ Below command will create and setup the 4 account types above for testing and ge
   $ mobius-cli create dev-wallet
 ```
 
-## Authentication and Payment
+## Authentication
 
 ### Explanation
 
-Assume we have two parts: user and application. Every part has it's own Stellar key pair. Application issues session token.
+When a user opens an app through the DApp Store it tells the app what Mobius account it should use for payment.
 
-Application wants to ensure that:
+The application needs to ensure that the user actually owns the secret key to the Mobius account and that this isn't a replay attack from a user who captured a previous request and is replyaing it.
 
-* User left token intact (to protect from replay attack).
-* Token is received and acknowledged by correct user.
+This authentication is accomplished through the following process:
 
-The process is simple:
+* When the user opens an app in the DApp Store it requests a challenge from the application.
+* The challenge is a payment transaction of 1 XLM from and to the application account. It is never sent to the network - it is just used for authentication.
+* The application generates the challenge transaction on request, signs it with itss own private key, and sends it to user.
+* User receives the challenge transaction, verifies it is signed by the application's secret key by checking it the application's published public key that it receives through the DApp Store, and then signs the transaction which its own private key and sends it back to application along with its public key.
+* Application checks that challenge transaction is now signed by itself and the public key that was passed in. Time bounds are also checked to make sure this isn't a replay attack. If everything passes the server replies with a token the application can pass in to "login" with the specified public key and use it for payment (it would have previously given the app access to the public key by adding the app's public key as a signer). 
 
-* User requests challenge from the application.
-* Challenge is fake transaction, payment of 1 XLM from and to application account. It never goes to ledger.
-* Application generates challenge transaction, signs it with own private key and sends it to user.
-* User signs received transaction with own private key and sends it back to application along with public key.
-* Application ensures that both signatures are valid, time bounds cover current time and grants user access.
-
-Challenge itself is the transaction because only transactions might be signed by Ledger device.
+Note: the challenge transaction also has time bounds to restrict the time window when it can be used.
 
 See demo at:
 
@@ -96,15 +93,13 @@ See demo at:
 
 ### Sample Server Implementation
 
-#### Authentication
-
 ```
 class AuthController < ActionController::Base
   skip_before_action :verify_authenticity_token, :only => [:authenticate]
 
   # GET /auth
+  # Generates and returns challenge transaction XDR signed by application to user
   def challenge
-    # Generates and returns challenge transaction XDR signed by application to user
     render plain: Mobius::Client::Auth::Challenge.call(
       Rails.application.secrets.app[:secret_key], # SA2VTRSZPZ5FIC.....I4QD7LBWUUIK
       12.hours                                    # Session duration
@@ -112,10 +107,10 @@ class AuthController < ActionController::Base
   end
 
   # POST /auth
+  # Validates challenge transaction. It must be:
+  #   - Signed by application and requesting user.
+  #   - Not older than 10 seconds from now (see Mobius::Client.strict_interval`)
   def authenticate
-    # Validates challenge transaction. It must be:
-    #   - Signed by application and requesting user.
-    #   - Not older than 10 seconds from now (see Mobius::Client.strict_interval`)
     token = Mobius::Client::Auth::Token.new(
       Rails.application.secrets.app[:secret_key], # SA2VTRSZPZ5FIC.....I4QD7LBWUUIK
       params[:xdr],                               # Challenge transaction
@@ -147,16 +142,20 @@ class AuthController < ActionController::Base
 end
 ```
 
-#### Payment
+## Payment
 
-Now, let's withdraw.
+### Explanation
 
-Given that:
+After the user completes the authentication process they have a token T. They now pass it to the application to "login" which tells the application which Mobius account to withdraw MOBI from (the user public key) when a payment is needed. For a web application the token is generally passed in via a `token` request parameter. Upon opening the website/loading the application it checks that the token is valid (within time bounds etc) and the account in the token has added the app as a signer so it can withraw MOBI from it.
 
-* User has access token.
-* User has authorised his account to be used by your application.
 
-User opens application page.
+See demo at:
+
+    $ git clone git@github.com/mobius-network/mobius-client-ruby.git
+    $ cd mobius-client-ruby && bundle
+    $ cd examples/app && bundle && ruby app.rb
+
+### Sample Server Implementation
 
 ```
 class AppController < ActionController::Base
@@ -165,8 +164,8 @@ class AppController < ActionController::Base
   ROUND_PRICE = 5
 
   # GET /
+  # User opens the application passing in the token variable.
   def index
-    # User has opened application page directly
     return render plain: "Visit https://store.mobius.network/flappy_bird to register in DApp Store" unless app
 
     # User has not granted his account access to this application, "Visit store.mobius.wallet and allow"
@@ -207,22 +206,24 @@ class AppController < ActionController::Base
 end
 ```
 
-Check example:
+## Sample Application
 
-    $ git clone git@github.com/mobius-network/mobius-client-ruby.git
-    $ cd mobius-client-ruby && bundle
-    $ cd examples/app && bundle && ruby app.rb
+[Flappy Bird](https://github.com/mobius-network/flappy-bird-dapp) has been reimplemented using this new arhictecture and the above simple server code!
 
-### CLI Test Implementation
+## CLI Test Implementation
 
-  Normally, Mobius Wallet will request challenge, validate it, obtain access token and pass it to the application. For development purposes you have two options: use `mobius-cli` or make your own script.
+  Normally, as mentioned the Mobius DApp Store will request a challenge, validate and sign it, pass it back to the application to obtain an access token, and then open the application and pass in the token.
+  
+  For development purposes you can use the simple HTML test interface generated via `mobius-cli create dev-wallet` as mentioned above in the "Account Creation Wizard" section or you can use the these CLI commands.
 
   ```
-  # Will fetch token from working application
+  # Fetch token from working application
+  # mobius-cli auth fetch <URL> <User secret> <App public>
   $ mobius-cli auth fetch -j secret \
     http://localhost:4567/auth SA2VTRSZPZ5FIC.....I4QD7LBWUUIK GCWYXW7RXJ5.....SV4AK32ECXFJ
 
-  # Will fetch calculate everything locally
+  # Generate token locally using the provided app secret
+  # mobius-cli auth token <User secret> <App secret>
   $ mobius-cli auth token -j secret \
     SA2VTRSZPZ5FIC.....I4QD7LBWUUIK SGZKDAKASDSD.....I4QD7LBWUUIK
   ```

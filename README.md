@@ -94,7 +94,7 @@ See demo at:
 ### Sample Server Implementation
 
 ```
-class AuthController < ActionController::Base
+class AuthController < ApplicationController
   skip_before_action :verify_authenticity_token, :only => [:authenticate]
 
   # GET /auth
@@ -156,7 +156,7 @@ See demo at:
 ### Sample Server Implementation
 
 ```
-class AppController < ActionController::Base
+class AppController < ApplicationController
   skip_before_action :verify_authenticity_token, :only => [:pay]
 
   ROUND_PRICE = 5

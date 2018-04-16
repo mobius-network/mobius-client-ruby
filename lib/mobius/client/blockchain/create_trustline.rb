@@ -1,3 +1,4 @@
+# Creates unlimited trustline for given asset.
 class Mobius::Client::Blockchain::CreateTrustline
   extend Dry::Initializer
 

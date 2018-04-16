@@ -1,6 +1,10 @@
+# Transforms given value into Stellar::Keypair object.
 module Mobius::Client::Blockchain::KeyPairFactory
   class << self
     # rubocop:disable Metrics/MethodLength, Metrics/CyclomaticComplexity
+    # Generates Stellar::Keypair from subject, use Stellar::Client.to_keypair as shortcut.
+    # @param subject [String||Stellar::Account||Stellar::PublicKey||Stellar::SignerKey||Stellar::Keypair] subject.
+    # @return [Stellar::Keypair] Stellar::Keypair instance.
     def produce(subject)
       case subject
       when String

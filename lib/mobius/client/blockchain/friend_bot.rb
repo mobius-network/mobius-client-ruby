@@ -1,3 +1,4 @@
+# Calls Stellar FriendBot
 class Mobius::Client::Blockchain::FriendBot
   extend Dry::Initializer
 

@@ -4,7 +4,7 @@ require "vcr"
 require "simplecov"
 require "simplecov-console"
 
-SimpleCov.formatter = SimpleCov.formatter = SimpleCov::Formatter::Console
+SimpleCov.formatter = SimpleCov.formatter = SimpleCov::Formatter::Console if ENV["CC_TEST_REPORTER_ID"]
 SimpleCov.start
 
 require "mobius/client"

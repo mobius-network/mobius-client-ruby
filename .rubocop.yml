@@ -27,6 +27,9 @@ Metrics/LineLength:
 Naming/FileName:
   Exclude:
     - "*.*"
+    - "Rakefile"
+    - "Gemfile"
+    - examples/auth/Gemfile
 
 RSpec/FilePath:
   Enabled: false
@@ -82,3 +85,4 @@ Style/ClassAndModuleChildren:
 Metrics/BlockLength:
   Exclude:
     - "spec/**/*.*"
+    - "*.gemspec"

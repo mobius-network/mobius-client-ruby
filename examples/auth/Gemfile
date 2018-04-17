@@ -1,5 +1,5 @@
 source "https://rubygems.org"
 
+gem "mobius-client", path: "../.."
 gem "sinatra"
 gem "slim"
-gem "mobius-client", path: "../.."

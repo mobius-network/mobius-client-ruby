@@ -37,6 +37,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "timecop", "~> 0.9", ">= 0.9.1"
   spec.add_development_dependency "vcr", "~> 3.0", ">= 3.0.3"
   spec.add_development_dependency "webmock", "~> 3.3"
+  spec.add_development_dependency "simplecov", ">= 0.16.1"
+  spec.add_development_dependency "simplecov-console", ">= 0.4.2"
   spec.add_development_dependency "yard", "~> 0.9", ">= 0.9.12"
 
   spec.add_dependency "dry-initializer", "~> 2.4"
@@ -45,5 +47,4 @@ Gem::Specification.new do |spec|
   spec.add_dependency "jwt", "~> 1.5", ">= 1.5.6"
   spec.add_dependency "stellar-sdk", "~> 0.3"
   spec.add_dependency "thor", "~> 0.20"
-
 end

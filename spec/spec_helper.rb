@@ -1,7 +1,13 @@
 require "bundler/setup"
-require "mobius/client"
 require "timecop"
 require "vcr"
+require "simplecov"
+require "simplecov-console"
+
+SimpleCov.formatter = SimpleCov.formatter = SimpleCov::Formatter::Console
+SimpleCov.start
+
+require "mobius/client"
 
 VCR.configure do |config|
   config.cassette_library_dir = "spec/fixtures/vcr_cassettes"

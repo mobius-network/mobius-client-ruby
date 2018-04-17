@@ -235,9 +235,9 @@ end
 
   Check `lib/mobius/cli/auth.rb` for details.
 
-# TODO
+## Documentation
 
-1. spec & doc App.
+[[RDoc.info](http://www.rubydoc.info/github/mobius-network/mobius-client-ruby/master)]
 
 ## Development
 

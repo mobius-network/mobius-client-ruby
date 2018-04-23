@@ -1,18 +1,25 @@
 # Generates challenge transaction on developer's side.
 class Mobius::Client::Auth::Challenge
   extend Dry::Initializer
+  extend ConstructorShortcut[:call]
 
-  # @!method initialize(seed)
+  # @!method initialize(seed, expire_in = Mobius::Client.challenge_expires_in)
   # @param seed [String] Developers private key
+  # @param expire_in [Integer] Session expiration time (seconds from now). 0 means "never".
   # @!scope instance
   param :seed
+  param :expire_in, default: -> { Mobius::Client.challenge_expires_in }
 
+  # @!method call(seed, expire_in = Mobius::Client.challenge_expires_in)
   # Generates challenge transaction signed by developers private key. Minimum valid time bound is set to current time.
   # Maximum valid time bound is set to `expire_in` seconds from now.
-  #
+  # @param seed [String] Developers private key
   # @param expire_in [Integer] Session expiration time (seconds from now). 0 means "never".
   # @return [String] base64-encoded transaction envelope
-  def call(expire_in = Mobius::Client.challenge_expires_in)
+  # @!scope class
+
+  # @return [String] base64-encoded transaction envelope
+  def call
     payment = Stellar::Transaction.payment(
       source_account: keypair,
       account: Stellar::KeyPair.random,
@@ -25,16 +32,6 @@ class Mobius::Client::Auth::Challenge
     payment.time_bounds = build_time_bounds(expire_in)
 
     payment.to_envelope(keypair).to_xdr(:base64)
-  end
-
-  class << self
-    # Shortcut to challenge generation method.
-    #
-    # @param seed [String] Developers private key
-    # @return [String] base64-encoded transaction envelope
-    def call(*args)
-      new(*args).call
-    end
   end
 
   private

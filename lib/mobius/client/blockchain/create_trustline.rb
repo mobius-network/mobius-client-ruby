@@ -1,6 +1,7 @@
 # Creates unlimited trustline for given asset.
 class Mobius::Client::Blockchain::CreateTrustline
   extend Dry::Initializer
+  extend ConstructorShortcut[:call]
 
   # ruby-stellar-base needs to be fixed, it does not accept unlimited now
   LIMIT = 922337203685
@@ -12,13 +13,6 @@ class Mobius::Client::Blockchain::CreateTrustline
     client.horizon.transactions._post(tx: tx.to_envelope(keypair).to_xdr(:base64))
   rescue Faraday::ResourceNotFound
     raise Mobius::Client::Error::AccountMissing
-  end
-
-  # TODO: DRY
-  class << self
-    def call(*args)
-      new(*args).call
-    end
   end
 
   private

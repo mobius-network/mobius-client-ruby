@@ -39,6 +39,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "webmock", "~> 3.3"
   spec.add_development_dependency "yard", "~> 0.9", ">= 0.9.12"
 
+  spec.add_dependency "constructor_shortcut", "~> 0.2.0"
   spec.add_dependency "dry-initializer", "~> 2.4"
   spec.add_dependency "faraday", "~> 0.14"
   spec.add_dependency "faraday_middleware", "~> 0.12", ">= 0.12.2"

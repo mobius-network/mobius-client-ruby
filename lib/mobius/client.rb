@@ -1,3 +1,4 @@
+require "constructor_shortcut"
 require "dry-initializer"
 require "stellar-sdk"
 require "faraday"

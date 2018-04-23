@@ -1,6 +1,7 @@
 # Signs challenge transaction on user's side.
 class Mobius::Client::Auth::Sign
   extend Dry::Initializer
+  extend ConstructorShortcut[:call]
 
   # @!method initialize(seed, xdr)
   # @param seed [String] Users private key
@@ -11,18 +12,20 @@ class Mobius::Client::Auth::Sign
   param :xdr
   param :address
 
+  # @!method call(seed, xdr, address)
+  # Adds signature to given transaction.
+  # @param seed [String] Users private key
+  # @param xdr [String] Challenge transaction xdr
+  # @param address [String] Developers public key
+  # @return [String] base64-encoded transaction envelope
+  # @!scope class
+
   # Adds signature to given transaction.
   #
   # @return [String] base64-encoded transaction envelope
   def call
     validate!
     envelope.dup.tap { |e| e.signatures << e.tx.sign_decorated(keypair) }.to_xdr(:base64)
-  end
-
-  class << self
-    def call(*args)
-      new(*args).call
-    end
   end
 
   private

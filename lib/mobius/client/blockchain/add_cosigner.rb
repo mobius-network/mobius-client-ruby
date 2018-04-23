@@ -1,8 +1,9 @@
 # Adds account as cosigner to other account.
 class Mobius::Client::Blockchain::AddCosigner
   extend Dry::Initializer
+  extend ConstructorShortcut[:call]
 
-  # @!method initialize(keypair)
+  # @!method initialize(keypair, cosigner, weight)
   # @param keypair [Stellar::Keypair] Account keypair
   # @param cosigner_keypair [Stellar::Keypair] Cosigner account keypair
   # @param weight [Integer] Cosigner weight, default: 1
@@ -11,6 +12,13 @@ class Mobius::Client::Blockchain::AddCosigner
   param :cosigner_keypair
   param :weight, default: -> { 1 }
 
+  # @!method call(keypair, cosigner, weight)
+  # Executes an operation.
+  # @param keypair [Stellar::Keypair] Account keypair
+  # @param cosigner_keypair [Stellar::Keypair] Cosigner account keypair
+  # @param weight [Integer] Cosigner weight, default: 1
+  # @!scope class
+
   # Executes an operation
   def call
     client.horizon.transactions._post(
@@ -18,13 +26,6 @@ class Mobius::Client::Blockchain::AddCosigner
     )
   rescue Faraday::ResourceNotFound
     raise Mobius::Client::Error::AccountMissing
-  end
-
-  # Executes an operation
-  class << self
-    def call(*args)
-      new(*args).call
-    end
   end
 
   private

@@ -1,4 +1,5 @@
 # Interface to user balance in application.
+# rubocop:disable Metrics/ClassLength
 class Mobius::Client::App
   extend Dry::Initializer
 
@@ -33,8 +34,7 @@ class Mobius::Client::App
   # @param target_address [String] Optional: third party receiver address.
   # rubocop:disable Metrics/AbcSize
   def pay(amount, target_address: nil)
-    current_balance = balance
-    raise Mobius::Client::Error::InsufficientFunds if current_balance < amount.to_f
+    raise Mobius::Client::Error::InsufficientFunds if balance < amount.to_f
     envelope_base64 = payment_tx(amount.to_f, target_address).to_envelope(app_keypair).to_xdr(:base64)
     post_tx(envelope_base64).tap do
       [app_account, user_account].each(&:reload!)
@@ -49,8 +49,7 @@ class Mobius::Client::App
   # @param address [String] Target address.
   # rubocop:disable Metrics/AbcSize
   def transfer(amount, address)
-    current_balance = app_balance
-    raise Mobius::Client::Error::InsufficientFunds if current_balance < amount.to_f
+    raise Mobius::Client::Error::InsufficientFunds if app_balance < amount.to_f
     envelope_base64 = transfer_tx(amount.to_f, address).to_envelope(app_keypair).to_xdr(:base64)
     post_tx(envelope_base64).tap do
       [app_account, user_account].each(&:reload!)
@@ -149,3 +148,4 @@ class Mobius::Client::App
 
   FEE = 100
 end
+# rubocop:enable Metrics/ClassLength

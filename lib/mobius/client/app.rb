@@ -31,6 +31,7 @@ class Mobius::Client::App
   # Makes payment.
   # @param amount [Float] Payment amount.
   # @param target_address [String] Optional: third party receiver address.
+  # rubocop:disable Metrics/AbcSize
   def pay(amount, target_address: nil)
     current_balance = balance
     raise Mobius::Client::Error::InsufficientFunds if current_balance < amount.to_f
@@ -38,11 +39,15 @@ class Mobius::Client::App
     post_tx(envelope_base64).tap do
       [app_account, user_account].each(&:reload!)
     end
+  rescue Faraday::ClientError => err
+    handle(err)
   end
+  # rubocop:enable Metrics/AbcSize
 
   # Sends money from application account to third party.
   # @param amount [Float] Payment amount.
   # @param address [String] Target address.
+  # rubocop:disable Metrics/AbcSize
   def transfer(amount, address)
     current_balance = app_balance
     raise Mobius::Client::Error::InsufficientFunds if current_balance < amount.to_f
@@ -50,7 +55,10 @@ class Mobius::Client::App
     post_tx(envelope_base64).tap do
       [app_account, user_account].each(&:reload!)
     end
+  rescue Faraday::ClientError => err
+    handle(err)
   end
+  # rubocop:enable Metrics/AbcSize
 
   private
 
@@ -130,6 +138,13 @@ class Mobius::Client::App
 
   def user_account
     @user_account ||= Mobius::Client::Blockchain::Account.new(user_keypair)
+  end
+
+  def handle(err)
+    ops = err.response.dig(:body, "extras", "result_codes", "operations")
+    raise Mobius::Client::Error::AccountMissing if ops.include?("op_no_destination")
+    raise Mobius::Client::Error::TrustlineMissing if ops.include?("op_no_trust")
+    raise err
   end
 
   FEE = 100

@@ -1,0 +1,311 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://horizon-testnet.stellar.org/accounts/GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.14.0
+      Accept:
+      - application/hal+json,application/problem+json,application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 26 Apr 2018 13:44:30 GMT
+      Content-Type:
+      - application/hal+json; charset=utf-8
+      Content-Length:
+      - '2496'
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d86b88fc8f01a24e4c3406ba9b8ac88a51524750269; expires=Fri, 26-Apr-19
+        13:44:29 GMT; path=/; domain=.stellar.org; HttpOnly
+      Content-Disposition:
+      - inline
+      Vary:
+      - Origin
+      X-Ratelimit-Limit:
+      - '17200'
+      X-Ratelimit-Remaining:
+      - '17197'
+      X-Ratelimit-Reset:
+      - '3593'
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 41197c0249596511-FRA
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "_links": {
+            "self": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H"
+            },
+            "transactions": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H/transactions{?cursor,limit,order}",
+              "templated": true
+            },
+            "operations": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H/operations{?cursor,limit,order}",
+              "templated": true
+            },
+            "payments": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H/payments{?cursor,limit,order}",
+              "templated": true
+            },
+            "effects": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H/effects{?cursor,limit,order}",
+              "templated": true
+            },
+            "offers": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H/offers{?cursor,limit,order}",
+              "templated": true
+            },
+            "trades": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H/trades{?cursor,limit,order}",
+              "templated": true
+            },
+            "data": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H/data/{key}",
+              "templated": true
+            }
+          },
+          "id": "GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H",
+          "paging_token": "",
+          "account_id": "GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H",
+          "sequence": "36410250244390913",
+          "subentry_count": 1,
+          "thresholds": {
+            "low_threshold": 0,
+            "med_threshold": 0,
+            "high_threshold": 0
+          },
+          "flags": {
+            "auth_required": false,
+            "auth_revocable": false
+          },
+          "balances": [
+            {
+              "balance": "5.0000000",
+              "limit": "922337203685.0000000",
+              "asset_type": "credit_alphanum4",
+              "asset_code": "MOBI",
+              "asset_issuer": "GDRWBLJURXUKM4RWDZDTPJNX6XBYFO3PSE4H4GPUL6H6RCUQVKTSD4AT"
+            },
+            {
+              "balance": "9999.9999900",
+              "asset_type": "native"
+            }
+          ],
+          "signers": [
+            {
+              "public_key": "GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H",
+              "weight": 1,
+              "key": "GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H",
+              "type": "ed25519_public_key"
+            }
+          ],
+          "data": {}
+        }
+    http_version: 
+  recorded_at: Thu, 26 Apr 2018 13:44:30 GMT
+- request:
+    method: get
+    uri: https://horizon-testnet.stellar.org/accounts/GBTYV66THKPJR4UU5ZHONLRZJKWGGVOCYWVYOTWKJU75VN54K26C5VYG
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.14.0
+      Accept:
+      - application/hal+json,application/problem+json,application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 26 Apr 2018 13:44:30 GMT
+      Content-Type:
+      - application/hal+json; charset=utf-8
+      Content-Length:
+      - '2719'
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d98c4472882de2b9ebc7edea6917352ce1524750270; expires=Fri, 26-Apr-19
+        13:44:30 GMT; path=/; domain=.stellar.org; HttpOnly
+      Content-Disposition:
+      - inline
+      Vary:
+      - Origin
+      X-Ratelimit-Limit:
+      - '17200'
+      X-Ratelimit-Remaining:
+      - '17196'
+      X-Ratelimit-Reset:
+      - '3592'
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 41197c081b016499-FRA
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "_links": {
+            "self": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GBTYV66THKPJR4UU5ZHONLRZJKWGGVOCYWVYOTWKJU75VN54K26C5VYG"
+            },
+            "transactions": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GBTYV66THKPJR4UU5ZHONLRZJKWGGVOCYWVYOTWKJU75VN54K26C5VYG/transactions{?cursor,limit,order}",
+              "templated": true
+            },
+            "operations": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GBTYV66THKPJR4UU5ZHONLRZJKWGGVOCYWVYOTWKJU75VN54K26C5VYG/operations{?cursor,limit,order}",
+              "templated": true
+            },
+            "payments": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GBTYV66THKPJR4UU5ZHONLRZJKWGGVOCYWVYOTWKJU75VN54K26C5VYG/payments{?cursor,limit,order}",
+              "templated": true
+            },
+            "effects": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GBTYV66THKPJR4UU5ZHONLRZJKWGGVOCYWVYOTWKJU75VN54K26C5VYG/effects{?cursor,limit,order}",
+              "templated": true
+            },
+            "offers": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GBTYV66THKPJR4UU5ZHONLRZJKWGGVOCYWVYOTWKJU75VN54K26C5VYG/offers{?cursor,limit,order}",
+              "templated": true
+            },
+            "trades": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GBTYV66THKPJR4UU5ZHONLRZJKWGGVOCYWVYOTWKJU75VN54K26C5VYG/trades{?cursor,limit,order}",
+              "templated": true
+            },
+            "data": {
+              "href": "https://horizon-testnet.stellar.org/accounts/GBTYV66THKPJR4UU5ZHONLRZJKWGGVOCYWVYOTWKJU75VN54K26C5VYG/data/{key}",
+              "templated": true
+            }
+          },
+          "id": "GBTYV66THKPJR4UU5ZHONLRZJKWGGVOCYWVYOTWKJU75VN54K26C5VYG",
+          "paging_token": "",
+          "account_id": "GBTYV66THKPJR4UU5ZHONLRZJKWGGVOCYWVYOTWKJU75VN54K26C5VYG",
+          "sequence": "36410258834325510",
+          "subentry_count": 2,
+          "thresholds": {
+            "low_threshold": 0,
+            "med_threshold": 0,
+            "high_threshold": 0
+          },
+          "flags": {
+            "auth_required": false,
+            "auth_revocable": false
+          },
+          "balances": [
+            {
+              "balance": "990.0000000",
+              "limit": "922337203685.0000000",
+              "asset_type": "credit_alphanum4",
+              "asset_code": "MOBI",
+              "asset_issuer": "GDRWBLJURXUKM4RWDZDTPJNX6XBYFO3PSE4H4GPUL6H6RCUQVKTSD4AT"
+            },
+            {
+              "balance": "9999.9999400",
+              "asset_type": "native"
+            }
+          ],
+          "signers": [
+            {
+              "public_key": "GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H",
+              "weight": 1,
+              "key": "GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H",
+              "type": "ed25519_public_key"
+            },
+            {
+              "public_key": "GBTYV66THKPJR4UU5ZHONLRZJKWGGVOCYWVYOTWKJU75VN54K26C5VYG",
+              "weight": 10,
+              "key": "GBTYV66THKPJR4UU5ZHONLRZJKWGGVOCYWVYOTWKJU75VN54K26C5VYG",
+              "type": "ed25519_public_key"
+            }
+          ],
+          "data": {}
+        }
+    http_version: 
+  recorded_at: Thu, 26 Apr 2018 13:44:30 GMT
+- request:
+    method: post
+    uri: https://horizon-testnet.stellar.org/transactions
+    body:
+      encoding: UTF-8
+      string: tx=AAAAAGeK%2B9M6npjylO5O5q45SqxjVcLFq4dOyk0%2F2re8VrwuAAAAZACBWvAAAAAHAAAAAAAAAAAAAAABAAAAAAAAAAEAAAAA0umkJc8pU54%2FEx3e29zK8BfW%2FbbqoXx9cVDs0IpfYawAAAABTU9CSQAAAADjYK00jeimcjYeRzelt%2FXDgrtvkTh%2BGfRfj%2BiKkKqnIQAAAAAC%2BvCAAAAAAAAAAAEgiUk5AAAAQC9efT6B2WH8zR%2FtuCYP8ZoAAOZxu64wJIz5RWBoTEWRMg9HpZd5w4RuL8KuZ0FtFGqSHzhet0k0K3aFTzFQWgM%3D
+    headers:
+      User-Agent:
+      - Faraday v0.14.0
+      Accept:
+      - application/hal+json,application/problem+json,application/json
+      Content-Type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Date:
+      - Thu, 26 Apr 2018 13:44:34 GMT
+      Content-Type:
+      - application/problem+json; charset=utf-8
+      Content-Length:
+      - '928'
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d7a1abbe3c13bd1e50a0e9f4d11391c541524750271; expires=Fri, 26-Apr-19
+        13:44:31 GMT; path=/; domain=.stellar.org; HttpOnly
+      Vary:
+      - Origin
+      X-Ratelimit-Limit:
+      - '17200'
+      X-Ratelimit-Remaining:
+      - '17198'
+      X-Ratelimit-Reset:
+      - '3590'
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 41197c0b5fd26511-FRA
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "type": "https://stellar.org/horizon-errors/transaction_failed",
+          "title": "Transaction Failed",
+          "status": 400,
+          "detail": "The transaction failed when submitted to the stellar network. The `extras.result_codes` field on this response contains further details.  Descriptions of each code can be found at: https://www.stellar.org/developers/learn/concepts/list-of-operations.html",
+          "extras": {
+            "envelope_xdr": "AAAAAGeK+9M6npjylO5O5q45SqxjVcLFq4dOyk0/2re8VrwuAAAAZACBWvAAAAAHAAAAAAAAAAAAAAABAAAAAAAAAAEAAAAA0umkJc8pU54/Ex3e29zK8BfW/bbqoXx9cVDs0IpfYawAAAABTU9CSQAAAADjYK00jeimcjYeRzelt/XDgrtvkTh+GfRfj+iKkKqnIQAAAAAC+vCAAAAAAAAAAAEgiUk5AAAAQC9efT6B2WH8zR/tuCYP8ZoAAOZxu64wJIz5RWBoTEWRMg9HpZd5w4RuL8KuZ0FtFGqSHzhet0k0K3aFTzFQWgM=",
+            "result_codes": {
+              "transaction": "tx_failed",
+              "operations": [
+                "op_no_trust"
+              ]
+            },
+            "result_xdr": "AAAAAAAAAGT/////AAAAAQAAAAAAAAAB////+gAAAAA="
+          }
+        }
+    http_version: 
+  recorded_at: Thu, 26 Apr 2018 13:44:34 GMT
+recorded_with: VCR 3.0.3

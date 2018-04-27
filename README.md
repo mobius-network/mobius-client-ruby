@@ -77,7 +77,7 @@ Below command will create and setup the 4 account types above for testing and ge
 
 When a user opens an app through the DApp Store it tells the app what Mobius account it should use for payment.
 
-The application needs to ensure that the user actually owns the secret key to the Mobius account and that this isn't a replay attack from a user who captured a previous request and is replyaing it.
+The application needs to ensure that the user actually owns the secret key to the Mobius account and that this isn't a replay attack from a user who captured a previous request and is replaying it.
 
 This authentication is accomplished through the following process:
 

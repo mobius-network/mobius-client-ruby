@@ -50,22 +50,22 @@ You can also obtain free test network MOBI from https://mobius.network/friendbot
 
 ### Setting up test user accounts
 
-1. Create empty Stellar account without a MOBI trustline.
+1. Create an empty Stellar account without a MOBI trustline.
     ```
       $ mobius-cli create account
     ```
-2. Create stellar account with 1,000 test-net MOBI
+2. Create a stellar account with 1,000 test-net MOBI
     ```
       $ mobius-cli create dapp-account
     ```
-3. Create stellar account with 1,000 test-net MOBI and the specified application public key added as a signer
+3. Create a stellar account with 1,000 test-net MOBI and the specified application public key added as a signer
     ```
       $ mobius-cli create dapp-account -a <Your application public key>
     ```
 
 ### Account Creation Wizard
 
-Below command will create and setup the 4 account types above for testing and generate a simple HTML test interface that simulates the DApp Store authentication functionality (obtaining a challenge request from an app, signing it, and then openining the specified app passing in a JWT encoded token the application will use to verify this request is from the user that owns the specified MOBI account).
+The below command will create and setup the 4 account types above for testing and generate a simple HTML test interface that simulates the DApp Store authentication functionality (obtaining a challenge request from an app, signing it, and then opening the specified app passing in a JWT encoded token the application will use to verify this request is from the user that owns the specified MOBI account).
 
 ```
   $ mobius-cli create dev-wallet
@@ -83,8 +83,8 @@ This authentication is accomplished through the following process:
 
 * When the user opens an app in the DApp Store it requests a challenge from the application.
 * The challenge is a payment transaction of 1 XLM from and to the application account. It is never sent to the network - it is just used for authentication.
-* The application generates the challenge transaction on request, signs it with itss own private key, and sends it to user.
-* User receives the challenge transaction, verifies it is signed by the application's secret key by checking it the application's published public key that it receives through the DApp Store, and then signs the transaction which its own private key and sends it back to application along with its public key.
+* The application generates the challenge transaction on request, signs it with its own private key, and sends it to user.
+* The user receives the challenge transaction and verifies it is signed by the application's secret key by checking it against the application's published public key (that it receives through the DApp Store). Then the user signs the transaction with its own private key and sends it back to application along with its public key.
 * Application checks that challenge transaction is now signed by itself and the public key that was passed in. Time bounds are also checked to make sure this isn't a replay attack. If everything passes the server replies with a token the application can pass in to "login" with the specified public key and use it for payment (it would have previously given the app access to the public key by adding the app's public key as a signer).
 
 Note: the challenge transaction also has time bounds to restrict the time window when it can be used.
@@ -97,7 +97,7 @@ See demo at:
 
 ### Sample Server Implementation
 
-```
+```ruby
 class AuthController < ApplicationController
   skip_before_action :verify_authenticity_token, :only => [:authenticate]
 
@@ -148,7 +148,7 @@ end
 
 ### Explanation
 
-After the user completes the authentication process they have a token T. They now pass it to the application to "login" which tells the application which Mobius account to withdraw MOBI from (the user public key) when a payment is needed. For a web application the token is generally passed in via a `token` request parameter. Upon opening the website/loading the application it checks that the token is valid (within time bounds etc) and the account in the token has added the app as a signer so it can withraw MOBI from it.
+After the user completes the authentication process they have a token T. They now pass it to the application to "login" which tells the application which Mobius account to withdraw MOBI from (the user public key) when a payment is needed. For a web application the token is generally passed in via a `token` request parameter. Upon opening the website/loading the application it checks that the token is valid (within time bounds etc) and the account in the token has added the app as a signer so it can withdraw MOBI from it.
 
 
 See demo at:
@@ -159,7 +159,7 @@ See demo at:
 
 ### Sample Server Implementation
 
-```
+```ruby
 class AppController < ApplicationController
   skip_before_action :verify_authenticity_token, :only => [:pay]
 
@@ -217,7 +217,7 @@ end
 
 ## CLI Test Implementation
 
-  Normally, as mentioned the Mobius DApp Store will request a challenge, validate and sign it, pass it back to the application to obtain an access token, and then open the application and pass in the token.
+  Normally the Mobius DApp Store will request a challenge, validate and sign it, pass it back to the application to obtain an access token, and then open the application and pass in the token.
 
   For development purposes you can use the simple HTML test interface generated via `mobius-cli create dev-wallet` as mentioned above in the "Account Creation Wizard" section or you can use the these CLI commands.
 

@@ -22,6 +22,14 @@ An overview of the DApp Store architecture is:
   1) Adds the application's public key as a signer so the application can access the MOBI and
   2) Signs a challenge transaction from the app with its secret key to authenticate that this user owns the account. This prevents a different person from pretending they own the account and spending the MOBI (more below under Authentication).
 
+## Sample Application
+
+[Flappy Bird](https://github.com/mobius-network/flappy-bird-dapp) has been reimplemented using this new arhictecture and the above simple server code!
+
+## Documentation
+
+[[RDoc.info](http://www.rubydoc.info/github/mobius-network/mobius-client-ruby/master)]
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -70,6 +78,12 @@ The below command will create and setup the 4 account types above for testing an
 ```
   $ mobius-cli create dev-wallet
 ```
+
+## Production Server Setup
+
+Your production server must use HTTPS and set the below header on the `/auth` endpoint:
+
+`Access-Control-Allow-Origin: *`
 
 ## Authentication
 
@@ -211,10 +225,6 @@ class AppController < ApplicationController
 end
 ```
 
-## Sample Application
-
-[Flappy Bird](https://github.com/mobius-network/flappy-bird-dapp) has been reimplemented using this new arhictecture and the above simple server code!
-
 ## CLI Test Implementation
 
   Normally the Mobius DApp Store will request a challenge, validate and sign it, pass it back to the application to obtain an access token, and then open the application and pass in the token.
@@ -236,10 +246,6 @@ end
   Use `-j` if you want to return JWT token, otherwise transaction hash will be returned.
 
   Check `lib/mobius/cli/auth.rb` for details.
-
-## Documentation
-
-[[RDoc.info](http://www.rubydoc.info/github/mobius-network/mobius-client-ruby/master)]
 
 ## Development
 

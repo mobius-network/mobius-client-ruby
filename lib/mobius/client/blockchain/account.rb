@@ -5,7 +5,7 @@ class Mobius::Client::Blockchain::Account
   # @!method initialize(keypair)
   # @param keypair [Stellar::Keypair] account keypair
   # @!scope instance
-  param :keypair
+  param :keypair, Mobius::Client.method(:to_keypair)
 
   # Returns true if trustline exists for given asset and limit is positive.
   # @param asset [Stellar::Asset] Stellar asset to check or :native

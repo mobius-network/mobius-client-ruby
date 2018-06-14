@@ -30,11 +30,12 @@ class Mobius::Client::App
   end
 
   # Charges user's wallet.
-  # @param amount [Float] Payment amount.
+  # @param amount [Numeric, String] Payment amount.
   # @param target_address [String] Optional: third party receiver address.
-  # rubocop:disable Metrics/AbcSize
   def charge(amount, target_address: nil)
-    raise Mobius::Client::Error::InsufficientFunds if balance < amount.to_f
+    amount = cast_amount(amount)
+
+    raise Mobius::Client::Error::InsufficientFunds if balance < amount
 
     submit_tx do |operations|
       operations << payment_op(amount, dest: app_keypair)
@@ -43,25 +44,24 @@ class Mobius::Client::App
   rescue Faraday::ClientError => err
     handle(err)
   end
-  # rubocop:enable Metrics/AbcSize
 
   # Sends money from user's account to third party.
   # @param amount [Float] Payment amount.
   # @param address [String] Target address.
-  # rubocop:disable Metrics/AbcSize
   def transfer(amount, address)
-    raise Mobius::Client::Error::InsufficientFunds if app_balance < amount.to_f
+    amount = cast_amount(amount)
+    raise Mobius::Client::Error::InsufficientFunds if app_balance < amount
     submit_tx { |operations| operations << payment_op(amount, dest: address) }
   rescue Faraday::ClientError => err
     handle(err)
   end
-  # rubocop:enable Metrics/AbcSize
 
   # Sends money from application account to user's account ot target_address, if given
   # @param amount [Float] Payment amount.
   # @param target_address [String] Optional: third party receiver address.
   def payout(amount, target_address: user_keypair.address)
-    raise Mobius::Client::Error::InsufficientFunds if app_balance < amount.to_f
+    amount = cast_amount(amount)
+    raise Mobius::Client::Error::InsufficientFunds if app_balance < amount
     submit_tx do |operations|
       operations << payment_op(amount, dest: target_address, src: app_keypair)
     end
@@ -95,7 +95,7 @@ class Mobius::Client::App
     Stellar::Operation.payment(
       source_account: src && Mobius::Client.to_keypair(src),
       destination: Mobius::Client.to_keypair(dest),
-      amount: Stellar::Amount.new(amount.to_f, Mobius::Client.stellar_asset).to_payment
+      amount: Stellar::Amount.new(amount, Mobius::Client.stellar_asset).to_payment
     )
   end
 
@@ -145,6 +145,13 @@ class Mobius::Client::App
     raise err
   end
 
+  def cast_amount(amount)
+    BigDecimal.new(Float(amount), AMOUNT_SIGNIFICANT_DIGITS_NUM)
+  rescue ArgumentError
+    raise Mobius::Client::Error::InvalidAmount, "Invalid amount provided: `#{amount}`"
+  end
+
   FEE = 100
+  AMOUNT_SIGNIFICANT_DIGITS_NUM = 7
 end
 # rubocop:enable Metrics/ClassLength

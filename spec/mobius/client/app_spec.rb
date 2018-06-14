@@ -34,6 +34,12 @@ RSpec.describe Mobius::Client::App do
         end
       end
     end
+
+    context "when amount is NaN" do
+      it do
+        expect { app.charge("1.2s") }.to raise_error Mobius::Client::Error::InvalidAmount
+      end
+    end
   end
 
   it "#balance" do
@@ -43,10 +49,10 @@ RSpec.describe Mobius::Client::App do
   end
 
   describe "#transfer" do
-    context "when everything is correct" do
-      let(:target) { "GCOCYI2CTR2NH4QNJXTND7EHRLD7U3WZBR63OMVTZM4AXGZ4FIL2XR2Y" }
-      let(:target_account) { Mobius::Client::Blockchain::Account.new(target) }
+    let(:target) { "GCOCYI2CTR2NH4QNJXTND7EHRLD7U3WZBR63OMVTZM4AXGZ4FIL2XR2Y" }
+    let(:target_account) { Mobius::Client::Blockchain::Account.new(target) }
 
+    context "when everything is correct" do
       it "transfers money from app account to target" do
         VCR.use_cassette("app/app_transfer_correct") do
           check_deltas(app_delta: 0, user_delta: -5, target_delta: 5) do
@@ -75,13 +81,19 @@ RSpec.describe Mobius::Client::App do
         end
       end
     end
+
+    context "when amount is NaN" do
+      it do
+        expect { app.transfer("1.2s", target) }.to raise_error Mobius::Client::Error::InvalidAmount
+      end
+    end
   end
 
   describe "#payout" do
-    context "when target account is provided" do
-      let(:target) { "GCOCYI2CTR2NH4QNJXTND7EHRLD7U3WZBR63OMVTZM4AXGZ4FIL2XR2Y" }
-      let(:target_account) { Mobius::Client::Blockchain::Account.new(target) }
+    let(:target) { "GCOCYI2CTR2NH4QNJXTND7EHRLD7U3WZBR63OMVTZM4AXGZ4FIL2XR2Y" }
+    let(:target_account) { Mobius::Client::Blockchain::Account.new(target) }
 
+    context "when target account is provided" do
       it "transfers money to target from app's account" do
         VCR.use_cassette("app/app_payout_to_target") do
           check_deltas(app_delta: -5, user_delta: 0, target_delta: 5) do
@@ -116,6 +128,12 @@ RSpec.describe Mobius::Client::App do
         VCR.use_cassette("app/app_payout_trustline_missing") do
           expect { app.payout(5, target_address: target) }.to raise_error Mobius::Client::Error::TrustlineMissing
         end
+      end
+    end
+
+    context "when amount is NaN" do
+      it do
+        expect { app.payout("1.2s") }.to raise_error Mobius::Client::Error::InvalidAmount
       end
     end
   end

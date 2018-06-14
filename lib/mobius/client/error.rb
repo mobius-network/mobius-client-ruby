@@ -46,4 +46,8 @@ class Mobius::Client::Error < StandardError
   # Raised if unknown or empty value has passed to KeyPairFactory
   class UnknownKeyPairType < self
   end
+
+  # Raised, when NaN provided as an amount for payment operation
+  class InvalidAmount < self
+  end
 end

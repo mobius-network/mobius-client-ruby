@@ -1,3 +1,5 @@
+require "bigdecimal"
+require "bigdecimal/util"
 require "constructor_shortcut"
 require "dry-initializer"
 require "stellar-sdk"

@@ -1,6 +1,3 @@
-require "bigdecimal"
-require "bigdecimal/util"
-
 # Interface to user balance in application.
 class Mobius::Client::App
   extend Dry::Initializer

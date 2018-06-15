@@ -12,7 +12,7 @@ class Mobius::Client::Blockchain::Account
   # @return [Boolean] true if trustline exists
   def trustline_exists?(asset = Mobius::Client.stellar_asset)
     balance = find_balance(asset)
-    (balance && !balance.dig("limit").to_f.zero?) || false
+    (balance && !balance.dig("limit").to_d.zero?) || false
   end
 
   # Returns balance for given asset
@@ -20,7 +20,7 @@ class Mobius::Client::Blockchain::Account
   # @return [Float] Balance value.
   def balance(asset = Mobius::Client.stellar_asset)
     balance = find_balance(asset)
-    balance && balance.dig("balance").to_f
+    balance && balance.dig("balance").to_d
   end
 
   # Returns true if given keypair is added as cosigner to current account.

@@ -29,6 +29,15 @@ class Mobius::Client::App
     app_balance_object["balance"].to_f
   end
 
+  # Makes payment.
+  # @param amount [Numeric, String] Payment amount.
+  # @param target_address [String] Optional: third party receiver address.
+  # @deprecated use {#charge} instead
+  def pay(amount, target_address: nil)
+    warn "[DEPRECATED] method Mobius::Client::App#pay is deprecated and will be removed, use Mobius::Client::App#charge instead"
+    charge(amount, target_address)
+  end
+
   # Charges user's wallet.
   # @param amount [Numeric, String] Payment amount.
   # @param target_address [String] Optional: third party receiver address.

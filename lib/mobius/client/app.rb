@@ -47,7 +47,7 @@ class Mobius::Client::App
     raise Mobius::Client::Error::InsufficientFunds if balance < amount
 
     submit_tx do |operations|
-      operations << payment_op(amount, dest: app_keypair)
+      operations << payment_op(amount, dest: app_keypair, src: user_keypair)
       operations << payment_op(amount, dest: target_address, src: app_keypair) if target_address
     end
   rescue Faraday::ClientError => err
@@ -60,12 +60,12 @@ class Mobius::Client::App
   def transfer(amount, address)
     amount = cast_amount(amount)
     raise Mobius::Client::Error::InsufficientFunds if app_balance < amount
-    submit_tx { |operations| operations << payment_op(amount, dest: address) }
+    submit_tx { |operations| operations << payment_op(amount, dest: address, src: user_keypair) }
   rescue Faraday::ClientError => err
     handle(err)
   end
 
-  # Sends money from application account to user's account ot target_address, if given
+  # Sends money from application account to user's account or target_address, if given
   # @param amount [Float] Payment amount.
   # @param target_address [String] Optional: third party receiver address.
   def payout(amount, target_address: user_keypair.address)
@@ -100,9 +100,9 @@ class Mobius::Client::App
     Mobius::Client.horizon_client.horizon.transactions._post(tx: txe)
   end
 
-  def payment_op(amount, dest:, src: nil)
+  def payment_op(amount, dest:, src:)
     Stellar::Operation.payment(
-      source_account: src && Mobius::Client.to_keypair(src),
+      source_account: Mobius::Client.to_keypair(src),
       destination: Mobius::Client.to_keypair(dest),
       amount: Stellar::Amount.new(amount, Mobius::Client.stellar_asset).to_payment
     )

@@ -8,6 +8,7 @@ SimpleCov.formatter = SimpleCov.formatter = SimpleCov::Formatter::Console if ENV
 SimpleCov.start
 
 require "mobius/client"
+Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
 VCR.configure do |config|
   config.cassette_library_dir = "spec/fixtures/vcr_cassettes"

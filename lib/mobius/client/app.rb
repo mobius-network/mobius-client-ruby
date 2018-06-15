@@ -1,3 +1,6 @@
+require "bigdecimal"
+require "bigdecimal/util"
+
 # Interface to user balance in application.
 # rubocop:disable Metrics/ClassLength
 class Mobius::Client::App
@@ -155,12 +158,11 @@ class Mobius::Client::App
   end
 
   def cast_amount(amount)
-    BigDecimal.new(Float(amount), AMOUNT_SIGNIFICANT_DIGITS_NUM)
+    Float(amount).to_d
   rescue ArgumentError
     raise Mobius::Client::Error::InvalidAmount, "Invalid amount provided: `#{amount}`"
   end
 
   FEE = 100
-  AMOUNT_SIGNIFICANT_DIGITS_NUM = 7
 end
 # rubocop:enable Metrics/ClassLength

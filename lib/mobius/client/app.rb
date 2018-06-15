@@ -1,8 +1,4 @@
-require "bigdecimal"
-require "bigdecimal/util"
-
 # Interface to user balance in application.
-# rubocop:disable Metrics/ClassLength
 class Mobius::Client::App
   extend Dry::Initializer
 
@@ -23,13 +19,13 @@ class Mobius::Client::App
   # @return [Float] User balance.
   def balance
     validate!
-    balance_object["balance"].to_f
+    user_account.balance
   end
 
   # Returns application balance.
   # @return [Float] Application balance.
   def app_balance
-    app_balance_object["balance"].to_f
+    app_account.balance
   end
 
   # Makes payment.
@@ -113,25 +109,7 @@ class Mobius::Client::App
 
   def validate!
     raise Mobius::Client::Error::AuthorisationMissing unless authorized?
-    raise Mobius::Client::Error::TrustlineMissing if balance_object.nil?
-  end
-
-  def limit
-    balance_object["limit"].to_f
-  end
-
-  def balance_object
-    find_balance(user_account.info.balances)
-  end
-
-  def app_balance_object
-    find_balance(app_account.info.balances)
-  end
-
-  def find_balance(balances)
-    balances.find do |s|
-      s["asset_code"] == Mobius::Client.asset_code && s["asset_issuer"] == Mobius::Client.asset_issuer
-    end
+    raise Mobius::Client::Error::TrustlineMissing unless user_account.trustline_exists?
   end
 
   def app_keypair
@@ -165,4 +143,3 @@ class Mobius::Client::App
 
   FEE = 100
 end
-# rubocop:enable Metrics/ClassLength

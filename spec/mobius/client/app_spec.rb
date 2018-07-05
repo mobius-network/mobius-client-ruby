@@ -1,5 +1,4 @@
 RSpec.describe Mobius::Client::App do
-
   subject(:app) { described_class.new(seed, address) }
 
   let(:seed) { "SBCZGBNEGLJ5MXG6H6J5HCVZ4ACYAZ7BZOEK6TJENF7ADEVSX2X37XMG" }

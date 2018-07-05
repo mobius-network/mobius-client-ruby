@@ -9,14 +9,14 @@ rvm:
   - 2.5
 cache: bundler
 before_install:
-  - gem update --system && gem install bundler
-before_script:
+  - gem update --system && gem install --no-document bundler
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
+before_script:
   - ./cc-test-reporter before-build
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 script:
   - bundle exec rake
-  - bundle exec bundle-audit update && bundle exec bundle-audit check  
+  - bundle exec bundle-audit check --update --ignore CVE-2016-10545
   - bundle exec rubocop

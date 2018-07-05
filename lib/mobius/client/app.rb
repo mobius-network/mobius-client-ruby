@@ -18,8 +18,10 @@ class Mobius::Client::App
 
   # @deprecated use {#user_balance} instead
   def balance
-    warn "[DEPRECATED] method Mobius::Client::App#balance is deprecated and will be removed,\
-use Mobius::Client::App#user_balance instead"
+    warn <<~MSG
+      [DEPRECATED] method Mobius::Client::App#balance is deprecated and will be removed,
+      use Mobius::Client::App#user_balance instead"
+    MSG
     user_balance
   end
 
@@ -41,8 +43,10 @@ use Mobius::Client::App#user_balance instead"
   # @param target_address [String] Optional: third party receiver address.
   # @deprecated use {#charge} instead
   def pay(amount, target_address: nil)
-    warn "[DEPRECATED] method Mobius::Client::App#pay is deprecated and will be removed,\
-use Mobius::Client::App#charge instead"
+    warn <<~MSG
+      [DEPRECATED] method Mobius::Client::App#pay is deprecated and will be removed,
+      use Mobius::Client::App#charge instead"
+    MSG
     charge(amount, target_address)
   end
 

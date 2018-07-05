@@ -1,6 +1,7 @@
 [![Gem Version](https://badge.fury.io/rb/mobius-client.svg)](https://badge.fury.io/rb/mobius-client)
 [![Build Status](https://travis-ci.org/mobius-network/mobius-client-ruby.svg?branch=master)](https://travis-ci.org/mobius-network/mobius-client-ruby)
-[![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/codeclimate/codeclimate/maintainability)
+[![Maintainability](https://api.codeclimate.com/v1/badges/f6810e8244fc0dceb5bd/maintainability)](https://codeclimate.com/github/mobius-network/mobius-client-ruby/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/f6810e8244fc0dceb5bd/test_coverage)](https://codeclimate.com/github/mobius-network/mobius-client-ruby/test_coverage)
 
 # Mobius DApp Store Ruby SDK
 

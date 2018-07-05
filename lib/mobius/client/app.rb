@@ -84,7 +84,7 @@ class Mobius::Client::App
 
     tx = Stellar::Transaction.for_account(
       account: user_keypair,
-      sequence: user_account.next_sequence_value,
+      sequence: user_account.next_sequence_value
     )
 
     yield(tx.operations)

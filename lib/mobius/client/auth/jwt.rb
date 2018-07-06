@@ -10,13 +10,13 @@ class Mobius::Client::Auth::Jwt
   # Returns JWT token.
   # @param token [Mobius::Client::Auth::Token] Valid auth token
   # @return [String] JWT token
-  def encode(token)
+  def encode(token, options = {})
     payload = {
-      hash: token.hash(:hex),
-      public_key: token.address,
-      min_time: token.time_bounds.min_time,
-      max_time: token.time_bounds.max_time
-    }
+      jti: token.hash(:hex),
+      sub: token.address,
+      iat: token.time_bounds.min_time,
+      exp: token.time_bounds.max_time
+    }.merge(options)
 
     JWT.encode(payload, secret, ALG)
   end
@@ -25,11 +25,9 @@ class Mobius::Client::Auth::Jwt
   # @param jwt [String] JWT token
   # @return [Hash] Decoded token params
   def decode!(jwt)
-    OpenStruct.new(
-      JWT.decode(jwt, secret, true, algorithm: ALG).first
-    ).tap do |payload|
-      raise TokenExpired unless (payload.min_time..payload.max_time).cover?(Time.now.to_i)
-    end
+    OpenStruct.new(JWT.decode(jwt, secret, true, algorithm: ALG).first)
+  rescue JWT::ExpiredSignature => _
+    raise TokenExpired
   end
 
   # Used JWT algorithm

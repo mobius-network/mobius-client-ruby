@@ -56,7 +56,7 @@ class Mobius::Client::App
   def charge(amount, target_address: nil)
     amount = cast_amount(amount)
 
-    raise Mobius::Client::Error::InsufficientFunds if balance < amount
+    raise Mobius::Client::Error::InsufficientFunds if user_balance < amount
 
     submit_tx do |operations|
       operations << payment_op(amount, dest: app_keypair, src: user_keypair)

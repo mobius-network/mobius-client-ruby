@@ -43,7 +43,7 @@ RSpec.describe Mobius::Client::App do
 
   it "#balance" do
     VCR.use_cassette("app/app_balance") do
-      expect(app.balance).to eq(995)
+      expect(app.user_balance).to eq(995)
     end
   end
 

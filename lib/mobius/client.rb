@@ -9,8 +9,6 @@ require "jwt"
 
 require "mobius/client/version"
 
-require "pry-byebug" rescue LoadError
-
 module Mobius
   module Cli
     autoload :Base,   "mobius/cli/base"

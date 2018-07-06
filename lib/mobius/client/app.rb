@@ -1,4 +1,5 @@
 # Interface to user balance in application.
+# rubocop:disable Metrics/ClassLength
 class Mobius::Client::App
   extend Dry::Initializer
 
@@ -15,9 +16,18 @@ class Mobius::Client::App
     user_account.authorized?(app_keypair)
   end
 
+  # @deprecated use {#user_balance} instead
+  def balance
+    warn <<~MSG
+      [DEPRECATED] method Mobius::Client::App#balance is deprecated and will be removed,
+      use Mobius::Client::App#user_balance instead"
+    MSG
+    user_balance
+  end
+
   # Returns user balance.
   # @return [Float] User balance.
-  def balance
+  def user_balance
     validate!
     user_account.balance
   end
@@ -33,7 +43,10 @@ class Mobius::Client::App
   # @param target_address [String] Optional: third party receiver address.
   # @deprecated use {#charge} instead
   def pay(amount, target_address: nil)
-    warn "[DEPRECATED] method Mobius::Client::App#pay is deprecated and will be removed, use Mobius::Client::App#charge instead"
+    warn <<~MSG
+      [DEPRECATED] method Mobius::Client::App#pay is deprecated and will be removed,
+      use Mobius::Client::App#charge instead"
+    MSG
     charge(amount, target_address)
   end
 
@@ -77,6 +90,30 @@ class Mobius::Client::App
     handle(err)
   end
 
+  # Returns application keypair
+  # @return [Stellar::KeyPair] Application KeyPair
+  def app_keypair
+    @app_keypair ||= Mobius::Client.to_keypair(seed)
+  end
+
+  # Returns user keypair
+  # @return [Stellar::KeyPair] User KeyPair
+  def user_keypair
+    @user_keypair ||= Mobius::Client.to_keypair(address)
+  end
+
+  # Returns application account
+  # @return [Mobius::Client::Blockchain::Account] Application Account
+  def app_account
+    @app_account ||= Mobius::Client::Blockchain::Account.new(app_keypair)
+  end
+
+  # Returns user account
+  # @return [Mobius::Client::Blockchain::Account] User Account
+  def user_account
+    @user_account ||= Mobius::Client::Blockchain::Account.new(user_keypair)
+  end
+
   private
 
   def submit_tx
@@ -88,11 +125,18 @@ class Mobius::Client::App
     )
 
     yield(tx.operations)
+    calc_fee(tx)
+    txe = base64(tx)
 
-    tx.fee = FEE * tx.operations.size
-
-    txe = tx.to_envelope(app_keypair).to_xdr(:base64)
     post_txe(txe).tap { [app_account, user_account].each(&:reload!) }
+  end
+
+  def calc_fee(txn)
+    txn.fee = FEE * txn.operations.size
+  end
+
+  def base64(txn)
+    txn.to_envelope(app_keypair).to_xdr(:base64)
   end
 
   def post_txe(txe)
@@ -112,22 +156,6 @@ class Mobius::Client::App
     raise Mobius::Client::Error::TrustlineMissing unless user_account.trustline_exists?
   end
 
-  def app_keypair
-    @app_keypair ||= Mobius::Client.to_keypair(seed)
-  end
-
-  def user_keypair
-    @user_keypair ||= Mobius::Client.to_keypair(address)
-  end
-
-  def app_account
-    @app_account ||= Mobius::Client::Blockchain::Account.new(app_keypair)
-  end
-
-  def user_account
-    @user_account ||= Mobius::Client::Blockchain::Account.new(user_keypair)
-  end
-
   def handle(err)
     ops = err.response.dig(:body, "extras", "result_codes", "operations")
     raise Mobius::Client::Error::AccountMissing if ops.include?("op_no_destination")
@@ -143,3 +171,4 @@ class Mobius::Client::App
 
   FEE = 100
 end
+# rubocop:enable Metrics/ClassLength

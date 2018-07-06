@@ -9,10 +9,7 @@ require "jwt"
 
 require "mobius/client/version"
 
-begin
-  require "pry-byebug"
-rescue LoadError
-end
+require "pry-byebug" rescue LoadError
 
 module Mobius
   module Cli

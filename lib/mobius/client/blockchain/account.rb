@@ -20,7 +20,8 @@ class Mobius::Client::Blockchain::Account
   # @return [Float] Balance value.
   def balance(asset = Mobius::Client.stellar_asset)
     balance = find_balance(asset)
-    balance&.dig("balance").to_d
+    balance = balance&.dig("balance")
+    return balance.to_d if balance
   end
 
   # Returns true if given keypair is added as cosigner to current account.

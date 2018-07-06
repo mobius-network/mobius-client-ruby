@@ -194,13 +194,13 @@ class AppController < ApplicationController
 
   # GET /balance
   def balance
-    render plain: app.balance
+    render plain: app.user_balance
   end
 
   # POST /charge
   def charge
     app.charge(ROUND_PRICE)
-    render plain: app.balance
+    render plain: app.user_balance
   rescue Mobius::Client::Error::InsufficientFunds
     render :gone
   end

@@ -1,7 +1,7 @@
 # rubocop:disable Metrics/AbcSize
 def check_deltas(app_delta:, user_delta:, target_delta: nil)
   start_app_balance = app.app_balance
-  start_user_balance = app.balance
+  start_user_balance = app.user_balance
   start_target_balance = target_account.balance if target_delta
 
   yield
@@ -12,6 +12,6 @@ def check_deltas(app_delta:, user_delta:, target_delta: nil)
   end
 
   expect(app.app_balance - start_app_balance).to eq(app_delta)
-  expect(app.balance - start_user_balance).to eq(user_delta)
+  expect(app.user_balance - start_user_balance).to eq(user_delta)
 end
 # rubocop:enable Metrics/AbcSize

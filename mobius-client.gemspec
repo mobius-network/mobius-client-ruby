@@ -41,7 +41,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "constructor_shortcut", "~> 0.2.0"
   spec.add_dependency "dry-initializer", "~> 2.4"
-  spec.add_dependency "faraday", "~> 0.14"
+  spec.add_dependency "faraday", ">= 0.14"
   spec.add_dependency "faraday_middleware", "~> 0.12", ">= 0.12.2"
   spec.add_dependency "jwt", "~> 1.5", ">= 1.5.6"
   spec.add_dependency "stellar-sdk", "~> 0.3"

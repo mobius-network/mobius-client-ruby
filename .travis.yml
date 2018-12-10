@@ -2,12 +2,17 @@ env:
   global:
     - CC_TEST_REPORTER_ID=b73e557e34c0841f1f534b98bb01a3346cdad5eb9913416dca9ec1350af6ac09
 
+dist: xenial
 language: ruby
 rvm:
   - 2.3
   - 2.4
   - 2.5
 cache: bundler
+addons:
+  apt:
+    packages:
+    - libsodium-dev
 before_install:
   - gem update --system && gem install --no-document bundler
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
@@ -18,5 +23,5 @@ after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 script:
   - bundle exec rake
-  - bundle exec bundle-audit check --update --ignore CVE-2016-10545
+  - bundle exec bundle-audit check --update
   - bundle exec rubocop

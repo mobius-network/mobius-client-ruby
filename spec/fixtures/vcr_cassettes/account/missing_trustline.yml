@@ -93,7 +93,6 @@ http_interactions:
           ],
           "signers": [
             {
-              "public_key": "GAJ5ZJZP6U2THEOJU45Z4NJKYXDK724C5PFPLF3OV5POIQH4OQVNWJKU",
               "weight": 1,
               "key": "GAJ5ZJZP6U2THEOJU45Z4NJKYXDK724C5PFPLF3OV5POIQH4OQVNWJKU",
               "type": "ed25519_public_key"

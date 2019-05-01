@@ -82,7 +82,7 @@ class Mobius::Client::Blockchain::Account
 
   # TODO: Think of adding weight check here
   def find_signer(address)
-    info.signers.find { |s| s["public_key"] == address }
+    info.signers.find { |s| s["public_key"] == address || s["key"] == address }
   rescue Faraday::ResourceNotFound
     raise Mobius::Client::Error::AccountMissing
   end

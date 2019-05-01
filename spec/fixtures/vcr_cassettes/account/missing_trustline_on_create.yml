@@ -93,7 +93,6 @@ http_interactions:
           ],
           "signers": [
             {
-              "public_key": "GBHTFSK264PWZNVHDDV3ORIAEPBFT3M66ZLG6C4BSC4IKT2USERDXU52",
               "weight": 1,
               "key": "GBHTFSK264PWZNVHDDV3ORIAEPBFT3M66ZLG6C4BSC4IKT2USERDXU52",
               "type": "ed25519_public_key"

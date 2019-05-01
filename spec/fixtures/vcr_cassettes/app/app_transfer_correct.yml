@@ -198,7 +198,6 @@ http_interactions:
           ],
           "signers": [
             {
-              "public_key": "GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H",
               "weight": 1,
               "key": "GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H",
               "type": "ed25519_public_key"
@@ -315,13 +314,11 @@ http_interactions:
           ],
           "signers": [
             {
-              "public_key": "GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H",
               "weight": 1,
               "key": "GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H",
               "type": "ed25519_public_key"
             },
             {
-              "public_key": "GBTYV66THKPJR4UU5ZHONLRZJKWGGVOCYWVYOTWKJU75VN54K26C5VYG",
               "weight": 10,
               "key": "GBTYV66THKPJR4UU5ZHONLRZJKWGGVOCYWVYOTWKJU75VN54K26C5VYG",
               "type": "ed25519_public_key"
@@ -438,13 +435,11 @@ http_interactions:
           ],
           "signers": [
             {
-              "public_key": "GB4XMZJPWQS4LYAOZLEWYT6RCEX2J2QAZ3JLOHSBSTIWSSGCU4BQTCQO",
               "weight": 1,
               "key": "GB4XMZJPWQS4LYAOZLEWYT6RCEX2J2QAZ3JLOHSBSTIWSSGCU4BQTCQO",
               "type": "ed25519_public_key"
             },
             {
-              "public_key": "GCOCYI2CTR2NH4QNJXTND7EHRLD7U3WZBR63OMVTZM4AXGZ4FIL2XR2Y",
               "weight": 10,
               "key": "GCOCYI2CTR2NH4QNJXTND7EHRLD7U3WZBR63OMVTZM4AXGZ4FIL2XR2Y",
               "type": "ed25519_public_key"
@@ -561,13 +556,11 @@ http_interactions:
           ],
           "signers": [
             {
-              "public_key": "GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H",
               "weight": 1,
               "key": "GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H",
               "type": "ed25519_public_key"
             },
             {
-              "public_key": "GBTYV66THKPJR4UU5ZHONLRZJKWGGVOCYWVYOTWKJU75VN54K26C5VYG",
               "weight": 10,
               "key": "GBTYV66THKPJR4UU5ZHONLRZJKWGGVOCYWVYOTWKJU75VN54K26C5VYG",
               "type": "ed25519_public_key"
@@ -744,13 +737,11 @@ http_interactions:
           ],
           "signers": [
             {
-              "public_key": "GB4XMZJPWQS4LYAOZLEWYT6RCEX2J2QAZ3JLOHSBSTIWSSGCU4BQTCQO",
               "weight": 1,
               "key": "GB4XMZJPWQS4LYAOZLEWYT6RCEX2J2QAZ3JLOHSBSTIWSSGCU4BQTCQO",
               "type": "ed25519_public_key"
             },
             {
-              "public_key": "GCOCYI2CTR2NH4QNJXTND7EHRLD7U3WZBR63OMVTZM4AXGZ4FIL2XR2Y",
               "weight": 10,
               "key": "GCOCYI2CTR2NH4QNJXTND7EHRLD7U3WZBR63OMVTZM4AXGZ4FIL2XR2Y",
               "type": "ed25519_public_key"
@@ -867,7 +858,6 @@ http_interactions:
           ],
           "signers": [
             {
-              "public_key": "GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H",
               "weight": 1,
               "key": "GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H",
               "type": "ed25519_public_key"
@@ -984,13 +974,11 @@ http_interactions:
           ],
           "signers": [
             {
-              "public_key": "GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H",
               "weight": 1,
               "key": "GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H",
               "type": "ed25519_public_key"
             },
             {
-              "public_key": "GBTYV66THKPJR4UU5ZHONLRZJKWGGVOCYWVYOTWKJU75VN54K26C5VYG",
               "weight": 10,
               "key": "GBTYV66THKPJR4UU5ZHONLRZJKWGGVOCYWVYOTWKJU75VN54K26C5VYG",
               "type": "ed25519_public_key"

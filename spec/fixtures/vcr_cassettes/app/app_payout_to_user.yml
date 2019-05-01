@@ -198,7 +198,6 @@ http_interactions:
           ],
           "signers": [
             {
-              "public_key": "GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H",
               "weight": 1,
               "key": "GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H",
               "type": "ed25519_public_key"
@@ -315,13 +314,11 @@ http_interactions:
           ],
           "signers": [
             {
-              "public_key": "GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H",
               "weight": 1,
               "key": "GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H",
               "type": "ed25519_public_key"
             },
             {
-              "public_key": "GBTYV66THKPJR4UU5ZHONLRZJKWGGVOCYWVYOTWKJU75VN54K26C5VYG",
               "weight": 10,
               "key": "GBTYV66THKPJR4UU5ZHONLRZJKWGGVOCYWVYOTWKJU75VN54K26C5VYG",
               "type": "ed25519_public_key"
@@ -438,13 +435,11 @@ http_interactions:
           ],
           "signers": [
             {
-              "public_key": "GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H",
               "weight": 1,
               "key": "GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H",
               "type": "ed25519_public_key"
             },
             {
-              "public_key": "GBTYV66THKPJR4UU5ZHONLRZJKWGGVOCYWVYOTWKJU75VN54K26C5VYG",
               "weight": 10,
               "key": "GBTYV66THKPJR4UU5ZHONLRZJKWGGVOCYWVYOTWKJU75VN54K26C5VYG",
               "type": "ed25519_public_key"
@@ -621,7 +616,6 @@ http_interactions:
           ],
           "signers": [
             {
-              "public_key": "GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H",
               "weight": 1,
               "key": "GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H",
               "type": "ed25519_public_key"
@@ -738,13 +732,11 @@ http_interactions:
           ],
           "signers": [
             {
-              "public_key": "GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H",
               "weight": 1,
               "key": "GBG4NNZZNVSCQ4SZETMHY6NJUZRMZJ27IPC4UX53LEUVKVRARFETTR4H",
               "type": "ed25519_public_key"
             },
             {
-              "public_key": "GBTYV66THKPJR4UU5ZHONLRZJKWGGVOCYWVYOTWKJU75VN54K26C5VYG",
               "weight": 10,
               "key": "GBTYV66THKPJR4UU5ZHONLRZJKWGGVOCYWVYOTWKJU75VN54K26C5VYG",
               "type": "ed25519_public_key"

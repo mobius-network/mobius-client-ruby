@@ -100,7 +100,6 @@ http_interactions:
           ],
           "signers": [
             {
-              "public_key": "GAZDIAPACN6EMNHFNEDUVFTTGL45DVZJVXEGJDNKTVGMHI5YN5LXLNR4",
               "weight": 1,
               "key": "GAZDIAPACN6EMNHFNEDUVFTTGL45DVZJVXEGJDNKTVGMHI5YN5LXLNR4",
               "type": "ed25519_public_key"
